@@ -201,6 +201,76 @@
     el("text", { x: x(9.75), y: padT + 14, "text-anchor": "middle", fill: "oklch(0.8 0.13 75)", "font-size": 12, "font-weight": 700 }, "赶海窗口 08:30 至 11:00");
   })();
 
+  /* ---------- hotel top-10 ---------- */
+  var HOTELS = {
+    island: { label: "岛上第一晚 8/22", list: [
+      { n: "Courtyard by Marriott Nanaimo", s: 8.2, p: "$239 ✓", badge: "方案主推", pro: "2023 全新 + 室内泳池，去码头 8 分钟，走 Expedia For TD 还吃 $100 credit", con: "无自有停车场（对面市政楼 ~$12）；离蚝滩 48 分钟", u: "https://www.marriott.com/en-us/hotels/ycdcy-courtyard-nanaimo/overview/" },
+      { n: "Oceanside Village Resort · Parksville", s: 8.1, p: "~$360-500/栋", pro: "独栋 2-3 房木屋带全厨房和洗烘，一栋 3 房能装下全家，离蚝滩 29 分钟", con: "八月常有 3 晚起订，周六单晚基本抢不到", u: "https://oceansidevillageresort.com/" },
+      { n: "Tigh-Na-Mara Seaside Spa Resort", s: 8.0, badge: "度假首选", p: "~$380-550/栋", pro: "1946 年老牌海滨木屋度假村，室内泳池 + 全厨房小屋，离蚝滩仅 30 分钟（Grotto 矿物温泉为付费 Spa）", con: "八月周六单晚近乎不可能，需电话碰运气 1-800-663-7373", u: "https://tigh-na-mara.com/" },
+      { n: "The Beach Club Resort · Parksville", s: 7.9, p: "~$350-520/套", pro: "Parksville 海滩正对面的度假公寓，套房带全厨房 + 室内泳池", con: "旺季周六稀缺，价格是纳奈莫的近两倍", u: "https://www.beachclubresort.com/" },
+      { n: "Bayside Oceanfront Resort", s: 7.8, p: "~$270-390", pro: "2021-22 翻新，双泳池免费停车，离蚝滩全场最近（26 分钟）", con: "标准房无厨房；离回程码头最远", u: "https://baysideresortparksville.com/" },
+      { n: "Coast Bastion Hotel · Nanaimo", s: 7.5, p: "~$250-350", pro: "2024 整体翻新，海港景观房，离码头 6 分钟", con: "没有泳池；停车 ~$15-18", u: "https://www.coasthotels.com/coast-bastion-hotel" },
+      { n: "Inn on Long Lake · Nanaimo", s: 7.4, p: "~$220-310", pro: "湖畔私家沙滩 + 免费皮划艇，傍晚到店孩子能玩水", con: "无泳池，房型偏旧；离蚝滩 39 分钟", u: "https://www.innonlonglake.com/" },
+      { n: "Grand Hotel Nanaimo", s: 7.2, p: "~$210-290", pro: "北纳奈莫位置是码头与蚝滩的最佳折中，免费地库停车", con: "没有泳池（只有健身房），品牌感一般", u: "https://thegrandhotelnanaimo.ca/" },
+      { n: "Sunrise Ridge Waterfront Resort", s: 7.3, p: "~$340-490/套", pro: "联排式 2 房套房带高配厨房和壁炉", con: "户外泳池是季节性的；多晚起订风险高", u: "https://sunriseridge.ca/" },
+      { n: "Best Western Plus Dorchester", s: 7.0, p: "~$200-280", pro: "全场最便宜 + 免费停车，历史建筑海港位", con: "无泳池，设施最基础", u: "https://www.bestwestern.com/" }
+    ]},
+    victoria: { label: "维多利亚 8/23-27", list: [
+      { n: "整租 4 房 Airbnb · James Bay/市中心", s: 8.6, badge: "方案主推", p: "~$550-650/晚全家 ✓逻辑", pro: "全家一个屋檐 + 厨房煮蛤蜊 + 女友专用工作位，4 晚比 3 间酒店房省 $2,500+", con: "品质有方差：只订 Wi-Fi 实测截图 + 好评 4.8+ 的房源", u: "https://www.airbnb.ca/s/Victoria--British-Columbia--Canada/homes?checkin=2026-08-23&checkout=2026-08-27&adults=6&children=1&min_bedrooms=4" },
+      { n: "Royal Scot Hotel & Suites", s: 8.35, p: "~$250-350", pro: "2 房套房带全厨房，离内港一个街区，室内泳池，全维多利亚性价比之王", con: "2018 年装修，走商务风不算惊艳", u: "https://www.royalscot.com/" },
+      { n: "The Parkside Hotel & Spa", s: 8.25, p: "~$320-440/套", pro: "全套房酒店：每套带全厨房或小厨房 + 25 米泳池 + LEED 白金环保牌", con: "离内港 7-9 分钟，套房价格叠 3 套不便宜", u: "https://www.parksidevictoria.com/" },
+      { n: "Hotel Grand Pacific", s: 8.1, p: "~$320-450", pro: "内港正面第一排（2 分钟），25 米泳道 + 儿童池，弟弟的快乐老家", con: "无厨房；房间风格偏传统", u: "https://www.hotelgrandpacific.com/" },
+      { n: "Delta Ocean Pointe Resort", s: 8.0, badge: "Marriott 度假首选", p: "$367-498 ✓", pro: "2023 全翻新的万豪度假村：海港全景 + 室内泳池，安静的 Songhees 半岛，Bonvoy 分/状态都认", con: "3 间 4 晚现金 ~$4,900；积分价 64.5k/晚分值只有 0.67¢ 别用分", u: "https://www.marriott.com/en-us/hotels/yyjvo-delta-hotels-victoria-ocean-pointe-resort/overview/" },
+      { n: "Inn at Laurel Point", s: 7.95, p: "~$350-480", pro: "4.6★ 口碑天花板，玻璃房泳池 + 海港半岛日式庭院", con: "无厨房；好房型溢价快", u: "https://www.laurelpoint.com/" },
+      { n: "Chateau Victoria Hotel & Suites", s: 7.9, p: "~$260-360", pro: "便宜的套房带整套 galley 厨房（冰箱+炉灶），顶楼餐厅看全城，直订停车半价", con: "楼龄 1970s，电梯和走廊显旧", u: "https://www.chateauvictoria.com/" },
+      { n: "Victoria Marriott Inner Harbour", s: 7.6, p: "~$360-450 ✓", pro: "位置极好（内港 5 分钟）+ 室内泳池，万豪生态", con: "装修年代模糊，4.3★ 在本榜垫不了腰；积分价 56k/晚不划算", u: "https://www.marriott.com/en-us/hotels/yyzmc-victoria-marriott-inner-harbour/overview/" },
+      { n: "Fairmont Empress", s: 7.5, badge: "体验之选", p: "~$550-750+", pro: "内港的城堡本堡：1908 年地标 + 儿童戏水池，住的是仪式感", con: "3 间 4 晚 ~$7,500 起，性价比分直接拉爆", u: "https://www.fairmont.com/empress-victoria/" },
+      { n: "DoubleTree by Hilton Victoria", s: 7.2, p: "~$280-390", pro: "位置便利 + 到店热曲奇，Hilton 分可用", con: "没有泳池，对这队小孩是硬伤", u: "https://www.hilton.com/" }
+    ]},
+    metro: { label: "大温 8/27-29", list: [
+      { n: "Element Vancouver Metrotown", s: 8.75, badge: "方案主推", p: "$431-508 或 50k 分/晚 ✓", pro: "2025 整体翻新 + 每间全厨房 + 含 7 人早餐 + 盐水泳池；30 万分全包 $0 现金（1.19¢ 全场最高分值）", con: "离 YVR 25 分钟；Google 口碑 4.0 略低于万豪站 4.4", u: "https://www.marriott.com/en-us/hotels/yvrel-element-vancouver-metrotown/overview/" },
+      { n: "Fairmont Vancouver Airport", s: 7.95, badge: "零压力返程", p: "~$420-560", pro: "就在 YVR 航站楼里：周六玩到最后一刻，行李推着就值机；4.6★ + 儿童戏水池", con: "无厨房，停车 $55/晚，Richmond 吃饭要开 10 分钟", u: "https://www.fairmont.com/vancouver-airport/" },
+      { n: "Versante Hotel", s: 7.9, p: "~$360-480", pro: "2021 年新建的精品设计酒店，屋顶盐水泳池，走路去夜市", con: "无厨房；房价在 Richmond 属第一梯队", u: "https://versantehotel.com/" },
+      { n: "The Westin Wall Centre, Vancouver Airport", s: 7.8, p: "$442 ✓", pro: "4.6★ 口碑 + 室内泳池，机场线 5 分钟到食街", con: "2010 年楼龄，公共区开始显旧", u: "https://www.marriott.com/en-us/hotels/yvrwi-the-westin-wall-centre-vancouver-airport/overview/" },
+      { n: "Vancouver Airport Marriott", s: 7.7, p: "$431 ✓", pro: "2019 翻新，走路去 Alexandra Rd 食街，户外泳池", con: "积分价 55k/晚分值 0.92¢ 一般；Google 4.1", u: "https://www.marriott.com/en-us/hotels/yvrsa-vancouver-airport-marriott-hotel/overview/" },
+      { n: "River Rock Casino Resort", s: 7.55, badge: "遛娃彩蛋", p: "~$280-380", pro: "室内泳池带 70 英尺水滑梯（弟弟狂喜），走路去夜市，自助停车免费", con: "赌场人流嘈杂；房型新旧不齐", u: "https://www.riverrock.com/" },
+      { n: "Sheraton Vancouver Airport", s: 7.5, p: "$408 ✓", pro: "离食街最近的一档 + 户外泳池，价格低于同档万豪", con: "2016 年装修，口碑 4.1 中规中矩", u: "https://www.marriott.com/en-us/hotels/yvrsi-sheraton-vancouver-airport-hotel/overview/" },
+      { n: "整租 4 房 Airbnb · Richmond", s: 7.4, p: "~$600-800/晚全家", pro: "全家同屋 + 厨房，食街环绕", con: "只住 2 晚：清洁费摊下来不划算，Element 的厨房已覆盖需求", u: "https://www.airbnb.ca/s/Richmond--British-Columbia--Canada/homes?checkin=2026-08-27&checkout=2026-08-29&adults=6&children=1&min_bedrooms=4" },
+      { n: "Hilton Vancouver Airport", s: 7.3, p: "~$295-395", pro: "2020 翻新，Hilton 分可用，户外泳池", con: "各项都行但没有一项突出", u: "https://www.hilton.com/" },
+      { n: "The Westin Bayshore, Vancouver", s: 7.3, badge: "住进城里", p: "~$380-631 ✓", pro: "斯坦利公园旁的城市度假村，双泳池海景，周六行程零通勤", con: "周六早退房要横穿全城去还车赶飞机；停车 $48", u: "https://www.marriott.com/en-us/hotels/yvrwb-the-westin-bayshore-vancouver/overview/" }
+    ]}
+  };
+  var hotelTabsBox = document.querySelector(".hotel-tabs");
+  var hotelList = document.getElementById("hotel-list");
+  if (hotelTabsBox && hotelList) {
+    Object.keys(HOTELS).forEach(function (key, idx) {
+      var b = document.createElement("button");
+      b.className = "day-tab" + (idx === 0 ? " active" : "");
+      b.setAttribute("role", "tab");
+      b.textContent = HOTELS[key].label;
+      b.addEventListener("click", function () {
+        Array.prototype.forEach.call(hotelTabsBox.children, function (el) { el.classList.remove("active"); });
+        b.classList.add("active");
+        renderHotels(key);
+      });
+      hotelTabsBox.appendChild(b);
+    });
+    var renderHotels = function (key) {
+      hotelList.innerHTML = HOTELS[key].list.map(function (h, i) {
+        var badge = h.badge ? "<span class='h-badge" + (i === 0 ? " gold" : "") + "'>" + h.badge + "</span>" : "";
+        return "<li class='hotel-row" + (i < 3 ? " top3" : "") + "'>" +
+          "<div class='h-rank'>" + (i + 1) + "</div>" +
+          "<div><div class='h-name'>" + h.n + badge + "</div>" +
+          "<div class='h-pro'>✓ " + h.pro + "</div>" +
+          "<div class='h-con'>✗ " + h.con + "</div></div>" +
+          "<div class='h-right'><span class='h-score'>" + h.s.toFixed(2) + "</span>" +
+          "<span class='h-price'>" + h.p + "</span>" +
+          "<a class='h-link' href='" + h.u + "' target='_blank' rel='noopener'>去看看 ↗</a></div></li>";
+      }).join("");
+    };
+    renderHotels("island");
+  }
+
   /* ---------- budget ---------- */
   var BUDGETS = {
     main: {
