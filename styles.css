@@ -198,10 +198,11 @@ a { color: inherit; }
 .food-tint-c { background: linear-gradient(160deg, oklch(0.3 0.05 200 / .5), oklch(0.2 0.03 268)); }
 
 /* ---------- points / cpp meter ---------- */
-.cpp-meter { margin-top: 34px; position: relative; display: grid; gap: 16px; max-width: 760px; }
+.cpp-meter { margin-top: 34px; position: relative; display: grid; gap: 16px; max-width: 760px; --thf: .5; }
+.meter-title { font-size: 1.02rem; font-weight: 800; margin-bottom: 2px; }
 .cpp-scale { position: relative; height: 20px; }
 .cpp-threshold {
-  position: absolute; left: calc(120px + (100% - 176px) * .5); transform: translateX(-50%);
+  position: absolute; left: calc(120px + (100% - 176px) * var(--thf)); transform: translateX(-50%);
   font-size: .8rem; color: var(--accent); white-space: nowrap;
 }
 .cpp-threshold i { display: block; margin: 0 auto 2px; width: 2px; height: 8px; background: var(--accent); }
@@ -209,7 +210,7 @@ a { color: inherit; }
 .cpp-label { font-size: .92rem; color: var(--muted); padding-right: 12px; }
 .cpp-track { position: relative; height: 14px; background: oklch(1 0 0 / .07); border-radius: 999px; overflow: visible; }
 .cpp-track::after {
-  content: ""; position: absolute; left: 50%; top: -5px; bottom: -5px; width: 2px;
+  content: ""; position: absolute; left: calc(100% * var(--thf)); top: -5px; bottom: -5px; width: 2px;
   background: oklch(0.8 0.13 75 / .5);
 }
 .cpp-fill { height: 100%; width: 0; border-radius: 999px; transition: width 1.2s var(--ease) .2s; }
@@ -261,6 +262,14 @@ a { color: inherit; }
 .check-item.done .check-text { opacity: .45; text-decoration: line-through; }
 .check-text b { display: block; font-size: .98rem; }
 .check-text span { color: var(--muted); font-size: .87rem; }
+.check-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+.check-links a {
+  display: inline-block; font-size: .8rem; text-decoration: none;
+  color: var(--accent); border: 1px solid oklch(0.8 0.13 75 / .4);
+  padding: 3px 12px; border-radius: 999px;
+  transition: all .25s var(--ease);
+}
+.check-links a:hover { background: var(--accent); color: var(--accent-ink); }
 
 /* ---------- footer ---------- */
 .footer { margin-top: clamp(80px, 12vh, 140px); border-top: 1px solid oklch(1 0 0 / .08); padding: 40px clamp(20px, 5vw, 44px) 60px; text-align: center; }

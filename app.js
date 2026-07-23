@@ -123,19 +123,19 @@
   }, { threshold: 0.6 });
   document.querySelectorAll("[data-count]").forEach(function (el) { statIo.observe(el); });
 
-  /* ---------- cpp meter ---------- */
+  /* ---------- cpp meters (Aeroplan 2.0 line / Marriott 0.8 line) ---------- */
   var cppIo = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
       cppIo.unobserve(e.target);
+      var max = parseFloat(e.target.getAttribute("data-max")) || 4;
       e.target.querySelectorAll(".cpp-bar").forEach(function (bar) {
         var v = parseFloat(bar.getAttribute("data-cpp"));
-        bar.querySelector(".cpp-fill").style.width = Math.min(v / 4 * 100, 100) + "%";
+        bar.querySelector(".cpp-fill").style.width = Math.min(v / max * 100, 100) + "%";
       });
     });
   }, { threshold: 0.4 });
-  var meter = document.querySelector(".cpp-meter");
-  if (meter) cppIo.observe(meter);
+  document.querySelectorAll(".cpp-meter").forEach(function (m) { cppIo.observe(m); });
 
   /* ---------- tide chart (Denman Island, 2026-08-23 PDT, CHS predictions) ---------- */
   (function tide() {
@@ -242,14 +242,22 @@
 
   /* ---------- checklist ---------- */
   var CHECKS = [
-    ["BC Ferries 两程车位预约", "8/22 HSB→Departure Bay 16:00（强制预付）；8/27 SWB→TSA 16:00"],
-    ["Element Metrotown 积分房 ×3 间", "30 万分或 FNA 券组合，积分房随时会没"],
-    ["机票", "AC 现金票；想上商务舱先查 J 舱奖励位（seats.aero 显示有）"],
-    ["维多利亚 4 房 Airbnb", "Wi-Fi 快 + 工作位 + 停 2 车，8 月存量在跌"],
-    ["租车 2 台", "A：Amex Travel + Gold；B：Avis 挂 Scotia 码 + Momentum 付"],
-    ["纳奈莫 Courtyard ×3 间", "走 Expedia For TD（≥$500 触发 $100 credit）"],
-    ["观鲸 + 布查特门票", "提前 1 至 2 周即可"],
-    ["渔证 7 张 + 出发前 48h 查 BCCDC 贝类地图", "全员在线办证，16 岁以下免费"]
+    ["BC Ferries 两程车位预约", "8/22 HSB→Departure Bay 16:00（强制预付）；8/27 SWB→TSA 16:00",
+      [["去 BC Ferries 订票", "https://www.bcferries.com/"]]],
+    ["Element Metrotown 积分房 ×3 间", "30 万分或 FNA 券组合，订时勾选 Use Points，积分房随时会没",
+      [["Element 酒店页", "https://www.marriott.com/en-us/hotels/yvrel-element-vancouver-metrotown/overview/"]]],
+    ["机票", "AC 现金票；想上商务舱先查 J 舱奖励位（seats.aero 显示有）",
+      [["YUL 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YUL%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"], ["YYZ 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YYZ%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"], ["J 舱奖励位", "https://seats.aero/search?origins=YYZ&destinations=YVR&start_date=2026-08-22&end_date=2026-08-22"], ["Amex Travel 出票吃 credit", "https://www.americanexpress.com/en-ca/travel/"]]],
+    ["维多利亚 4 房 Airbnb", "Wi-Fi 快 + 工作位 + 停 2 车，8 月存量在跌",
+      [["按条件搜 Airbnb", "https://www.airbnb.ca/s/Victoria--British-Columbia--Canada/homes?checkin=2026-08-23&checkout=2026-08-27&adults=6&children=1&min_bedrooms=4"]]],
+    ["租车 2 台", "A：Amex Travel 订 + Gold 付；B：Avis 挂 Scotia 码（AWD C030400）+ Momentum 付",
+      [["Amex Travel 租车", "https://www.americanexpress.com/en-ca/travel/"], ["Avis 官网", "https://www.avis.ca/"]]],
+    ["纳奈莫 Courtyard ×3 间", "走 Expedia For TD（住宿 ≥$500 触发 $100 credit）",
+      [["Expedia For TD", "https://www.expediafortd.com/"], ["酒店详情", "https://www.marriott.com/en-us/hotels/ycdcy-courtyard-nanaimo/overview/"]]],
+    ["观鲸 + 布查特门票", "提前 1 至 2 周即可",
+      [["Eagle Wing 观鲸", "https://eaglewingtours.com/"], ["Butchart 官网", "https://www.butchartgardens.com/"]]],
+    ["渔证 7 张 + 出发前 48h 查 BCCDC 贝类地图", "全员在线办证，16 岁以下免费",
+      [["DFO 在线办证", "https://www.pac.dfo-mpo.gc.ca/fm-gp/rec/licence-permis/index-eng.html"], ["BCCDC 贝类地图", "https://maps.bccdc.ca/shellfish/"], ["CHS 潮汐表", "https://www.tides.gc.ca/en/stations/07955"]]]
   ];
   var checkList = document.getElementById("check-list");
   var saved = [];
@@ -260,7 +268,16 @@
     li.setAttribute("role", "checkbox");
     li.setAttribute("aria-checked", saved.indexOf(i) > -1 ? "true" : "false");
     li.tabIndex = 0;
-    li.innerHTML = "<span class='check-box'>" + (saved.indexOf(i) > -1 ? "✓" : "") + "</span><span class='check-text'><b>" + c[0] + "</b><span>" + c[1] + "</span></span>";
+    var linksHtml = "";
+    if (c[2]) {
+      linksHtml = "<span class='check-links'>" + c[2].map(function (l) {
+        return "<a href='" + l[1] + "' target='_blank' rel='noopener'>" + l[0] + " ↗</a>";
+      }).join("") + "</span>";
+    }
+    li.innerHTML = "<span class='check-box'>" + (saved.indexOf(i) > -1 ? "✓" : "") + "</span><span class='check-text'><b>" + c[0] + "</b><span>" + c[1] + "</span>" + linksHtml + "</span>";
+    Array.prototype.forEach.call(li.querySelectorAll(".check-links a"), function (a) {
+      a.addEventListener("click", function (e) { e.stopPropagation(); });
+    });
     function toggle() {
       li.classList.toggle("done");
       var on = li.classList.contains("done");
