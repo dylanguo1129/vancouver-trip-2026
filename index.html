@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="温哥华 · 海岛之夏：2026 年 8 月两家七口的温哥华 + 温哥华岛行程。潮汐赶海、渡轮环线、中餐地图、积分策略。">
+<title>温哥华 · 海岛之夏 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="温哥华 · 海岛之夏 2026">
+<meta property="og:description" content="两家七口 · 两城一岛一片海 · 2026.08.22 至 08.29">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="nav-brand" href="#top">海岛之夏</a>
+  <div class="nav-links">
+    <a href="#days">行程</a>
+    <a href="#map">路线</a>
+    <a href="#oyster">赶海</a>
+    <a href="#food">吃什么</a>
+    <a href="#points">积分</a>
+    <a href="#checklist">清单</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <img class="hero-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Coal_Harbour%2C_Vancouver_%28470065%29_%289441357251%29.jpg/1920px-Coal_Harbour%2C_Vancouver_%28470065%29_%289441357251%29.jpg" alt="煤港的黄昏，游艇泊在玻璃海面上，北岸群山压着最后一线天光" fetchpriority="high">
+  <div class="hero-scrim"></div>
+  <div class="hero-content">
+    <h1 class="hero-title"><span>温哥华</span><span class="hero-dot">·</span><span>海岛之夏</span></h1>
+    <p class="hero-sub">2026.08.22 至 08.29 · 两家七口 · 两城一岛一片海</p>
+    <a class="btn-primary" href="#days">看每日行程</a>
+  </div>
+</header>
+
+<main>
+
+<section class="section" id="stats">
+  <div class="stats-row">
+    <div class="stat"><b data-count="8">0</b><span>天 7 晚</span></div>
+    <div class="stat"><b data-count="7">0</b><span>口人 · 两家</span></div>
+    <div class="stat"><b data-count="2">0</b><span>段渡轮跨海</span></div>
+    <div class="stat"><b data-count="12">0</b><span>只牡蛎 / 人 / 天</span></div>
+    <div class="stat"><b data-count="603">0</b><span>千积分上阵</span></div>
+  </div>
+</section>
+
+<section class="section" id="days">
+  <h2>每日行程</h2>
+  <p class="section-lede">环线设计，零回头路：温哥华落地直接上岛，赶海之后一路向南，最后两晚回到大温，周六和女友过完整整一天再飞。周一到周五 06:00 至 14:00 她在住处上班，下午两点后全员合体。</p>
+  <div class="day-tabs" role="tablist" aria-label="选择日期"></div>
+  <article class="day-panel" id="day-panel">
+    <div class="day-media"><img id="day-img" src="" alt=""></div>
+    <div class="day-body">
+      <div class="day-head">
+        <h3 id="day-title"></h3>
+        <span class="day-tag" id="day-tag"></span>
+      </div>
+      <ol class="day-schedule" id="day-schedule"></ol>
+      <p class="day-note" id="day-note"></p>
+    </div>
+  </article>
+</section>
+
+<section class="section section-wide" id="map">
+  <h2>一条环线，两片海峡</h2>
+  <div class="map-wrap">
+    <div id="leaflet-map" aria-label="行程路线地图：温哥华、纳奈莫、深湾、维多利亚环线"></div>
+    <ul class="map-legend">
+      <li><i class="leg-drive"></i>自驾</li>
+      <li><i class="leg-ferry"></i>BC Ferries 渡轮</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="oyster">
+  <h2>赶海日 · 周日 8/23</h2>
+  <p class="section-lede">全周唯一一个全员都自由、低潮又落在上午的窗口。地点：Deep Bay 的 Mapleguard Point 外滩，Baynes Sound 是 BC 的牡蛎心脏。</p>
+  <div class="tide-grid">
+    <figure class="tide-chart">
+      <svg id="tide-svg" viewBox="0 0 640 300" role="img" aria-label="8 月 23 日 Denman Island 潮汐曲线：低潮 09:14，潮高 1.42 米，赶海窗口 08:30 至 11:00"></svg>
+      <figcaption>CHS 官方预报 · Denman Island 站 · 2026-08-23（PDT）</figcaption>
+    </figure>
+    <div class="tide-rules">
+      <div class="rule"><b>许可</b><p>人人要办 BC 潮水渔证：成人 1 日 $6.46，16 岁以下免费。手机存好 PDF。</p></div>
+      <div class="rule"><b>限额</b><p>牡蛎 12 只/人/天，蛤蜊合计 60 只（≥35mm）。分人装袋，壳留滩上。</p></div>
+      <div class="rule rule-warn"><b>红线</b><p>Mapleguard 连线以内的内港是卫生关闭区，只在外侧滩面采。出发前 48h 查 BCCDC 地图。</p></div>
+      <div class="rule rule-warn"><b>入口</b><p>八月野生贝类必须彻底煮熟再吃（Vibrio 菌）。滩边现烤一波，其余冰镇带走。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-wide" id="food">
+  <h2>吃什么</h2>
+  <p class="section-lede">以 Richmond 与铁道镇为锚的中餐清单，家门口就是 Crystal Mall 美食层。横滑看完。</p>
+  <div class="food-scroll" tabindex="0">
+    <figure class="food-card food-photo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Three_dim_sum_in_steamer_basket.jpg/1920px-Three_dim_sum_in_steamer_basket.jpg" alt="竹笼里冒着热气的三只点心" loading="lazy">
+      <figcaption><b>Chef Tony · 创意点心</b><span>黑松露烧麦的那一挂，周六早茶 10:00 开门</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-a">
+      <figcaption><b>Fisherman's Terrace 渔港</b><span>Aberdeen 三楼的老牌茶楼，稳</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-b">
+      <figcaption><b>Sea Harbour 海港大酒楼</b><span>粤式海鲜晚宴，17:00 开门，提前订位</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-c">
+      <figcaption><b>HK B.B.Q. Master</b><span>Superstore 楼下的烧腊神店，脆皮烧肉</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-a">
+      <figcaption><b>The Fish Man 鱼佬</b><span>酸菜鱼拿过 Vanmag 金奖，辣口担当</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-b">
+      <figcaption><b>Crystal Mall 美食层</b><span>就在 Element 楼下街对面，大排档管够</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-c">
+      <figcaption><b>Richmond 夜市</b><span>周五 19:00 至午夜，季节限定到 9/20</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-a">
+      <figcaption><b>维多利亚 · Don Mee</b><span>1923 年的唐人街老字号，饮茶晚饭都行</span></figcaption>
+    </figure>
+    <figure class="food-card food-tint-b">
+      <figcaption><b>Wo Fung 车仔面</b><span>关了又复活的传奇，2026 年 5 月回归</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="points">
+  <h2>积分的用法，一眼看懂</h2>
+  <p class="section-lede">Aeroplan 用 2.0¢/分 做及格线：经济舱不及格，商务舱远超线。Marriott 的 30 万分砸在全场分值最高的 Element Metrotown，住宿现金省到最薄。</p>
+  <div class="cpp-meter">
+    <div class="cpp-scale"><span class="cpp-threshold" style="--pos: 50%"><i></i>2.0¢ 及格线</span></div>
+    <div class="cpp-bar" data-cpp="1.55"><span class="cpp-label">YUL 经济舱</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">1.55¢</span></div>
+    <div class="cpp-bar" data-cpp="1.77"><span class="cpp-label">YYZ 经济舱</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">1.77¢</span></div>
+    <div class="cpp-bar" data-cpp="3.30"><span class="cpp-label">YYZ 商务舱</span><div class="cpp-track"><div class="cpp-fill cpp-good"></div></div><span class="cpp-val">3.30¢</span></div>
+  </div>
+  <div class="points-cards">
+    <div class="pcard">
+      <b>Marriott 300,000 分</b>
+      <p>Element Metrotown 三间房两晚全包，分值 1.19¢，附带全厨房和七人早餐。有 FNA 免房券的话还能再省 10 万分。</p>
+    </div>
+    <div class="pcard">
+      <b>Aeroplan 303,266 分</b>
+      <p>主方案按兵不动、机票付现金；爽方案给 YYZ 三人换商务舱往返，249k 分吃下 3.3¢ 的教科书兑换。</p>
+    </div>
+    <div class="pcard">
+      <b>信用卡 credit $600</b>
+      <p>两张 Plat 各 $200 抵两家机票，Gold $100 抵租车，TD $100 抵纳奈莫酒店。一分不浪费。</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="budget">
+  <h2>预算</h2>
+  <div class="budget-toggle" role="tablist" aria-label="预算方案切换">
+    <button class="bt-btn active" data-scenario="main" role="tab" aria-selected="true">主方案 · 机票现金</button>
+    <button class="bt-btn" data-scenario="biz" role="tab" aria-selected="false">爽方案 · 商务舱用分</button>
+  </div>
+  <div class="budget-list" id="budget-list"></div>
+  <p class="budget-total">现金合计 <b id="budget-total">$0</b><span id="budget-pts"></span></p>
+  <p class="budget-note">价格快照 2026-07-22，动态价以出票订房时为准。渡轮按 2 车 7 人实价、活动按官网票价核算。</p>
+</section>
+
+<section class="section" id="checklist">
+  <h2>预订清单</h2>
+  <p class="section-lede">按紧急度排序，点一下记住进度（存在这台设备里）。</p>
+  <ul class="check-list" id="check-list"></ul>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>为两家人的八月而做 · 数据快照 2026-07-22</p>
+  <p class="footer-fine">潮汐：加拿大海洋渔业部 CHS · 渡轮：BC Ferries · 采捕法规：DFO / BCCDC · 价格：Google Flights / seats.aero / marriott.com 实查</p>
+  <p class="footer-fine">照片来自 Wikimedia Commons（CC 授权，向摄影师致谢）· <a href="https://github.com/dylanguo1129/vancouver-trip-2026">源码在 GitHub</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="app.js"></script>
+</body>
+</html>
