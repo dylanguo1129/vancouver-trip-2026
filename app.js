@@ -48,8 +48,8 @@
       note: "" },
     { d: "D8", date: "8/29 周六", title: "完整温哥华日，晚班机回家", tag: "全员", img: IMG.stanley,
       alt: "斯坦利公园海堤步道，骑行的人沿着海走",
-      sched: [["10:00", "早茶开门即入座：Chef Tony 或渔港"], ["12:00", "Stanley Park 图腾柱 + 海堤"], ["14:30", "Granville Island 市场逛吃"], ["17:00", "Richmond 晚餐收官（Sea Harbour 17:00 开门）"], ["18:30", "还车，YYZ 21:10 / YUL 红眼班机回家"]],
-      note: "订晚班机换来的这一天，是女友唯一的温哥华整日。" }
+      sched: [["10:00", "早茶开门即入座：Chef Tony 或渔港"], ["12:00", "Stanley Park 图腾柱 + 海堤"], ["14:30", "Granville Island 市场逛吃"], ["17:00", "告别晚宴：唐人街 Kissa Tanto（100 Best 第 15 名，两张 Plat 各结一单 ≥$200 返 $400）或 Richmond Sea Harbour"], ["19:30", "还车，YYZ 21:10 / YUL 红眼班机回家"]],
+      note: "订晚班机换来的这一天，是女友唯一的温哥华整日。Kissa Tanto 要提前订位。" }
   ];
 
   /* ---------- day tabs ---------- */
@@ -220,12 +220,12 @@
       { n: "Royal Scot Hotel & Suites", s: 8.35, p: "~$250-350", pro: "2 房套房带全厨房，离内港一个街区，室内泳池，全维多利亚性价比之王", con: "2018 年装修，走商务风不算惊艳", u: "https://www.royalscot.com/" },
       { n: "The Parkside Hotel & Spa", s: 8.25, p: "~$320-440/套", pro: "全套房酒店：每套带全厨房或小厨房 + 25 米泳池 + LEED 白金环保牌", con: "离内港 7-9 分钟，套房价格叠 3 套不便宜", u: "https://www.parksidevictoria.com/" },
       { n: "Hotel Grand Pacific", s: 8.1, p: "~$320-450", pro: "内港正面第一排（2 分钟），25 米泳道 + 儿童池，弟弟的快乐老家", con: "无厨房；房间风格偏传统", u: "https://www.hotelgrandpacific.com/" },
-      { n: "Delta Ocean Pointe Resort", s: 8.0, badge: "Marriott 度假首选", p: "$367-498 ✓", pro: "2023 全翻新的万豪度假村：海港全景 + 室内泳池，安静的 Songhees 半岛，Bonvoy 分/状态都认", con: "3 间 4 晚现金 ~$4,900；积分价 64.5k/晚分值只有 0.67¢ 别用分", u: "https://www.marriott.com/en-us/hotels/yyjvo-delta-hotels-victoria-ocean-pointe-resort/overview/" },
+      { n: "Delta Ocean Pointe Resort", s: 8.0, badge: "Marriott 度假首选", p: "$367-498 ✓", pro: "2023 全翻新的万豪度假村：海港全景 + 室内泳池；Plat 送的 Marriott Gold＝升房机会 + 2pm 延退 + 25% 积分加成", con: "3 间 4 晚现金 ~$4,900；积分价 64.5k/晚分值只有 0.67¢ 别用分（可查 Hotel Collection 价再拿 US$100/房 credit）", u: "https://www.marriott.com/en-us/hotels/yyjvo-delta-hotels-victoria-ocean-pointe-resort/overview/" },
       { n: "Inn at Laurel Point", s: 7.95, p: "~$350-480", pro: "4.6★ 口碑天花板，玻璃房泳池 + 海港半岛日式庭院", con: "无厨房；好房型溢价快", u: "https://www.laurelpoint.com/" },
       { n: "Chateau Victoria Hotel & Suites", s: 7.9, p: "~$260-360", pro: "便宜的套房带整套 galley 厨房（冰箱+炉灶），顶楼餐厅看全城，直订停车半价", con: "楼龄 1970s，电梯和走廊显旧", u: "https://www.chateauvictoria.com/" },
       { n: "Victoria Marriott Inner Harbour", s: 7.6, p: "~$360-450 ✓", pro: "位置极好（内港 5 分钟）+ 室内泳池，万豪生态", con: "装修年代模糊，4.3★ 在本榜垫不了腰；积分价 56k/晚不划算", u: "https://www.marriott.com/en-us/hotels/yyzmc-victoria-marriott-inner-harbour/overview/" },
-      { n: "Fairmont Empress", s: 7.5, badge: "体验之选", p: "~$550-750+", pro: "内港的城堡本堡：1908 年地标 + 儿童戏水池，住的是仪式感", con: "3 间 4 晚 ~$7,500 起，性价比分直接拉爆", u: "https://www.fairmont.com/empress-victoria/" },
-      { n: "DoubleTree by Hilton Victoria", s: 7.2, p: "~$280-390", pro: "位置便利 + 到店热曲奇，Hilton 分可用", con: "没有泳池，对这队小孩是硬伤", u: "https://www.hilton.com/" }
+      { n: "Fairmont Empress", s: 7.5, badge: "体验之选", p: "~$550-750+", pro: "内港的城堡本堡：1908 年地标 + 儿童戏水池；要订就走 Plat 的 FHR：每房双人早餐 + US$100 credit + 保证 4pm 退房，4 晚拿回 $1,000+ 价值", con: "3 间 4 晚 ~$7,500 起，性价比分直接拉爆", u: "https://www.fairmont.com/empress-victoria/" },
+      { n: "DoubleTree by Hilton Victoria", s: 7.3, p: "~$280-390", pro: "位置便利 + 到店热曲奇；Plat 的 Hilton Gold＝每房双人早餐", con: "没有泳池，对这队小孩是硬伤", u: "https://www.hilton.com/" }
     ]},
     metro: { label: "大温 8/27-29", list: [
       { n: "Element Vancouver Metrotown", s: 8.75, badge: "方案主推", p: "$431-508 或 50k 分/晚 ✓", pro: "2025 整体翻新 + 每间全厨房 + 含 7 人早餐 + 盐水泳池；30 万分全包 $0 现金（1.19¢ 全场最高分值）", con: "离 YVR 25 分钟；Google 口碑 4.0 略低于万豪站 4.4", u: "https://www.marriott.com/en-us/hotels/yvrel-element-vancouver-metrotown/overview/" },
@@ -235,8 +235,8 @@
       { n: "Vancouver Airport Marriott", s: 7.7, p: "$431 ✓", pro: "2019 翻新，走路去 Alexandra Rd 食街，户外泳池", con: "积分价 55k/晚分值 0.92¢ 一般；Google 4.1", u: "https://www.marriott.com/en-us/hotels/yvrsa-vancouver-airport-marriott-hotel/overview/" },
       { n: "River Rock Casino Resort", s: 7.55, badge: "遛娃彩蛋", p: "~$280-380", pro: "室内泳池带 70 英尺水滑梯（弟弟狂喜），走路去夜市，自助停车免费", con: "赌场人流嘈杂；房型新旧不齐", u: "https://www.riverrock.com/" },
       { n: "Sheraton Vancouver Airport", s: 7.5, p: "$408 ✓", pro: "离食街最近的一档 + 户外泳池，价格低于同档万豪", con: "2016 年装修，口碑 4.1 中规中矩", u: "https://www.marriott.com/en-us/hotels/yvrsi-sheraton-vancouver-airport-hotel/overview/" },
+      { n: "Hilton Vancouver Airport", s: 7.45, p: "~$295-395", pro: "2020 翻新 + 户外泳池；Plat 送的 Hilton Gold＝每房双人免费早餐（3 房 2 天 ≈省 $200）", con: "各项都行但没有一项拔尖", u: "https://www.hilton.com/" },
       { n: "整租 4 房 Airbnb · Richmond", s: 7.4, p: "~$600-800/晚全家", pro: "全家同屋 + 厨房，食街环绕", con: "只住 2 晚：清洁费摊下来不划算，Element 的厨房已覆盖需求", u: "https://www.airbnb.ca/s/Richmond--British-Columbia--Canada/homes?checkin=2026-08-27&checkout=2026-08-29&adults=6&children=1&min_bedrooms=4" },
-      { n: "Hilton Vancouver Airport", s: 7.3, p: "~$295-395", pro: "2020 翻新，Hilton 分可用，户外泳池", con: "各项都行但没有一项突出", u: "https://www.hilton.com/" },
       { n: "The Westin Bayshore, Vancouver", s: 7.3, badge: "住进城里", p: "~$380-631 ✓", pro: "斯坦利公园旁的城市度假村，双泳池海景，周六行程零通勤", con: "周六早退房要横穿全城去还车赶飞机；停车 $48", u: "https://www.marriott.com/en-us/hotels/yvrwb-the-westin-bayshore-vancouver/overview/" }
     ]}
   };
@@ -327,7 +327,9 @@
     ["观鲸 + 布查特门票", "提前 1 至 2 周即可",
       [["Eagle Wing 观鲸", "https://eaglewingtours.com/"], ["Butchart 官网", "https://www.butchartgardens.com/"]]],
     ["渔证 7 张 + 出发前 48h 查 BCCDC 贝类地图", "全员在线办证，16 岁以下免费",
-      [["DFO 在线办证", "https://www.pac.dfo-mpo.gc.ca/fm-gp/rec/licence-permis/index-eng.html"], ["BCCDC 贝类地图", "https://maps.bccdc.ca/shellfish/"], ["CHS 潮汐表", "https://www.tides.gc.ca/en/stations/07955"]]]
+      [["DFO 在线办证", "https://www.pac.dfo-mpo.gc.ca/fm-gp/rec/licence-permis/index-eng.html"], ["BCCDC 贝类地图", "https://maps.bccdc.ca/shellfish/"], ["CHS 潮汐表", "https://www.tides.gc.ca/en/stations/07955"]]],
+    ["Amex Plat 权益激活包（免费，今天做）", "两张卡激活 Marriott Gold + Hilton Gold；订 Kissa Tanto 周六晚位（两单各 ≥$200 返 $400）；App 领 Instacart offer；出发日 YYZ 用 Priority Security + 免费 Valet",
+      [["Amex 权益页", "https://www.americanexpress.com/en-ca/benefits/travel/the-platinum-card/"], ["Kissa Tanto 订位", "https://www.kissatanto.com/"]]]
   ];
   var checkList = document.getElementById("check-list");
   var saved = [];
