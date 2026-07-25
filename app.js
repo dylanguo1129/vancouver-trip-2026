@@ -274,12 +274,12 @@
   /* ---------- budget ---------- */
   var BUDGETS = {
     main: {
-      rows: [["机票 · 7 人现金", 3244], ["维多利亚 Airbnb ×4 晚", 2400], ["租车 2 台 ×7 天", 1650], ["活动门票", 1500], ["纳奈莫 1 晚 ×3 间", 740], ["渡轮 2 程", 670], ["渔证油费杂项", 450], ["Element ×2 晚 ×3 间", 0]],
-      pts: "另花 Marriott 300k 分（Element 全覆盖）"
+      rows: [["机票 + 行李（含 credit）", 4022], ["维多利亚 Airbnb ×4 晚", 2400], ["租车 2 台 ×7 天", 1650], ["活动门票", 1500], ["纳奈莫 1 晚 ×3 间", 740], ["渡轮 2 程", 670], ["渔证油费杂项", 450], ["Element ×2 晚 ×3 间", 0]],
+      pts: "另花 Marriott 300k 分（Element 全覆盖）· Aeroplan 一分不动"
     },
     biz: {
-      rows: [["机票 · YUL 现金 + YYZ 商务舱税费", 1858], ["维多利亚 Airbnb ×4 晚", 2400], ["租车 2 台 ×7 天", 1650], ["活动门票", 1500], ["纳奈莫 1 晚 ×3 间", 740], ["渡轮 2 程", 670], ["渔证油费杂项", 450], ["Element ×2 晚 ×3 间", 0]],
-      pts: "另花 Marriott 300k 分 + Aeroplan 249k 分（YYZ 三人商务舱，3.3¢/分）"
+      rows: [["机票 + 行李（两单各挂一位持卡人）", 3392], ["维多利亚 Airbnb ×4 晚", 2400], ["租车 2 台 ×7 天", 1650], ["活动门票", 1500], ["纳奈莫 1 晚 ×3 间", 740], ["渡轮 2 程", 670], ["渔证油费杂项", 450], ["Element ×2 晚 ×3 间", 0]],
+      pts: "Aeroplan 联名卡免首件托运：7 人 ×2 程 省 $630，超过任何一张卡的年费"
     }
   };
   var budgetList = document.getElementById("budget-list");
@@ -316,8 +316,10 @@
       [["去 BC Ferries 订票", "https://www.bcferries.com/"]]],
     ["Element Metrotown 积分房 ×3 间", "30 万分或 FNA 券组合，订时勾选 Use Points，积分房随时会没",
       [["Element 酒店页", "https://www.marriott.com/en-us/hotels/yvrel-element-vancouver-metrotown/overview/"]]],
-    ["机票", "AC 现金票；想上商务舱先查 J 舱奖励位（seats.aero 显示有）",
-      [["YUL 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YUL%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"], ["YYZ 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YYZ%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"], ["J 舱奖励位", "https://seats.aero/search?origins=YYZ&destinations=YVR&start_date=2026-08-22&end_date=2026-08-22"], ["Amex Travel 出票吃 credit", "https://www.americanexpress.com/en-ca/travel/"]]],
+    ["机票 · 全买现金，别用 Aeroplan 分", "YYZ 3 人：8/22 AC 08:00→09:55 $440 + 8/29 AC128 23:00 红眼｜YUL 4 人：8/22 AC 08:30→10:56 $618 + 8/29 AC314 23:20（怕红眼改 AC312 16:50）。舱位买 Standard 起（Basic 连手提都没有），两单分别走 Amex Travel 各吃一张 $200",
+      [["Amex Travel 出票", "https://www.americanexpress.com/en-ca/travel/"], ["YYZ 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YYZ%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"], ["YUL 比价", "https://www.google.com/travel/flights?q=Flights%20from%20YUL%20to%20YVR%20on%202026-08-22%20through%202026-08-29&curr=CAD"]]],
+    ["（可选）办一张 Aeroplan 联名卡", "持卡人 + 同订单最多 8 位同行免首件托运 = 省 $630；两个订单各需一位持卡人。Amex Plat 不含此权益",
+      [["Amex Aeroplan 卡", "https://www.americanexpress.com/en-ca/membership-benefits/aeroplan-card/"]]],
     ["维多利亚 4 房 Airbnb", "Wi-Fi 快 + 工作位 + 停 2 车，8 月存量在跌",
       [["按条件搜 Airbnb", "https://www.airbnb.ca/s/Victoria--British-Columbia--Canada/homes?checkin=2026-08-23&checkout=2026-08-27&adults=6&children=1&min_bedrooms=4"]]],
     ["租车 2 台", "A：Amex Travel 订 + Gold 付；B：Avis 挂 Scotia 码（AWD C030400）+ Momentum 付",
