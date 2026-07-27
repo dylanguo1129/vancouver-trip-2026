@@ -1,25 +1,46 @@
 # PRODUCT.md
 
 ## What this is
-「温哥华 · 海岛之夏」: a single-page, Chinese-language trip site for a 7-person two-family vacation (Vancouver + Vancouver Island, 2026-08-22 to 08-29). Hosted on GitHub Pages. The deliverable is the page itself: itinerary, route map, tide-timed oyster day, food list, points strategy, budget, booking checklist.
+温哥华 8/22–8/29: a single-file, Chinese-language trip reference for a 7-person two-family
+vacation (Vancouver + Vancouver Island, 2026-08-22 to 08-29). Hosted on GitHub Pages.
+Not a showcase page. It is the thing you pull out of your pocket mid-trip to answer
+"where am I supposed to be, and when do I have to leave."
 
 ## Audience
-The two families (Chinese-speaking, phones + desktop, viewing at night in the family group chat). One member works remote 06:00-14:00 weekdays; the plan is built around that.
+Two families, Chinese-speaking, **on a phone, outdoors, in a hurry**. One member works
+remote 06:00-14:00 Pacific on weekdays; the schedule is built around that.
 
 ## Register
-Brand (design IS the product). Premium-consumer travel showcase.
+Product (design SERVES the task). It is a tool, not a brochure.
+
+## Scene
+Standing on a Richmond street corner at 20:00, one hand on a suitcase, checking whether
+it is time to leave for the ferry. That forces: dark theme, large hit targets, time-first
+layout, thumb-reachable nav, zero decoration competing with the schedule.
 
 ## Design language
-"八月萨利希海的暮航": deep indigo dusk water + sunset amber. Dark theme locked. OKLCH tokens, seed hue 268°.
-Dials: VARIANCE 7 / MOTION 6 / DENSITY 3.
+Dark, locked. OKLCH, seed hue 268 (carried over from v1 identity).
+Semantic color does the work: alert red = hard deadline, warn amber = time emphasis,
+ok green = free / points-covered, primary indigo = interactive and current selection.
+Accent is never decorative.
 
 ## Tokens
---bg: oklch(0.15 0.02 268); --surface: oklch(0.19 0.025 268); --surface-2: oklch(0.23 0.03 268);
---ink: oklch(0.95 0.01 268); --muted: oklch(0.74 0.02 268);
---primary: oklch(0.62 0.13 268); --accent: oklch(0.8 0.13 75); accent text: dark ink.
+--bg oklch(.15 .02 268) · --surface .195 · --surface-2 .245
+--ink oklch(.96 .008 268) · --ink-2 .84 · --muted .72
+--primary oklch(.72 .13 268) · --alert oklch(.74 .17 25) · --warn oklch(.84 .13 78) · --ok oklch(.78 .14 158)
+All body text verified >= 7:1 against its own background.
+
+## Structure
+Sticky header (live Vancouver clock + trip-day counter) -> horizontal day rail ->
+five bottom tabs: 行程 / 住宿 / 下单 / 钱 / 要点.
+Day view is a two-column timeline (time | event); 8/28 splits into two parallel columns
+because the families separate that afternoon. Reasoning lives behind <details>, never
+in the way of the schedule.
 
 ## Constraints
-- Static, no build step. Vanilla HTML/CSS/JS + Leaflet (CDN).
-- Real photos only (Wikimedia Commons, verified URLs, CC attribution in footer).
-- Zero em-dashes. Max 1 kicker per 3 sections. No scroll cues. Reduced-motion honored.
-- Data snapshot 2026-07-22; prices marked as snapshots.
+- **Single self-contained index.html.** No build step, no CDN, no external requests,
+  no images. Works on hotel wifi and on airplane mode after first load.
+- Fixed rem type scale (product register), not fluid clamp.
+- Booking checklist persists to localStorage.
+- Reduced motion honored. No em-dashes.
+- Data snapshot 2026-07-27, sourced from 温哥华行程-FINAL-2026-08-22至29.md.

@@ -1,206 +1,559 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="温哥华 · 海岛之夏：2026 年 8 月两家七口的温哥华 + 温哥华岛行程。潮汐赶海、渡轮环线、中餐地图、积分策略。">
-<title>温哥华 · 海岛之夏 2026</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="温哥华 · 海岛之夏 2026">
-<meta property="og:description" content="两家七口 · 两城一岛一片海 · 2026.08.22 至 08.29">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#131625">
+<meta name="color-scheme" content="dark">
+<title>温哥华 8/22–8/29 · 行程</title>
+<meta name="description" content="2026-08-22 至 08-29 温哥华 + 温哥华岛，7 人 3 房 2 车。旅途中手机随身查。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+
+<style>
+:root{
+  --bg:oklch(.15 .02 268);
+  --surface:oklch(.195 .025 268);
+  --surface-2:oklch(.245 .03 268);
+  --line:oklch(1 0 0 / .09);
+  --line-2:oklch(1 0 0 / .16);
+  --ink:oklch(.96 .008 268);
+  --ink-2:oklch(.84 .015 268);
+  --muted:oklch(.72 .018 268);
+  --primary:oklch(.72 .13 268);
+  --primary-dim:oklch(.72 .13 268 / .18);
+  --alert:oklch(.74 .17 25);
+  --alert-dim:oklch(.74 .17 25 / .15);
+  --warn:oklch(.84 .13 78);
+  --warn-dim:oklch(.84 .13 78 / .14);
+  --ok:oklch(.78 .14 158);
+  --ok-dim:oklch(.78 .14 158 / .14);
+  --r:12px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --tabh:calc(58px + env(safe-area-inset-bottom));
+  --z-head:20; --z-tabs:30;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  font-size:15px;line-height:1.55;
+  padding-bottom:var(--tabh);
+  overscroll-behavior-y:none;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--primary);text-decoration:none}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- header ---------- */
+.hd{
+  position:sticky;top:0;z-index:var(--z-head);
+  background:oklch(.15 .02 268 / .93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:calc(10px + env(safe-area-inset-top)) 14px 0;
+}
+.hd-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px}
+.hd-t{font-size:15px;font-weight:700;letter-spacing:.01em}
+.hd-t span{color:var(--muted);font-weight:500}
+.hd-clock{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.hd-clock b{color:var(--warn);font-weight:600}
+
+/* ---------- day rail ---------- */
+.rail{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 0 9px;scroll-snap-type:x proximity}
+.rail::-webkit-scrollbar{display:none}
+.rail button{
+  flex:0 0 auto;scroll-snap-align:center;
+  min-width:52px;padding:6px 9px 7px;border-radius:10px;
+  background:var(--surface);border:1px solid transparent;
+  display:grid;gap:1px;text-align:center;transition:background .15s,border-color .15s;
+}
+.rail button:hover{background:var(--surface-2)}
+.rail .d{font-size:16px;font-weight:700;line-height:1.15}
+.rail .w{font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.rail button[aria-selected=true]{background:var(--primary-dim);border-color:var(--primary)}
+.rail button[aria-selected=true] .w{color:var(--ink-2)}
+.rail button[data-today="1"] .d::after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--warn);margin:2px auto -2px}
+
+/* ---------- panels ---------- */
+main{padding:14px 14px 28px;max-width:760px;margin-inline:auto}
+.panel[hidden]{display:none}
+.dhead{margin-bottom:12px}
+.dhead h2{font-size:19px;font-weight:700;letter-spacing:.01em;line-height:1.3;text-wrap:balance}
+.dhead p{font-size:13px;color:var(--muted);margin-top:3px}
+
+/* ---------- timeline ---------- */
+.tl{display:grid;gap:2px}
+.ev{
+  display:grid;grid-template-columns:58px 1fr;gap:10px;
+  padding:9px 10px 9px 0;border-radius:8px;
+  border-top:1px solid var(--line);
+}
+.ev:first-child{border-top:0}
+.ev-t{font-size:12.5px;color:var(--muted);padding-top:2px;letter-spacing:-.01em}
+.ev-b{min-width:0}
+.ev-h{font-size:15px;font-weight:600;line-height:1.4;text-wrap:pretty}
+.ev-m{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.ev-m b{color:var(--ink-2);font-weight:600}
+
+.ev.k-hard{background:var(--alert-dim);padding-left:10px;border-top-color:transparent;margin-top:2px}
+.ev.k-hard .ev-t{color:var(--alert)}
+.ev.k-hard .ev-h::before{content:"必做";font-size:10px;font-weight:700;letter-spacing:.09em;color:var(--alert);margin-right:7px;vertical-align:1.5px}
+.ev.k-move{background:oklch(1 0 0/.03);padding-left:10px;border-top-color:transparent;margin-top:2px}
+.ev.k-move .ev-t{color:var(--primary)}
+.ev.k-star .ev-h{color:var(--warn)}
+.ev.k-free .ev-h::after{content:"免费";font-size:10.5px;font-weight:700;color:var(--ok);background:var(--ok-dim);padding:1px 5px;border-radius:5px;margin-left:7px;vertical-align:1.5px}
+.ev.k-work{background:oklch(1 0 0/.03);padding-left:10px;border-top-color:transparent;margin-top:2px}
+.ev.k-work .ev-t{color:var(--ink-2)}
+
+/* split day */
+.split{display:grid;gap:9px;margin-top:2px}
+@media(min-width:620px){.split{grid-template-columns:1fr 1fr;align-items:start}}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px}
+.col h3{font-size:13px;font-weight:700;margin-bottom:7px;letter-spacing:.02em}
+.col .ev{grid-template-columns:48px 1fr;padding:7px 0}
+.col .ev-h{font-size:14px}
+
+/* ---------- notes ---------- */
+details.note{margin-top:9px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+details.note>summary{
+  list-style:none;cursor:pointer;padding:11px 12px;font-size:13.5px;font-weight:600;color:var(--ink-2);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+details.note>summary::-webkit-details-marker{display:none}
+details.note>summary::after{content:"+";color:var(--muted);font-size:17px;line-height:1;transition:transform .2s var(--ease)}
+details.note[open]>summary::after{transform:rotate(45deg)}
+details.note[open]>summary{color:var(--ink)}
+details.note .body{padding:0 12px 12px;font-size:13.5px;color:var(--ink-2);line-height:1.65}
+details.note .body p+p{margin-top:8px}
+details.note .body b{color:var(--ink)}
+
+/* ---------- blocks ---------- */
+.sec{margin-bottom:22px}
+.sec>h2{font-size:17px;font-weight:700;margin-bottom:3px;letter-spacing:.01em}
+.sec>.sub{font-size:13px;color:var(--muted);margin-bottom:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px}
+.card+.card{margin-top:9px}
+.card h3{font-size:15.5px;font-weight:700;line-height:1.35}
+.card .when{font-size:12.5px;color:var(--warn);font-weight:600;margin-bottom:3px;letter-spacing:.02em}
+.card .addr{font-size:13px;color:var(--muted);margin-top:4px;display:block}
+.rooms{display:grid;gap:6px;margin-top:10px}
+.room{display:grid;grid-template-columns:32px 1fr auto;gap:9px;align-items:baseline;font-size:13.5px;padding:7px 9px;background:oklch(1 0 0/.035);border-radius:8px}
+.room .tag{font-size:11.5px;font-weight:700;color:var(--primary);letter-spacing:.03em}
+.room .who{color:var(--ink-2);min-width:0}
+.room .pay{font-size:12.5px;color:var(--muted);white-space:nowrap;text-align:right}
+.room .pay.pts{color:var(--ok);font-weight:600}
+.acts{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+.acts a{
+  font-size:13px;font-weight:600;padding:8px 13px;border-radius:9px;
+  background:var(--surface-2);border:1px solid var(--line-2);color:var(--ink);
+  transition:background .15s;
+}
+.acts a:hover{background:oklch(1 0 0/.1)}
+
+.al{border:1px solid;border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.6}
+.al+.al{margin-top:8px}
+.al b{font-weight:700}
+.al.r{background:var(--alert-dim);border-color:oklch(.74 .17 25/.4)}
+.al.r>b:first-child{color:var(--alert)}
+.al.w{background:var(--warn-dim);border-color:oklch(.84 .13 78/.35)}
+.al.w>b:first-child{color:var(--warn)}
+.al.g{background:var(--ok-dim);border-color:oklch(.78 .14 158/.35)}
+.al.g>b:first-child{color:var(--ok)}
+.al .d{margin-top:4px;color:var(--ink-2)}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 11px;text-align:right;white-space:nowrap;border-top:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
+thead th{border-top:0;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+tfoot td{font-weight:700;border-top:1px solid var(--line-2)}
+td.n{font-variant-numeric:tabular-nums}
+
+.ck{display:grid;gap:7px}
+.ck label{
+  display:grid;grid-template-columns:22px 1fr;gap:11px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:11px 12px;cursor:pointer;transition:opacity .2s,background .15s;
+}
+.ck label:hover{background:var(--surface-2)}
+.ck input{
+  appearance:none;-webkit-appearance:none;width:20px;height:20px;margin-top:1px;border-radius:6px;
+  border:1.5px solid var(--line-2);background:var(--surface-2);cursor:pointer;
+  display:grid;place-content:center;transition:background .15s,border-color .15s;
+}
+.ck input:checked{background:var(--ok);border-color:var(--ok)}
+.ck input:checked::after{content:"✓";color:oklch(.2 .04 158);font-size:13px;font-weight:900;line-height:1}
+.ck .txt{min-width:0}
+.ck .txt b{display:block;font-size:14px;font-weight:600;line-height:1.4}
+.ck .txt span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.ck label:has(input:checked){opacity:.45}
+.ck label:has(input:checked) .txt b{text-decoration:line-through}
+.ck-hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.ck-hd h3{font-size:14px;font-weight:700}
+.ck-hd .cnt{font-size:12.5px;color:var(--muted)}
+.grp{margin-bottom:16px}
+.prog{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:var(--ok);border-radius:2px;transition:width .35s var(--ease)}
+
+/* ---------- bottom tabs ---------- */
+.tabs{
+  position:fixed;inset:auto 0 0 0;z-index:var(--z-tabs);
+  display:grid;grid-template-columns:repeat(5,1fr);
+  background:oklch(.16 .022 268 / .96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tabs button{
+  padding:8px 2px 9px;display:grid;gap:3px;justify-items:center;
+  font-size:10.5px;color:var(--muted);letter-spacing:.03em;transition:color .15s;
+}
+.tabs button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tabs button[aria-selected=true]{color:var(--ink)}
+.tabs button[aria-selected=true] svg{stroke:var(--primary)}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <a class="nav-brand" href="#top">海岛之夏</a>
-  <div class="nav-links">
-    <a href="#days">行程</a>
-    <a href="#map">路线</a>
-    <a href="#oyster">赶海</a>
-    <a href="#food">吃什么</a>
-    <a href="#points">积分</a>
-    <a href="#checklist">清单</a>
+<header class="hd">
+  <div class="hd-row">
+    <div class="hd-t">温哥华 <span>8/22 – 8/29</span></div>
+    <div class="hd-clock" id="clock"></div>
   </div>
-</nav>
-
-<header class="hero" id="top">
-  <img class="hero-img" src="assets/hero.jpg" alt="福溪的蓝调时刻：Burrard 桥横过海湾，城市灯火沿岸铺开，雪山压着天际线" fetchpriority="high">
-  <div class="hero-scrim"></div>
-  <div class="hero-content">
-    <h1 class="hero-title"><span>温哥华</span><span class="hero-dot">·</span><span>海岛之夏</span></h1>
-    <p class="hero-sub">2026.08.22 至 08.29 · 两家七口 · 两城一岛一片海</p>
-    <a class="btn-primary" href="#days">看每日行程</a>
-  </div>
+  <nav class="rail" id="rail" role="tablist" aria-label="日期"></nav>
 </header>
 
 <main>
-
-<section class="section" id="stats">
-  <div class="stats-row">
-    <div class="stat"><b data-count="8">0</b><span>天 7 晚</span></div>
-    <div class="stat"><b data-count="7">0</b><span>口人 · 两家</span></div>
-    <div class="stat"><b data-count="2">0</b><span>段渡轮跨海</span></div>
-    <div class="stat"><b data-count="12">0</b><span>只牡蛎 / 人 / 天</span></div>
-    <div class="stat"><b data-count="603">0</b><span>千积分上阵</span></div>
-  </div>
-</section>
-
-<section class="section" id="days">
-  <h2>每日行程</h2>
-  <p class="section-lede">环线设计，零回头路：温哥华落地直接上岛，赶海之后一路向南，最后两晚回到大温，周六和女友过完整整一天再飞。周一到周五 06:00 至 14:00 她在住处上班，下午两点后全员合体。</p>
-  <div class="day-tabs" role="tablist" aria-label="选择日期"></div>
-  <article class="day-panel" id="day-panel">
-    <div class="day-media"><img id="day-img" src="" alt=""></div>
-    <div class="day-body">
-      <div class="day-head">
-        <h3 id="day-title"></h3>
-        <span class="day-tag" id="day-tag"></span>
-      </div>
-      <ol class="day-schedule" id="day-schedule"></ol>
-      <p class="day-note" id="day-note"></p>
-    </div>
-  </article>
-</section>
-
-<section class="section section-wide" id="map">
-  <h2>一条环线，两片海峡</h2>
-  <div class="map-wrap">
-    <div id="leaflet-map" aria-label="行程路线地图：温哥华、纳奈莫、深湾、维多利亚环线"></div>
-    <ul class="map-legend">
-      <li><i class="leg-drive"></i>自驾</li>
-      <li><i class="leg-ferry"></i>BC Ferries 渡轮</li>
-    </ul>
-  </div>
-</section>
-
-<section class="section" id="oyster">
-  <h2>赶海日 · 周日 8/23</h2>
-  <p class="section-lede">全周唯一的全员自由低潮窗口。地点：Deep Bay 的 Mapleguard Point 外滩，Baynes Sound 是 BC 的牡蛎心脏。</p>
-  <div class="tide-grid">
-    <figure class="tide-chart">
-      <svg id="tide-svg" viewBox="0 0 640 300" role="img" aria-label="8 月 23 日 Denman Island 潮汐曲线：低潮 09:14，潮高 1.42 米，赶海窗口 08:30 至 11:00"></svg>
-      <figcaption>CHS 官方预报 · Denman Island 站 · 2026-08-23（PDT）</figcaption>
-    </figure>
-    <div class="tide-rules">
-      <div class="rule"><b>许可</b><p>人人要办 BC 潮水渔证：成人 1 日 $6.46，16 岁以下免费。手机存好 PDF。</p></div>
-      <div class="rule"><b>限额</b><p>牡蛎 12 只/人/天，蛤蜊合计 60 只（≥35mm）。分人装袋，壳留滩上。</p></div>
-      <div class="rule rule-warn"><b>红线</b><p>Mapleguard 连线以内的内港是卫生关闭区，只在外侧滩面采。出发前 48h 查 BCCDC 地图。</p></div>
-      <div class="rule rule-warn"><b>入口</b><p>八月野生贝类必须彻底煮熟再吃（Vibrio 菌）。滩边现烤一波，其余冰镇带走。</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-wide" id="food">
-  <h2>吃什么：多伦多给不了的那片海</h2>
-  <p class="section-lede">主线是海鲜：八月正是菲沙河红鲑季，珍宝蟹和象拔蚌是西海岸特权，生蚝就来自你们白天挖蚝的那片海。不限中餐，都对中国胃。横滑看完。</p>
-  <div class="food-scroll" tabindex="0">
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/PikePlaceMarket2006.jpg/1280px-PikePlaceMarket2006.jpg" alt="市场冰台上码得整整齐齐的珍宝蟹" loading="lazy">
-      <figcaption><b>Steveston 船边直购</b><span>八月红鲑正当季，活珍宝蟹按磅称，买完回 Element 厨房开工</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Steamed_baby_clams.jpg" alt="一盘冒着热气的白灼小蛤蜊" loading="lazy">
-      <figcaption><b>Sea Harbour 海港大酒楼</b><span>游水海鲜粤做：象拔蚌两吃、姜葱焗珍宝蟹，17:00 开门要订位</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Plate_of_6_oysters_-_La_Petite_Plage_2025-03-25.jpg/1280px-Plate_of_6_oysters_-_La_Petite_Plage_2025-03-25.jpg" alt="半壳生蚝配柠檬，一打上桌" loading="lazy">
-      <figcaption><b>Fanny Bay Oyster Bar</b><span>温哥华市区的生蚝吧，货源就是 Baynes Sound，白天你们挖蚝的海域</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Pacific_oyster_from_Brofjorden_on_a_chopping_board_in_Tuntorp.jpg/1920px-Pacific_oyster_from_Brofjorden_on_a_chopping_board_in_Tuntorp.jpg" alt="砧板上刚撬开的太平洋牡蛎" loading="lazy">
-      <figcaption><b>自己挖的那一锅</b><span>Element 每间房都有全厨房：白灼蛤蜊、蒜蓉烤蚝，比任何餐厅都香</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Yakiniku_and_Panfried_Salmon_Nigiri_-_Shira_Nui_AUD24_for_6_%284759841556%29.jpg/1280px-Yakiniku_and_Panfried_Salmon_Nigiri_-_Shira_Nui_AUD24_for_6_%284759841556%29.jpg" alt="炙烤过的三文鱼握寿司" loading="lazy">
-      <figcaption><b>Miku · 火炙寿司</b><span>Aburi 流派的海景总店，炙烤三文鱼押寿司是招牌</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Our_Famous_Fish_and_Chips_in_a_light_batter_served_with_hand_cut_chips_and_homemade_tartare_sauce_-_Applebee%E2%80%99s_Fish.jpg/1280px-Our_Famous_Fish_and_Chips_in_a_light_batter_served_with_hand_cut_chips_and_homemade_tartare_sauce_-_Applebee%E2%80%99s_Fish.jpg" alt="金黄脆壳的炸鱼薯条" loading="lazy">
-      <figcaption><b>Red Fish Blue Fish · 维多利亚</b><span>码头集装箱小馆，野生太平洋鱼现炸，排队也值</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Three_dim_sum_in_steamer_basket.jpg/1920px-Three_dim_sum_in_steamer_basket.jpg" alt="竹笼里冒着热气的三只点心" loading="lazy">
-      <figcaption><b>Chef Tony · 创意点心</b><span>黑松露烧麦的那一挂，周六早茶 10:00 开门即入座</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Honey_barbecued_pork%F0%9F%8D%A2.jpg/1280px-Honey_barbecued_pork%F0%9F%8D%A2.jpg" alt="蜜汁叉烧切件，边缘带焦糖色" loading="lazy">
-      <figcaption><b>HK B.B.Q. Master</b><span>Superstore 楼下的烧腊神店，脆皮烧肉和叉烧外带最顺</span></figcaption>
-    </figure>
-    <figure class="food-card food-photo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/SZ_%E6%B7%B1%E5%9C%B3_Shenzhen_Dongmen_DMD_%E6%9D%B1%E9%96%80%E7%94%BA%E7%BE%8E%E9%A3%9F%E8%A1%97_Dong_Men_Ding_Food_Street_%E8%A1%97%E9%A0%AD_%E7%86%9F%E9%A3%9F_cooked_food_market_August_2023_Px3_22.jpg/1280px-SZ_%E6%B7%B1%E5%9C%B3_Shenzhen_Dongmen_DMD_%E6%9D%B1%E9%96%80%E7%94%BA%E7%BE%8E%E9%A3%9F%E8%A1%97_Dong_Men_Ding_Food_Street_%E8%A1%97%E9%A0%AD_%E7%86%9F%E9%A3%9F_cooked_food_market_August_2023_Px3_22.jpg" alt="亚洲夜市小吃街的灯火与摊位" loading="lazy">
-      <figcaption><b>Richmond 夜市 + Crystal Mall</b><span>周五夜市开到午夜；平日楼下 Crystal Mall 大排档管够</span></figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="section section-wide" id="hotels">
-  <h2>睡哪里 · 每站 Top 10</h2>
-  <p class="section-lede">综合分 = 口碑 25% + 品质新旧 15% + 行程契合 20% + 家庭适配 20% + 性价比(含积分/credit 加成) 20%。不是纯拼价格：度假感、泳池、厨房、离渡轮和蚝滩的距离都在分里。价格为 8 月行情，带 ✓ 的是本次实查。</p>
-  <div class="day-tabs hotel-tabs" role="tablist" aria-label="选择住宿地点"></div>
-  <ol class="hotel-list" id="hotel-list"></ol>
-</section>
-
-<section class="section" id="points">
-  <h2>积分的用法，一眼看懂</h2>
-  <p class="section-lede">两把标尺：Aeroplan 按 2.0¢/分（这趟四个兑换全部不及格，所以机票一律付现金、30 万分原封不动留着）；Marriott 按 0.8¢/分（Element 1.19¢ 是大温八月全场最高，维多利亚酒店群体性低于线，所以那边改住整租）。</p>
-  <div class="cpp-meter" data-max="4" style="--thf: .5">
-    <h3 class="meter-title">Aeroplan · 及格线 2.0¢/分 · 全线未过</h3>
-    <div class="cpp-scale"><span class="cpp-threshold"><i></i>2.0¢ 及格线</span></div>
-    <div class="cpp-bar" data-cpp="0.74"><span class="cpp-label">YYZ 经济舱</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">0.74¢</span></div>
-    <div class="cpp-bar" data-cpp="1.37"><span class="cpp-label">YUL 经济舱</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">1.37¢</span></div>
-    <div class="cpp-bar" data-cpp="1.57"><span class="cpp-label">回程商务舱</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">1.57¢</span></div>
-  </div>
-  <div class="cpp-meter" data-max="2" style="--thf: .4">
-    <h3 class="meter-title">Marriott · 平均线 0.8¢/分</h3>
-    <div class="cpp-scale"><span class="cpp-threshold"><i></i>0.8¢ 平均线</span></div>
-    <div class="cpp-bar" data-cpp="1.19"><span class="cpp-label">Element 铁道镇</span><div class="cpp-track"><div class="cpp-fill cpp-good"></div></div><span class="cpp-val">1.19¢</span></div>
-    <div class="cpp-bar" data-cpp="0.92"><span class="cpp-label">机场万豪</span><div class="cpp-track"><div class="cpp-fill cpp-good"></div></div><span class="cpp-val">0.92¢</span></div>
-    <div class="cpp-bar" data-cpp="0.75"><span class="cpp-label">维多利亚酒店</span><div class="cpp-track"><div class="cpp-fill cpp-bad"></div></div><span class="cpp-val">0.75¢</span></div>
-  </div>
-  <div class="points-cards">
-    <div class="pcard">
-      <b>Marriott 300,000 分</b>
-      <p>Element Metrotown 三间房两晚全包，分值 1.19¢，附带全厨房和七人早餐。有 FNA 免房券的话还能再省 10 万分。</p>
-    </div>
-    <div class="pcard">
-      <b>Aeroplan 303,266 分 · 本次不动</b>
-      <p>加航自营航线的积分价跟着现金价走，而这趟现金价正处低位，所以四个兑换全在 2.0¢ 以下。七张票买现金，分留到下次现金价高的国际线。</p>
-    </div>
-    <div class="pcard">
-      <b>信用卡权益包 $1,000+</b>
-      <p>两张 Plat 各 $200 抵机票、Gold $100 抵租车、TD $100 抵纳奈莫；周六 Kissa Tanto 两单餐饮 credit 再返 $400。Plat 附赠 Marriott Gold + Hilton Gold（升房、延退、Hilton 双早），出发前记得激活。</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="budget">
-  <h2>预算</h2>
-  <div class="budget-toggle" role="tablist" aria-label="预算方案切换">
-    <button class="bt-btn active" data-scenario="main" role="tab" aria-selected="true">主方案</button>
-    <button class="bt-btn" data-scenario="biz" role="tab" aria-selected="false">加一张 Aeroplan 卡</button>
-  </div>
-  <div class="budget-list" id="budget-list"></div>
-  <p class="budget-total">现金合计 <b id="budget-total">$0</b><span id="budget-pts"></span></p>
-  <p class="budget-note">价格快照 2026-07-22，动态价以出票订房时为准。渡轮按 2 车 7 人实价、活动按官网票价核算。</p>
-</section>
-
-<section class="section" id="checklist">
-  <h2>预订清单</h2>
-  <p class="section-lede">按紧急度排序，点一下记住进度（存在这台设备里）。</p>
-  <ul class="check-list" id="check-list"></ul>
-</section>
-
+  <h1 class="sr">温哥华行程 2026-08-22 至 08-29</h1>
+  <section class="panel" id="p-day" role="tabpanel" aria-label="行程"></section>
+  <section class="panel" id="p-stay" role="tabpanel" aria-label="住宿" hidden></section>
+  <section class="panel" id="p-book" role="tabpanel" aria-label="下单" hidden></section>
+  <section class="panel" id="p-cost" role="tabpanel" aria-label="费用" hidden></section>
+  <section class="panel" id="p-key" role="tabpanel" aria-label="要点" hidden></section>
 </main>
 
-<footer class="footer">
-  <p>为两家人的八月而做 · 机票数据 2026-07-23 · 其余 2026-07-22</p>
-  <p class="footer-fine">潮汐：加拿大海洋渔业部 CHS · 渡轮：BC Ferries · 采捕法规：DFO / BCCDC · 价格：Google Flights / seats.aero / marriott.com 实查</p>
-  <p class="footer-fine">照片来自 Wikimedia Commons（CC 授权，向摄影师致谢）· <a href="https://github.com/dylanguo1129/vancouver-trip-2026">源码在 GitHub</a></p>
-</footer>
+<nav class="tabs" id="tabs" role="tablist" aria-label="主导航"></nav>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="app.js"></script>
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const map=q=>'https://maps.google.com/?q='+encodeURIComponent(q);
+
+/* ============================== DATA ============================== */
+const DAYS=[
+{d:"8/22",w:"六",title:"落地即上岛 · 布查特烟花夜",sub:"全员 · 不回酒店，行李全程留车上",ev:[
+ {t:"~10:00",h:"落地 YVR",m:"多伦多组 09:55 AC185 · 蒙特利尔组 ~10:56"},
+ {t:"12:15",k:"hard",h:"两台车同时提车",m:"<b>Dylan 和女友各刷自己的 Platinum、各签一台</b>。租车险要求承租人本人刷卡，两人都要在场"},
+ {t:"13:00",k:"move",h:"到 Tsawwassen 码头",m:"36 km / 35 分钟"},
+ {t:"14:00",k:"move",h:"渡轮 → Swartz Bay",m:"1 小时 35 分"},
+ {t:"15:35",h:"靠岸"},
+ {t:"16:00",k:"move",h:"直接进布查特花园",m:"20 km / 22 分钟，顺路。行李留后备箱，车内不留可见物"},
+ {t:"16:00",h:"下沉花园 → 玫瑰园 → 日本园 → 意大利园"},
+ {t:"18:15",k:"hard",h:"去 Blue Poppy 排队",m:"<b>不接受订位</b>，先到先得。主菜 $24–29，儿童餐 $13–14"},
+ {t:"19:30",h:"音乐台 Outdoor Summer Concert"},
+ {t:"20:45",k:"star",h:"Night Illuminations 亮灯"},
+ {t:"21:15",k:"star",h:"烟花"},
+ {t:"23:00",h:"入住 Delta Ocean Pointe",m:"烟花夜出停车场要排 30–45 分钟"}],
+ notes:[["为什么落地当天就去布查特","<p><b>8/22 是八月最后几场烟花之一</b>。官网逐场表：8/15 21:15 · <b>8/22 21:15</b> · 8/29 21:00。周六开到 22:00。</p><p>一张票就够 — 烟花和演出对持票人免费。</p><p>⚠️ <b>烟花夜禁止出园再进</b>（官网原文 Readmission is not permitted），所以不能先回酒店休息，只能一口气待到散场。</p>"],["先打电话给 Delta","<p>多伦多组 08:00 起飞 = 太平洋时间 <b>02:30 起床</b>。到酒店时全组已经醒着 21 小时。<b>务必提前告知酒店 23:30 晚抵达。</b></p><p>园内正餐别省。烟花前铺条毯子让弟弟先睡一会。</p>"],["赶不上 14:00 那班船也不慌","<p>下一班 <b>15:00</b> → 16:35 靠岸 → 17:00 进园，<b>烟花照样赶得上</b>。</p>"]]},
+
+{d:"8/23",w:"日",title:"慢上午 + 日落观鲸",sub:"全员 · 她今天不上班",ev:[
+ {t:"自然醒",h:"不设闹钟",m:"昨天全组醒着 21 小时"},
+ {t:"10:30",k:"free",h:"BC 省议会大楼导览",m:"内港正对面，室内"},
+ {t:"11:30",h:"内港木栈道",m:"水上飞机起降、街头艺人"},
+ {t:"12:30",h:"午餐"},
+ {t:"14:00",h:"Fisherman's Wharf",m:"彩色浮屋 + 海豹。吃 <b>Barb's</b>，<b>不排 Red Fish Blue Fish</b>"},
+ {t:"15:45",k:"hard",h:"回酒店换厚衣服，加一层",m:"船上很冷，八月也一样"},
+ {t:"17:00",k:"hard",h:"早晚餐",m:"观鲸 3 小时，必须先吃"},
+ {t:"18:30",k:"star",h:"Eagle Wing 半封闭日落观鲸",m:"约 21:30 回港"},
+ {t:"22:00",h:"回酒店",m:"她周一 06:00 上班，22:45 睡还有 7.25 小时"}],
+ notes:[["为什么一定是半封闭那班","<p>8 月有 18:00（敞篷）和 <b>18:30（半封闭）</b>两班。半封闭双体船有<b>加热船舱、2 个洗手间、水听器、5 个观景区</b>，无年龄下限。</p><p>⚠️ <b>不要订 Prince of Whales 的 Zodiac</b>：敞篷充气艇，官方限制身高 120 cm 或体重 23 kg 以下不能上船，<b>7 岁的弟弟大概率上不了</b>。</p>"],["打这个电话能省一大笔","<p><b>250-384-8008</b>。订 7 位 18:30 半封闭，同时问三件事：</p><p>① senior / youth / child 逐档价（官网写有折扣但不公布金额）<br>② 7 人团价<br>③ $169 之外还有什么 fees</p><p><b>七个人可能一次省 $150–300</b>，这是全案最大的单笔未知折扣。</p>"],["今天砍掉了 Craigdarroch 城堡","<p>87 级楼梯，排在 3 小时颠簸船的同一天早上，而全组前一天刚醒着 21 小时。</p><p>想加回来的话它在买回令第 4 位（$25.73 / $17.33）。</p>"]]},
+
+{d:"8/24",w:"一",title:"孔雀、山羊与天空栈道",sub:"她 06:00–14:00 上班 · 上午 6 人 2 车",ev:[
+ {t:"10:00",k:"free",h:"Beacon Hill 儿童农场",m:"<b>10:10 山羊冲锋</b>（每天 10:10 / 17:10），捐赠制"},
+ {t:"10:30",k:"free",h:"Beacon Hill 公园看放养孔雀"},
+ {t:"12:00",k:"free",h:"走到 Ogden Point 防波堤"},
+ {t:"12:45",h:"午餐"},
+ {t:"14:00",k:"hard",h:"回酒店接女友"},
+ {t:"15:10",k:"star",h:"Malahat SkyWalk",m:"600 m 树冠栈道 + 10 层螺旋塔 + <b>10 秒大滑梯</b>。周一 09:00–18:00"},
+ {t:"17:20",h:"回维多利亚"},
+ {t:"18:30",h:"晚餐"}],
+ notes:[["Malahat 的票当天再买","<p><b>累垮预案</b>：状态不对就直接取消 Malahat，下午改成 Delta 泳池 + Songhees 海滨木栈道。</p><p>所以<b>票不要提前买，当天或现场买</b>。</p><p>滑梯需身高 <b>42 in（107 cm）</b>。免费停车。岛民折扣只在现场给。</p>"],["价格","<p>成人 <b>$52.45</b> · 妹妹 Youth <b>$37.75</b> · 弟弟 <b>免费</b></p><p>⚠️ 官网没公布 Youth 的年龄上限，妹妹 17 岁需现场确认。</p>"]]},
+
+{d:"8/25",w:"二",title:"维多利亚收尾 + 过海去大温",sub:"她 06:00–14:00 上班 · 这条链零缓冲",ev:[
+ {t:"08:30",k:"hard",h:"提前把她那间的行李装车",m:"这是整条链唯一的缓冲来源"},
+ {t:"09:30",h:"6 人退房"},
+ {t:"10:00",h:"Fan Tan Alley + 唐人街牌楼",m:"<b>15 分钟拍照走人</b>，不为唐人街留半天"},
+ {t:"10:15",h:"Market Square + Johnson St 老城区",m:"可加 Bug Zoo 30 分钟"},
+ {t:"12:15",h:"午餐"},
+ {t:"14:00",k:"hard",h:"接女友 + 她退房",m:"<b>她那间必须提前钉死 14:00 延退</b>"},
+ {t:"14:15",k:"move",h:"出发 → Swartz Bay",m:"32 km / 35 分钟"},
+ {t:"15:00",k:"hard",h:"渡轮 check-in",m:"<b>开船前 60 分钟开、30 分钟关</b>"},
+ {t:"16:00",k:"move",h:"渡轮 → Tsawwassen"},
+ {t:"17:35",h:"下船"},
+ {t:"18:50",h:"入住 Element Metrotown"},
+ {t:"19:00",k:"hard",h:"立刻测三间房的 Wi-Fi",m:"三间各跑 Speedtest + 一个 20 分钟真实视频会议。<b>不合格当晚就去前台换房</b>"},
+ {t:"19:45",h:"大家乐晚餐",m:"台山菜老字号，鱼香三宝煲 + 黄鳝饭"}],
+ notes:[["14:00 延退不是自动给的","<p>万豪原文写的是 as late as 2 p.m. <b>(subject to availability)</b>。<b>只有白金卡以上才保证 4pm，金卡不保证。</b></p><p>订房时在备注写「周二 8/25 保证 14:00 延退」并<b>索取确认邮件</b>。被拒就直接买延退（$30–100，已进预算）。</p>"],["撞船了也不致命","<p>改签费只有 <b>$5</b>（开船前 1 小时以上），下一班 <b>17:00</b>。</p><p>所以真正的保险是 08:30 提前装车，不是掐点。</p>"],["为什么 Wi-Fi 今晚就必须测","<p>她第一个上班日是 <b>8/26 周三 06:00</b>。今晚 18:50 入住，中间隔着一整个前台满员的晚上 — <b>这是唯一的修复窗口</b>。</p><p>Element 的 Wi-Fi 在 760 条评论里没人专门评过，属于未验证项。</p><p><b>兜底四层</b>：① 今晚测，不行就换房 ② 直订才有金卡的免费高速上网（走第三方订这条全废）③ 手机热点 — <b>出发前查清套餐的热点上限</b>，8 小时视频 × 3 天约 15 GB ④ Regus 日票 $35–50</p>"]]},
+
+{d:"8/26",w:"三",title:"北温自然日 + 本拿比山日落",sub:"她 06:00–14:00 上班 · 上午 6 人 2 车",ev:[
+ {t:"08:00",k:"free",h:"Element 自助早餐",m:"房价已含"},
+ {t:"08:45",k:"move",h:"出发 → Lynn Canyon Park",m:"25 分钟"},
+ {t:"09:15",k:"free",h:"吊桥 → 30 Foot Pool → 森林木栈道",m:"八月可以玩水。<b>不走 Twin Falls</b>"},
+ {t:"11:30",h:"Deep Cove",m:"15 分钟。<b>Honey Doughnuts</b>（每天 6:00–17:00）+ Panorama Park 海边"},
+ {t:"13:35",h:"回酒店"},
+ {t:"14:00",k:"hard",h:"接女友"},
+ {t:"14:30",h:"Stanley Park",m:"Prospect Point → Brockton Point 图腾柱 → 海堤走一段"},
+ {t:"17:45",h:"晚餐",m:"回本拿比：Crystal Mall 或 Brentwood 海底捞"},
+ {t:"19:30",k:"star",h:"Burnaby Mountain Park 日落",m:"100 Centennial Way，<b>免费停车</b>。八月底日落约 20:10"},
+ {t:"21:00",h:"回酒店",m:"15 分钟"}],
+ notes:[["两个停车陷阱","<p><b>Deep Cove 停车 3 小时上限，严格执行。</b></p><p><b>Stanley Park 咪表</b>：day max $17.75，但 <b>26 / 27 / 31 / 32 / 36 / 37 / 44 / 48 号咪表不卖 day max</b>。进园在第一个咪表就买，两台车各买一张。</p>"],["为什么不去 Capilano","<p>小红书红黑榜<b>黑榜第 1</b>：「人多票贵还要排队…不如自驾去 Lynn Canyon 免费又轻松」。</p><p><b>省 $504。</b>Lynn Canyon 的吊桥免费，而且还能玩水。</p>"],["本拿比山是全案背书最强的免费项","<p>三篇小红书交叉推荐，合计 <b>747 赞</b>，全本拿比点赞最高。</p><p>「西面可以看到温哥华 dt、Stanley Park 和狮门大桥，北面可以看到 Indian Arm」「七月的夏天傍晚，8 点多过去刚好是最佳时刻」<b>「免费停车场」</b></p><p>旁边有 playground，还有 Kamui Mintara 阿伊努雕塑群。</p>"]]},
+
+{d:"8/27",w:"四",title:"海天公路日",sub:"她 06:00–14:00 上班 · 全员最后一个完整同行日",ev:[
+ {t:"08:00",k:"free",h:"Element 早餐"},
+ {t:"09:00",h:"Granville Island 公共市场",m:"开车 20 分钟，停车 $12。周四 9:00–19:00"},
+ {t:"13:00",h:"回酒店"},
+ {t:"14:00",k:"hard",h:"接女友"},
+ {t:"14:15",k:"move",h:"上 Sea to Sky Highway",m:"本拿比 → Shannon Falls 95 km。<b>周四晚高峰穿 Ironworkers + 北温，实际 1h40–1h50</b>"},
+ {t:"16:05",k:"free",h:"Shannon Falls",m:"335 m，BC 第三高瀑布，走 10 分钟到底下"},
+ {t:"17:00",k:"star",h:"Sea to Sky Gondola",m:"8 月 9:00–20:00，末班下行 21:00。Sky Pilot 悬索桥 + 观景台 + 环线"},
+ {t:"20:15",h:"Squamish 晚饭"},
+ {t:"22:00",h:"回酒店"}],
+ notes:[["今天是两家共同帐的最后一天","<p>8/28 14:00 之后两家正式分开，共同账目停在今晚。</p>"],["订票前先查一个折扣","<p>Sea to Sky 官网首页有「<b>Save up to 40% After 4pm</b>」，但注明 on selected summer dates。</p><p><b>订票时查 8/27 在不在名单里</b>。命中的话：成人 −$31.06、妹妹 −$18.46、弟弟 −$12.58。</p>"],["想加 Britannia 矿场的话","<p>它是买回令第 2 号（$42.95 / $32.95）：矿车下井 + BOOM! 声光秀，8/27 正好顺路。</p><p>塞法：16:05–17:30 Britannia → 跳过 Shannon Falls → 18:00 上缆车。<b>出发前一周确认声光秀没停演。</b></p>"]]},
+
+{d:"8/28",w:"五",title:"上午分线，14:00 正式分家",sub:"她 06:00–14:00 上班（最后一天）",split:[
+ {h:"你们 3 人 · 车 2",ev:[
+  {t:"08:00",k:"free",h:"Element 早餐"},
+  {t:"09:30",k:"free",h:"Burnaby Village Museum",m:"9 分钟。复古小火车 + 百年前街景 + 志愿者讲解。<b>入园免费</b>，小火车 $3"},
+  {t:"11:45",k:"free",h:"Deer Lake 鹿湖",m:"8 分钟，可租脚踏船"},
+  {t:"13:00",h:"Crystal Mall 午餐",m:"5 分钟"},
+  {t:"14:00",k:"hard",h:"回 Element 退房",m:"<b>R1 要 14:00 延退</b>，让女友做完最后一天班"},
+  {t:"14:45",k:"move",h:"→ Versante 入住",m:"约 25 分钟。官方 check-in 16:00，可先寄存行李"},
+  {t:"17:30",k:"star",h:"新疆记火锅",m:"Cosmo Plaza，离 Versante 约 6 分钟。<b>提前订 3 位</b>"},
+  {t:"19:00",h:"Richmond Night Market",m:"8351 River Rd，$7，约 5 分钟"},
+  {t:"22:00",h:"回 Versante",m:"约 5 分钟"}]},
+ {h:"女友一家 · 车 1",ev:[
+  {t:"08:00",k:"free",h:"Element 早餐"},
+  {t:"06:00",k:"work",h:"女友在 R1 上班到 14:00"},
+  {t:"09:30",h:"爸妈 + 弟弟 → 南素里探友",m:"约 55 分钟"},
+  {t:"12:00",h:"陈微阿姨家午餐"},
+  {t:"14:00",h:"白石镇 White Rock"},
+  {t:"17:00",k:"hard",h:"家人从白石过来接女友",m:"<b>两家正式分开 → 去朋友家住</b>"},
+  {t:"晚",h:"她们自己安排"}]}],
+ notes:[["今天唯一的硬结是退房时间","<p>女友周五上班到 14:00，所以 <b>R1 必须要到 14:00 延退</b>（和 8/25 是同一个要求，订房时一起写进备注）。</p><p>R2、R3 可以正常 11:00 退，行李放车上。</p>"],["火锅那个时段是全程唯一的","<p>「温哥华必吃美食（多伦多人版）」开篇写「这次的美食都尽量选择<b>在多伦多吃不到的</b>」，新疆记排第一：「在多伦多吃不到的 real 鲜切牛肉😍 不吃会后悔一辈子那种」。</p><p>⚠️ <b>鲜切牛肉周一到五 17:00 之后才供应</b>。周五 17:30 正好卡上，<b>是全程唯一能吃到的时段</b>。</p>"],["夜市细节","<p>2026 赛季 4/24–9/20，<b>周五 19:00–24:00</b>，门票 $7。</p><p><b>7 岁以下免费 · 60 岁以上免费</b> — 记得确认女友爸妈的岁数。</p>"],["为什么这一晚要搬去 Versante","<p>夜市散场 <b>5 分钟</b>到床（不搬要开 25 分钟回本拿比）。8/29 的喜记、Steveston、YVR 全在 20 分钟内。</p><p>而且这是<b>全程唯一一晚五星</b>。</p>"]]},
+
+{d:"8/29",w:"六",title:"回多伦多",sub:"两家完全分开 · 还车死线 14:45",ev:[
+ {t:"08:00",h:"早餐",m:"<b>不买 Versante 含早</b>（要加 $73.10），去喜记"},
+ {t:"09:30",h:"Versante 退房",m:"官方 12:00，很宽松"},
+ {t:"10:00",h:"喜记肠粉",m:"mall 二楼，<b>9:00 开门、不用订位</b>。「一定要加蛋」。离 Versante 约 7 分钟"},
+ {t:"11:30",h:"Steveston 渔人码头",m:"船上现买海鲜、看渔船、Garry Point。约 18 分钟"},
+ {t:"14:00",h:"Costco Richmond 加满油",m:"Bridgeport Rd，比别处便宜 8–12¢/L，顺路"},
+ {t:"14:45",k:"hard",h:"还车完成"},
+ {t:"15:15",k:"hard",h:"托运",m:"<b>17:15 关闭</b>。用<b>妈妈的 TD Aeroplan Visa Infinite</b> 拿三人的免费第一件行李"},
+ {t:"18:00",k:"move",h:"AC124 起飞 → YYZ 01:35+1"}],
+ notes:[["落地之后","<p>YYZ 01:35 落地，<b>UP Express 末班约 01:00，赶不上</b>。<b>提前定 Uber</b>。</p>"],["女友一家","<p>航班 23:15，车 1 留到 21:00。从朋友家自己安排，<b>20:30 还车 1，21:00 到 YVR</b>。</p>"]]}
+];
+
+const STAY=[
+ {when:"8/22 – 8/25 · 3 晚",n:"Delta Hotels Victoria Ocean Pointe",a:"100 Harbour Rd, Victoria, BC",tel:"+12503602999",
+  rooms:[["R1","Dylan + 女友","2 Queen · 现金 $1,724"],["R2","妈妈 + 妹妹","2 Queen · 现金 $1,724"],["R3","女友父母 + 弟弟","2 Queen · 现金 $1,724"]],
+  al:[["g","最便宜的房型本身就是 2 Queen，三间人人有两张床，<b>零溢价</b>。"],
+      ["w","会员预付不可退 $574/晚（7 天前可改）· 灵活可取消 $644/晚（贵 $208/间）· 停车 <b>$29/晚</b>会员价"],
+      ["r","R1 订房备注要写「周二 8/25 保证 14:00 延退」<b>并索取确认邮件</b>。金卡不保证延退。"]]},
+ {when:"8/25 – 8/28 · 3 晚",n:"Element by Marriott Vancouver Metrotown",a:"5988 Willingdon Ave, Burnaby, BC",tel:"+16044518887",
+  rooms:[["R1","Dylan + 女友","Studio 1 King · 积分 150,000","pts"],["R2","妈妈 + 妹妹","Studio 1 King · 积分 150,000","pts"],["R3","女友父母 + 弟弟","Studio 2 Queen · 现金 $1,689.75"]],
+  al:[["g","<b>含每日自助早餐 + 全套厨房。</b>Studio 2 Queen 和 1 King 同价 150,000/间，双床零溢价。"],
+      ["g","走路：Metropolis 商场 5 分钟 · <b>Metrotown 天车站 9 分钟</b>（25 分钟到市中心）· Crystal Mall 5 分钟"],
+      ["r","R1 也要 <b>8/28 的 14:00 延退</b>（女友周五上班到 14:00）。"],
+      ["w","R2 是 1 King，妈妈和妹妹三晚同睡一张床。<b>打电话问 rollaway 折叠床</b>（$20–30/晚），这是全案性价比最高的加钱。"]]},
+ {when:"8/28 – 8/29 · 1 晚",n:"Versante Hotel",a:"8499 Bridgeport Rd, Richmond, BC",tel:"+16042427777",
+  rooms:[["🅐","Dylan + 妈妈 + 妹妹","Deluxe 2 Queen · $463.25"],["🅑","女友一家 4 人","朋友家 · $0","pts"]],
+  al:[["g","列治文<b>唯一五星</b>，2021 年开业。Expedia <b>9.4 / 1,928 条</b>，全表最高分。免费机场班车、屋顶泳池。"],
+      ["g","走 <b>travel.americanexpress.ca</b> 订 $663.25，结账页选 <b>Annual Travel Credit 抵 $200</b> → $463.25。比 Expedia 同房便宜 $225。"],
+      ["r","<b>只剩 1 间</b>（另外两个房型已售罄）。可<b>免费取消到 8/27</b>，订错不亏，订晚了就没了。"],
+      ["w","离夜市约 5 分钟 · 喜记约 7 分钟 · YVR 还车约 10 分钟 · Steveston 约 18 分钟"]]}
+];
+
+const BOOK=[
+ {g:"今天 · 订晚了就没了",it:[
+  ["Versante 8/28 那 1 间 2 Queen","走 travel.americanexpress.ca，$663.25 结账选 $200 credit → $463.25。不要在 Expedia 订（$765，返现后还贵 $225）"],
+  ["用你的 249,038 分订 Element","R2 三晚 150,000 + R1 一晚 50,000 = 200,000。Junior Studio 已标 ALMOST SOLD OUT"],
+  ["让女友把 92,000 分转给你","会员互转，年接收上限 100,000 ✓，不可逆，约 24 小时到账。到账后补 R1 剩下两晚"]]},
+ {g:"48 小时内",it:[
+  ["Element R3 订现金 3 晚","$1,689.75。房型一定要在订单上写死 Studio 2 Queen"],
+  ["打电话问 Element 五句","① 积分房还收不收房费税 ② 停车多少钱 ③ 免费早餐含在积分房里吗 ④ R1 能不能保证 8/28 14:00 延退 ⑤ R2 能不能加 rollaway"],
+  ["Delta 维多利亚三间全订现金","2 Queen 会员预付 $1,724/间。R1 备注写「8/25 保证 14:00 延退」+ 索要确认邮件"],
+  ["万豪的现金全刷 Bonvoy Amex","三间房都你刷，让他们转账给你。唯独租车必须刷 Platinum"],
+  ["打 Eagle Wing 250-384-8008","订 7 位 18:30 半封闭 + 问 senior/youth/child 逐档价 + 7 人团价 + $169 之外的 fees"],
+  ["布查特 8/22 门票"],
+  ["BC Ferries 8/22 14:00 + 8/25 16:00","各 2 台车 + 5 位乘客"],
+  ["Sea to Sky 查 8/27 在不在 40% off 名单"],
+  ["Avis × 2","Amex Plat 会籍报价。问 CDW 是否延伸到 additional driver"],
+  ["新疆记火锅 8/28 17:30 三位 · 大家乐 8/25 晚七位"]]},
+ {g:"出发前一周",it:[
+  ["Malahat 当天买 · 夜市现场买 · BVM 小火车现场买"],
+  ["确认女友爸妈的岁数","夜市 60+ 免票、Malahat 和 Sea to Sky 长者价，约 −$34"],
+  ["确认手机套餐的热点额度","8 小时视频 × 3 天约 15 GB。这一层必须你亲自确认"],
+  ["确认 TD Aeroplan 免行李覆盖三人"]]},
+ {g:"明确不要做",it:[
+  ["不订 Capilano","黑榜第 1，省 $504"],
+  ["不排 Red Fish Blue Fish · 不去 Fisgard 灯塔 · 不为唐人街留半天"],
+  ["不订 Prince of Whales Zodiac","弟弟身高体重可能上不了"],
+  ["柜台一定要书面拒买 LDW/CDW"],
+  ["不要转任何 MR","MR 留着换 Aeroplan（1.5–2.1¢），比转万豪的 1.352¢ 高"],
+  ["不要为了 Expedia 那 10% 把万豪从直订挪走","每一段都算不过"],
+  ["不要去找那个「500 送 100」","它是床品店 Au Lit Fine Linens 的 offer，跟旅行无关"]]}
+];
+
+const COST=[["Dylan",734,1016.42,450.45,369.15,471,3041.02],["妈妈",734,1016.42,450.45,369.15,471,3041.02],
+ ["妹妹 17",734,1016.42,450.45,299.83,471,2971.70],["女友",617.70,862,438.79,351.80,339.25,2609.54],
+ ["女友爸",617.70,1137.92,438.79,358.80,339.25,2892.45],["女友妈",617.70,1137.92,438.79,358.80,339.25,2892.45],
+ ["弟弟 7",617.70,1137.92,438.79,219.90,198.08,2612.38]];
+
+const TICKET=[["布查特花园 8/22","44.25","22.13","5.00"],["Eagle Wing 观鲸 8/23","177.45","177.45","177.45"],
+ ["Malahat SkyWalk 8/24","52.45","37.75","0"],["Sea to Sky 8/27","77.65","46.15","31.45"],
+ ["Beacon Hill 农场 8/24","7.00","6.00","6.00"],["BVM 小火车 8/28","3.00","3.00","—"],["Richmond 夜市 8/28","7.35","7.35","—"]];
+
+const CAR=[["两台 Avis Intermediate SUV · 8 天","1,550.00"],["additional driver × 1","104.00"],
+ ["汽油 ~1,800 km（$2.05/L）","340.00"],["BC Ferries × 2 程","730.00"],["酒店停车","264.00"],["景点停车","83.50"]];
+
+const KEY=[
+ ["r","女友周一至周五 06:00–14:00 上班，房内 Wi-Fi 未验证","这是全程最高后果的需求。<b>8/25 入住当晚 19:00 立刻测三间房</b>，不合格当晚换房。出发前查清手机套餐的热点上限。"],
+ ["r","8/25 和 8/28 两次 14:00 延退，金卡都不保证","万豪原文 subject to availability。订房备注 + 索取确认邮件，被拒就买延退 $30–100。"],
+ ["r","租车承租人必须本人刷自己的 Platinum","车 1 女友刷她自己的、车 2 Dylan 刷自己的，<b>8/22 12:15 提车两人都要在场</b>。柜台<b>书面</b>拒买 LDW/CDW。8/28 分家后车的归属正好对得上。"],
+ ["r","RAV4 / Rogue 是 5 座","6 人的上午行程<b>两台车都要去</b>，不加钱但要提前说好。"],
+ ["w","8/22 烟花夜不能出园再进","官网原文 Readmission is not permitted。不能先回酒店休息，行李全程留车上。"],
+ ["w","8/25 那条链零缓冲","对策是 08:30 提前装车。改签费只有 $5，下一班 17:00，撞了不致命。"],
+ ["w","8/29 托运 17:15 关闭","还车死线 14:45（住列治文之后很宽松）。用妈妈的 TD Aeroplan VI 拿三人免费行李。"],
+ ["w","YYZ 01:35 落地没有 UP Express","末班约 01:00，提前定 Uber。"],
+ ["g","Amex 那个 credit 是 $200 不是 $500","原文：$200 Annual Travel Credit, Card ending 1001, Expires Jul 14 2027。全砸 8/28 的 Versante。"],
+ ["g","行程结束后约 89,000 分到账","住宿分退房后 5–10 天。余额约 130,000 分 ≈ 2.6 个 Element 晚，是下一趟的钱。"],
+ ["g","Elite nights 今年 15 晚 → 这趟 +6 = 21 晚","金卡门槛 25 晚。Versante 不算 elite night，这是选它的隐性代价。"]
+];
+
+const OPEN=[["Versante 停车费（按 $35/晚 估）","±$8/人"],["Element 单晚现金价 / 停车费","±$30/晚 · ±$13/人"],
+ ["Sea to Sky 8/27 在不在 40% off 名单","−$26/人"],["Eagle Wing 分档价 + 7 人团价","−$0 至 −$50/人"],
+ ["租车 $775 是否含全部税费","±$9/人"],["Amex CDW 是否延伸到 additional driver","±$32–43/人"],
+ ["Bonvoy 积分房是否仍收房费税","±$0–120"],["Amex $200 credit 今年用掉没有","下单前在结账页确认 ±$200"]];
+
+/* ============================== RENDER ============================== */
+const TRIP=DAYS.map(d=>{const[m,day]=d.d.split('/');return new Date(Date.UTC(2026,+m-1,+day))});
+function vanMidnight(){
+  const s=new Date().toLocaleDateString('en-CA',{timeZone:'America/Vancouver'});
+  const[y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d);
+}
+function todayIdx(){const t=vanMidnight();return TRIP.findIndex(d=>+d===t)}
+function clock(){
+  const hm=new Date().toLocaleTimeString('en-GB',{timeZone:'America/Vancouver',hour:'2-digit',minute:'2-digit',hour12:false});
+  const i=todayIdx();let lead;
+  if(i>=0)lead=`<b>第 ${i+1} 天</b>`;
+  else{const n=Math.round((+TRIP[0]-vanMidnight())/864e5);lead=n>0?`<b>还有 ${n} 天</b>`:'行程已结束';}
+  $('#clock').innerHTML=`${lead} · 温哥华 <span class="mono">${hm}</span>`;
+}
+const evHTML=e=>`<div class="ev k-${e.k||'norm'}"><div class="ev-t mono">${esc(e.t)}</div><div class="ev-b"><div class="ev-h">${esc(e.h)}</div>${e.m?`<div class="ev-m">${e.m}</div>`:''}</div></div>`;
+const notesHTML=ns=>(ns||[]).map(([t,b])=>`<details class="note"><summary>${esc(t)}</summary><div class="body">${b}</div></details>`).join('');
+
+function renderDay(i){
+  const d=DAYS[i];
+  const body=d.split
+    ?`<div class="split">${d.split.map(c=>`<div class="col"><h3>${esc(c.h)}</h3><div class="tl">${c.ev.map(evHTML).join('')}</div></div>`).join('')}</div>`
+    :`<div class="tl">${d.ev.map(evHTML).join('')}</div>`;
+  $('#p-day').innerHTML=`<div class="dhead"><h2>${esc(d.d)} ${esc(d.w)} · ${esc(d.title)}</h2><p>${esc(d.sub)}</p></div>${body}${notesHTML(d.notes)}`;
+}
+function selectDay(i){
+  [...$('#rail').children].forEach((b,j)=>b.setAttribute('aria-selected',String(j===i)));
+  renderDay(i);
+  $('#rail').children[i]?.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+}
+function renderRail(){
+  const ti=todayIdx();
+  $('#rail').innerHTML=DAYS.map((d,i)=>
+    `<button type="button" role="tab" aria-selected="false" data-i="${i}"${i===ti?' data-today="1"':''}><span class="d">${d.d.split('/')[1]}</span><span class="w">${d.w}</span></button>`).join('');
+  $('#rail').addEventListener('click',e=>{const b=e.target.closest('button');if(b)selectDay(+b.dataset.i)});
+}
+
+function renderStay(){
+  $('#p-stay').innerHTML=`<div class="sec"><h2>住哪</h2><p class="sub">三段 · 三间房 · 房号 R1 / R2 / R3 全程不变</p>
+  ${STAY.map(s=>`<div class="card"><div class="when">${esc(s.when)}</div><h3>${esc(s.n)}</h3><span class="addr">${esc(s.a)}</span>
+    <div class="rooms">${s.rooms.map(([t,w,p,c])=>`<div class="room"><span class="tag">${t}</span><span class="who">${esc(w)}</span><span class="pay ${c||''}">${esc(p)}</span></div>`).join('')}</div>
+    <div class="acts"><a href="${map(s.a)}" target="_blank" rel="noopener">地图导航</a><a href="tel:${s.tel}">打电话</a></div>
+    <div style="margin-top:11px">${s.al.map(([k,t])=>`<div class="al ${k}">${t}</div>`).join('')}</div></div>`).join('')}</div>`;
+}
+
+function renderBook(){
+  const done=JSON.parse(localStorage.getItem('yvr-book')||'{}');
+  let n=0,tot=0;
+  const html=BOOK.map((g,gi)=>{
+    const items=g.it.map((it,ii)=>{
+      const id=`b${gi}-${ii}`;tot++;if(done[id])n++;
+      return `<label><input type="checkbox" data-id="${id}"${done[id]?' checked':''}><span class="txt"><b>${esc(it[0])}</b>${it[1]?`<span>${esc(it[1])}</span>`:''}</span></label>`}).join('');
+    return `<div class="grp"><div class="ck-hd"><h3>${esc(g.g)}</h3><span class="cnt mono">${g.it.length}</span></div><div class="ck">${items}</div></div>`}).join('');
+  $('#p-book').innerHTML=`<div class="sec"><h2>下单顺序</h2><p class="sub">按顺序做 · 勾选状态存在这台手机上</p><div class="prog"><i style="width:${tot?n/tot*100:0}%"></i></div>${html}</div>`;
+  $('#p-book').addEventListener('change',e=>{
+    const c=e.target;if(c.type!=='checkbox')return;
+    const s=JSON.parse(localStorage.getItem('yvr-book')||'{}');
+    if(c.checked)s[c.dataset.id]=1;else delete s[c.dataset.id];
+    localStorage.setItem('yvr-book',JSON.stringify(s));
+    const all=[...$('#p-book').querySelectorAll('input')];
+    $('#p-book .prog i').style.width=all.filter(x=>x.checked).length/all.length*100+'%';
+  });
+}
+
+function renderCost(){
+  const f=n=>n.toFixed(2);
+  $('#p-cost').innerHTML=`<div class="sec"><h2>钱</h2><p class="sub">七人总 $20,060.56 · 人均 $2,865.79 · 女友一家算到 8/27</p>
+  <div class="tw"><table><thead><tr><th>人</th><th>机票</th><th>酒店</th><th>车渡轮</th><th>门票</th><th>餐饮</th><th>合计</th></tr></thead>
+  <tbody>${COST.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1,6).map(v=>`<td class="n mono">${f(v)}</td>`).join('')}<td class="n mono"><b>${f(r[6])}</b></td></tr>`).join('')}</tbody>
+  <tfoot><tr><td>七人总</td><td colspan="5"></td><td class="n mono">20,060.56</td></tr></tfoot></table></div>
+  <div style="margin-top:9px" class="al g"><b>积分省下 $3,379.50</b><div class="d">Bonvoy 341,038 分换 6 个 Element 房晚（50,000/晚，<b>1.127¢</b>），剩 41,038 分。<b>一分 MR 都没动。</b></div></div>
+  <div class="al w"><b>区间 $2,609.54 到 $3,041.02</b><div class="d">想让全员低于 $3,000：8/28 改订 Sheraton（Dylan → $2,975.72）或 Radisson Blu（→ $2,965.70）。</div></div></div>
+
+  <div class="sec"><h2>门票</h2><p class="sub">含 GST 5%</p>
+  <div class="tw"><table><thead><tr><th>项目</th><th>成人</th><th>妹妹 17</th><th>弟弟 7</th></tr></thead>
+  <tbody>${TICKET.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1).map(v=>`<td class="n mono">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+  <div style="margin-top:9px" class="al w"><b>Eagle Wing 是最大的单笔未知折扣</b><div class="d">官网写有 senior / youth / child 折扣但不公布金额。打 <b>250-384-8008</b>，七个人可能一次省 $150–300。</div></div></div>
+
+  <div class="sec"><h2>车 · 油 · 渡轮 · 停车</h2><p class="sub">$3,071.50 ÷ 7 = $438.79/人</p>
+  <div class="tw"><table><tbody>${CAR.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="n mono">${esc(b)}</td></tr>`).join('')}</tbody></table></div>
+  <div style="margin-top:9px" class="al g"><b>加油别在维多利亚</b><div class="d">那边贵 4¢/L。<b>Costco Richmond（Bridgeport Rd）便宜 8–12¢/L</b>，就在 Versante 隔壁那条路，8/29 还车前顺手加满。</div></div></div>`;
+}
+
+function renderKey(){
+  $('#p-key').innerHTML=`<div class="sec"><h2>要点</h2><p class="sub">出问题最贵的几件事</p>
+  ${KEY.map(([k,t,b])=>`<div class="al ${k}"><b>${esc(t)}</b><div class="d">${b}</div></div>`).join('')}</div>
+  <div class="sec"><h2>还没确认的</h2><p class="sub">出发前逐条销掉</p>
+  <div class="tw"><table><tbody>${OPEN.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="mono" style="color:var(--muted)">${esc(b)}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+/* ============================== TABS ============================== */
+const TABS=[
+ ["day","行程",'<path d="M3 9h18M8 3v3m8-3v3M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>'],
+ ["stay","住宿",'<path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6"/>'],
+ ["book","下单",'<path d="M9 11l3 3 8-8M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/>'],
+ ["cost","钱",'<path d="M12 2v20M17 6.5C17 4.6 14.8 3.5 12 3.5S7 4.6 7 6.5s2 2.9 5 3.5 5 1.6 5 3.5-2.2 3-5 3-5-1.1-5-3"/>'],
+ ["key","要点",'<circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3.5v.01"/>']
+];
+$('#tabs').innerHTML=TABS.map(([k,l,ic],i)=>
+ `<button type="button" role="tab" data-k="${k}" aria-selected="${i===0}" aria-controls="p-${k}"><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg><span>${l}</span></button>`).join('');
+
+const built={day:1},RENDER={stay:renderStay,book:renderBook,cost:renderCost,key:renderKey};
+$('#tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const k=b.dataset.k;
+  [...$('#tabs').children].forEach(x=>x.setAttribute('aria-selected',String(x===b)));
+  TABS.forEach(([kk])=>{$('#p-'+kk).hidden=kk!==k});
+  $('#rail').style.display=k==='day'?'':'none';
+  if(!built[k]){RENDER[k]();built[k]=1}
+  window.scrollTo(0,0);
+});
+
+/* ============================== BOOT ============================== */
+renderRail();
+const ti=todayIdx();
+selectDay(ti>=0?ti:0);
+clock();setInterval(clock,30000);
+</script>
 </body>
 </html>

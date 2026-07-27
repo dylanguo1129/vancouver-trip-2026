@@ -1,12 +1,11 @@
-# 温哥华 · 海岛之夏 2026
+# 温哥华 8/22–8/29 · 行程
 
-Single-page trip site for a 7-person, two-family Vancouver + Vancouver Island vacation, 2026-08-22 to 08-29.
+旅途中手机随身查的单文件行程站。**https://dylanguo1129.github.io/vancouver-trip-2026/**
 
-**Live:** https://dylanguo1129.github.io/vancouver-trip-2026/
+- 单个 `index.html`，无构建、无 CDN、无外部请求、无图片 — 首次加载后离线可用
+- 顶部实时温哥华时间 + 行程第几天；日期条自动定位到今天
+- 底部五个 tab：行程 / 住宿 / 下单 / 钱 / 要点
+- 8/28 两家分开那天是双栏并列时间线
+- 下单清单的勾选状态存在本机 localStorage
 
-- Day-by-day itinerary built around one remote-work schedule (weekdays 06:00-14:00 PT) and the real CHS tide window for oyster harvesting at Deep Bay (Sun 8/23, low 09:14 / 1.42 m).
-- Route map (Leaflet + CARTO dark tiles), ferry legs dashed.
-- Points strategy: Aeroplan cents-per-point meter vs a 2.0¢ bar; Marriott 300k into Element Vancouver Metrotown.
-- Budget scenarios, booking checklist with localStorage.
-
-Static site, no build step. Photos: Wikimedia Commons (CC). Data snapshot: 2026-07-22 (Google Flights, seats.aero, marriott.com, BC Ferries, DFO/BCCDC, CHS tides).
+数据来源：`温哥华行程-FINAL-2026-08-22至29.md`（快照 2026-07-27）
