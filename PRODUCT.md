@@ -1,46 +1,36 @@
 # PRODUCT.md
 
 ## What this is
-温哥华 8/22–8/29: a single-file, Chinese-language trip reference for a 7-person two-family
-vacation (Vancouver + Vancouver Island, 2026-08-22 to 08-29). Hosted on GitHub Pages.
-Not a showcase page. It is the thing you pull out of your pocket mid-trip to answer
-"where am I supposed to be, and when do I have to leave."
+路书 · 温哥华与温哥华岛 8 天: a single-page Chinese-language pitch for a fully solved
+8-day itinerary (Vancouver + Vancouver Island, 2026-08-22 to 08-29, 7 people, 2 cars,
+~1,800 km). Hosted on GitHub Pages. The page is the sales artifact.
 
 ## Audience
-Two families, Chinese-speaking, **on a phone, outdoors, in a hurry**. One member works
-remote 06:00-14:00 Pacific on weekdays; the schedule is built around that.
+A client being shown this itinerary for the first time, on a laptop or a phone, deciding
+whether it is worth their money and their trust. They already know Vancouver is beautiful.
+What they cannot judge is whether the eight days actually work.
 
-## Register
-Product (design SERVES the task). It is a tool, not a brochure.
+## Mode
+**Persuade.** Design is the product. The visitor must understand the offer, believe the
+plan is real, and act.
+
+## What it must prove
+Not scenery. **Solved sequence.** Two prepaid ferry sailings, a 21:15 fireworks slot, a
+20:10 sunset, a 06:00-14:00 remote workday, a 14:45 car-return deadline, and 341,038
+Marriott points redeemed at 1.127 cents. Every hard deadline carries a danger class
+because someone drove the route first.
 
 ## Scene
-Standing on a Richmond street corner at 20:00, one hand on a suitcase, checking whether
-it is time to leave for the ferry. That forces: dark theme, large hit targets, time-first
-layout, thumb-reachable nav, zero decoration competing with the schedule.
+A dashboard-mounted roadbook read at night. That forces the graphite ground and the
+hi-vis stock: this is an artifact made to stay legible in a moving car, not a brochure
+made to look calm on a desk.
 
-## Design language
-Dark, locked. OKLCH, seed hue 268 (carried over from v1 identity).
-Semantic color does the work: alert red = hard deadline, warn amber = time emphasis,
-ok green = free / points-covered, primary indigo = interactive and current selection.
-Accent is never decorative.
-
-## Tokens
---bg oklch(.15 .02 268) · --surface .195 · --surface-2 .245
---ink oklch(.96 .008 268) · --ink-2 .84 · --muted .72
---primary oklch(.72 .13 268) · --alert oklch(.74 .17 25) · --warn oklch(.84 .13 78) · --ok oklch(.78 .14 158)
-All body text verified >= 7:1 against its own background.
-
-## Structure
-Sticky header (live Vancouver clock + trip-day counter) -> horizontal day rail ->
-five bottom tabs: 行程 / 住宿 / 下单 / 钱 / 要点.
-Day view is a two-column timeline (time | event); 8/28 splits into two parallel columns
-because the families separate that afternoon. Reasoning lives behind <details>, never
-in the way of the schedule.
+## Visual world
+Rally roadbook. See DESIGN.md for the full system.
 
 ## Constraints
-- **Single self-contained index.html.** No build step, no CDN, no external requests,
-  no images. Works on hotel wifi and on airplane mode after first load.
-- Fixed rem type scale (product register), not fluid clamp.
-- Booking checklist persists to localStorage.
-- Reduced motion honored. No em-dashes.
-- Data snapshot 2026-07-27, sourced from 温哥华行程-FINAL-2026-08-22至29.md.
+- Single self-contained `index.html`; the only external request is the font stylesheet.
+- No photographs. The roadbook draws what it found.
+- No build step. Chinese-language throughout.
+- Prices are a snapshot dated 2026-07-27, sourced from
+  `温哥华行程-FINAL-2026-08-22至29.md`. Every figure on the page traces to that file.
