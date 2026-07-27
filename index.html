@@ -75,7 +75,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 h1{font-family:var(--nar);font-weight:700;line-height:.94;letter-spacing:-.035em;
   font-size:clamp(2.9rem,8.4vw,5.6rem);text-wrap:balance;margin-bottom:20px}
 h1 em{font-style:normal;color:var(--paper);display:block}
-.lede{font-size:clamp(1rem,1.5vw,1.16rem);color:var(--stage-mute);max-width:44ch;line-height:1.65}
+.lede{font-size:clamp(1rem,1.5vw,1.16rem);color:var(--stage-mute);max-width:33em;line-height:1.65}
 .lede b{color:var(--stage-ink);font-weight:600}
 
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
@@ -88,13 +88,28 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 .btn-b:hover{background:oklch(1 0 0/.07);border-color:var(--stage-mute)}
 
 /* carnet */
+.lead{background:var(--paper);color:var(--ink);border-radius:3px;padding:20px 22px 18px;transform:rotate(.5deg);
+  box-shadow:0 26px 60px -22px oklch(0 0 0/.75),0 3px 0 0 oklch(.62 .12 70)}
+.lead-h{display:flex;gap:12px;align-items:baseline}
+.lead-cap{font-size:11px;color:var(--ink-2);margin-top:8px;letter-spacing:.02em}
+.lead #lead-tulip{display:flex;justify-content:center;margin:2px 0 6px}
+.lead .tulip{width:150px;height:150px}
+.lead-b{border-top:1px solid oklch(.215 .035 62/.28);padding-top:6px}
+.lead-more{display:inline-block;margin-top:14px;font-family:var(--nar);font-weight:700;font-size:11px;
+  text-transform:uppercase;letter-spacing:.13em;color:var(--ink-2)}
+.lead-more:hover{color:var(--ink)}
+.tally{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px;padding-top:20px;border-top:1px solid var(--hair)}
+.tally div{display:grid;gap:3px}
+.tally .lab{color:var(--stage-mute)}
+.tally b{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.tally b.ok{color:var(--paper)}
 .carnet{background:var(--paper);color:var(--ink);border-radius:3px;padding:0;transform:rotate(.55deg);
   box-shadow:0 26px 60px -22px oklch(0 0 0/.75),0 3px 0 0 oklch(.62 .12 70)}
 .carnet-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
   padding:15px 20px;border-bottom:1.5px dashed oklch(.215 .035 62/.32)}
 .carnet-h .lab{color:var(--ink-2)}
 .carnet-b{padding:20px}
-.tot{font-family:var(--mono);font-weight:800;font-size:clamp(2.5rem,6.6vw,3.5rem);line-height:1;letter-spacing:-.05em}
+.tot{font-family:var(--mono);font-weight:800;font-size:clamp(2.1rem,5vw,2.7rem);line-height:1;letter-spacing:-.04em}
 .tot sup{font-size:.36em;font-weight:600;vertical-align:.9em;margin-right:2px;letter-spacing:0}
 .tot-c{font-family:var(--nar);font-weight:600;font-size:13.5px;color:var(--ink-2);margin-top:7px}
 .carnet-rows{margin-top:18px;border-top:1.5px solid oklch(.215 .035 62/.22)}
@@ -111,7 +126,7 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 .sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px}
 .sec-h h2{font-family:var(--nar);font-weight:700;letter-spacing:-.03em;line-height:1;
   font-size:clamp(1.9rem,4.4vw,3rem);text-wrap:balance}
-.sec-h p{color:var(--stage-mute);max-width:52ch;font-size:15px;margin-top:10px}
+.sec-h p{color:var(--stage-mute);max-width:38em;font-size:15px;margin-top:10px}
 .rule{height:1.5px;background:var(--hair);flex:1 1 60px;min-width:40px;margin-bottom:9px}
 
 /* ================= the strip ================= */
@@ -122,10 +137,15 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 @media(min-width:820px){.leg{grid-template-columns:126px 128px minmax(0,1fr);gap:26px;padding:26px 12px;align-items:start}}
 
 .leg-id{display:flex;gap:12px;align-items:baseline}
-.leg-no{font-family:var(--mono);font-weight:800;font-size:34px;line-height:.85;letter-spacing:-.05em}
+.leg-no{font-family:var(--mono);font-weight:800;font-size:34px;line-height:.85;letter-spacing:-.04em}
 .leg-dt{font-family:var(--nar);font-weight:700;font-size:13px;line-height:1.25;text-transform:uppercase;letter-spacing:.05em}
 .leg-dt small{display:block;font-weight:500;color:var(--ink-2);letter-spacing:.09em;font-size:10.5px}
 .leg-cap{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:9px;letter-spacing:.02em}
+.gauge{margin-top:12px;border-top:1px solid oklch(.215 .035 62/.28);padding-top:9px;display:grid;gap:5px}
+.gauge div{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.gauge dt{font-family:var(--nar);font-weight:700;font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;color:var(--ink-2)}
+.gauge dd{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:-.02em}
+.gauge dd.hot{color:var(--danger)}
 
 .tulip{width:112px;height:112px;display:block;margin:16px 0 4px}
 @media(min-width:820px){.tulip{margin:2px 0 0}}
@@ -145,10 +165,8 @@ h1 em{font-style:normal;color:var(--paper);display:block}
   .js-rv .leg.on .tulip .aux{opacity:1}
 }
 
-}
-
 .leg-title{font-family:var(--nar);font-weight:700;font-size:clamp(1.18rem,2.5vw,1.5rem);line-height:1.16;letter-spacing:-.02em;text-wrap:balance}
-.leg-sum{color:var(--ink-2);font-size:14.5px;margin-top:7px;max-width:62ch}
+.leg-sum{color:var(--ink-2);font-size:14.5px;margin-top:7px;max-width:40em}
 .beats{margin-top:14px;display:grid;gap:1px}
 .beat{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:7px 0;border-top:1px solid oklch(.215 .035 62/.15);font-size:14px;align-items:baseline}
 .beat:first-child{border-top:0}
@@ -156,9 +174,9 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 .beat b{font-weight:600}
 .beat .note{color:var(--ink-2);font-size:13px;display:block;margin-top:1px}
 
-.dg{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-weight:800;
-  color:var(--danger);font-size:12px;letter-spacing:.06em;margin-right:7px;vertical-align:1px}
-.beat.crit .bt{color:var(--danger)}
+.dg{font-family:var(--mono);font-weight:800;color:var(--danger);letter-spacing:.05em;margin-right:8px;vertical-align:1px}
+.dg.d1{font-size:11px;opacity:.75}.dg.d2{font-size:12.5px}.dg.d3{font-size:14.5px}
+.beat.c3 .bt,.beat.c2 .bt{color:var(--danger)}
 
 .fork{margin-top:16px;display:grid;gap:12px}
 @media(min-width:660px){.fork{grid-template-columns:1fr 1fr}}
@@ -166,14 +184,16 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 .fork-c h4{font-family:var(--nar);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
 
 /* ================= danger board ================= */
-.board{display:grid;gap:12px}
-@media(min-width:760px){.board{grid-template-columns:1fr 1fr}}
-.dcard{background:var(--stage-2);border:1.5px solid var(--hair);border-radius:3px;padding:18px 19px;position:relative;overflow:hidden}
-.dcard .cls{font-family:var(--mono);font-weight:800;font-size:13px;color:var(--danger-lit);letter-spacing:.1em}
-.dcard h3{font-family:var(--nar);font-weight:700;font-size:17px;line-height:1.28;margin:8px 0 7px;letter-spacing:-.01em}
-.dcard p{color:var(--stage-mute);font-size:14px;line-height:1.6}
-.dcard p b{color:var(--stage-ink);font-weight:600}
-.dcard .when{font-family:var(--mono);font-size:11.5px;color:var(--cap);margin-top:10px;display:block;letter-spacing:.03em}
+.board{border-top:1px solid var(--hair)}
+.drow{display:grid;grid-template-columns:52px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--hair);align-items:start}
+@media(min-width:800px){.drow{grid-template-columns:64px minmax(0,26em) 1fr;gap:24px;align-items:baseline}}
+.drow .cls{font-family:var(--mono);font-weight:800;color:var(--danger-lit);letter-spacing:.04em;line-height:1}
+.drow.g1 .cls{font-size:14px;opacity:.7}.drow.g2 .cls{font-size:19px}.drow.g3 .cls{font-size:25px}
+.drow h3{font-family:var(--nar);font-weight:700;font-size:17.5px;line-height:1.25;letter-spacing:-.01em}
+.drow .when{font-family:var(--mono);font-size:11.5px;color:var(--cap);margin-top:7px;display:block;letter-spacing:.03em}
+.drow p{color:var(--stage-mute);font-size:14.5px;line-height:1.62;margin-top:9px}
+@media(min-width:800px){.drow p{margin-top:0;grid-column:3}.drow>div:nth-child(2){grid-column:2}}
+.drow p b{color:var(--stage-ink);font-weight:600}
 
 /* ================= proof / ledger ================= */
 .ledger{background:var(--paper-2);color:var(--ink);border-radius:4px;overflow:hidden;box-shadow:0 30px 70px -28px oklch(0 0 0/.72)}
@@ -189,12 +209,12 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500}
 tbody tr:hover td{background:oklch(.805 .135 78/.45)}
 tbody tr:hover td:first-child{background:oklch(.805 .135 78/.55)}
 tfoot td{font-weight:800;font-family:var(--mono);border-top:2px solid oklch(.215 .035 62/.35);background:oklch(.805 .135 78/.35)}
-tfoot td:first-child{background:oklch(.805 .135 78/.35);font-family:var(--nar);text-transform:uppercase;letter-spacing:.09em;font-size:12px}
+tfoot td:first-child{background:oklch(.855 .118 80);font-family:var(--nar);text-transform:uppercase;letter-spacing:.09em;font-size:12px}
 
 .ncards{display:grid;gap:11px;margin-top:22px}
 @media(min-width:820px){.ncards{grid-template-columns:repeat(3,1fr)}}
-.ncard{border-top:2.5px solid var(--cap);padding-top:13px}
-.ncard .lab{color:var(--cap)}
+.ncard{border-top:1px solid var(--hair);padding-top:14px}
+.ncard .k{font-family:var(--mono);font-size:11.5px;color:var(--cap);letter-spacing:.04em}
 .ncard h4{font-family:var(--nar);font-weight:700;font-size:16px;margin:7px 0 6px;line-height:1.3}
 .ncard p{color:var(--stage-mute);font-size:14px;line-height:1.62}
 .ncard p b{color:var(--stage-ink);font-weight:600}
@@ -202,7 +222,7 @@ tfoot td:first-child{background:oklch(.805 .135 78/.35);font-family:var(--nar);t
 /* ================= close ================= */
 .close{padding:clamp(70px,10vw,130px) 0 clamp(50px,7vw,84px);text-align:center;position:relative}
 .close h2{font-family:var(--nar);font-weight:700;font-size:clamp(2rem,6vw,4rem);line-height:1;letter-spacing:-.035em;text-wrap:balance}
-.close p{color:var(--stage-mute);max-width:50ch;margin:16px auto 0;font-size:16px}
+.close p{color:var(--stage-mute);max-width:34em;margin:16px auto 0;font-size:16px}
 .close .cta{justify-content:center}
 footer{border-top:1.5px solid var(--hair);padding:26px 0 46px;color:var(--stage-mute);font-size:12.5px;
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
@@ -210,10 +230,10 @@ footer .mono{color:var(--stage-mute)}
 
 /* reveal: enhance an already-visible default */
 @media(prefers-reduced-motion:no-preference){
-  .js-rv .rv{opacity:0;transform:translateY(16px);transition:opacity .7s var(--e),transform .7s var(--e)}
-  .js-rv .rv.on{opacity:1;transform:none}
+  .js-rv .leg{opacity:.34;transition:opacity .6s var(--e)}
+  .js-rv .leg.on{opacity:1}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -225,24 +245,40 @@ footer .mono{color:var(--stage-mute)}
     <div>
       <div class="stamp"><span class="lab">路书已核</span><span>2026·08·22 → 08·29</span></div>
       <h1>八天<em>已经踩过一遍</em></h1>
-      <p class="lede">温哥华与温哥华岛，<b>7 人 · 2 台车 · 约 1,800 公里</b>。这不是一张景点清单。渡轮开船时刻、烟花点火的分钟、日落的高度角、一个人的远程工作时段，全部当成硬约束解过一遍。<b>每一个会毁掉当天的死线，都已经标上危险等级。</b></p>
+      <p class="lede">温哥华与温哥华岛，<b>7 人 · 2 台车 · 约 1,800 公里</b>。渡轮开船时刻、烟花点火的分钟、日落的高度角、一个人的远程工作时段，全部当成硬约束解过一遍。<b>每一条会毁掉当天的死线，都按后果标了等级。</b></p>
       <div class="cta">
         <a class="btn btn-a" href="#route">看完整路书</a>
         <a class="btn btn-b" href="#ledger">看这笔账</a>
       </div>
+      <div class="tally">
+        <div><span class="lab">七人合计</span><b class="mono"><span id="tot">20,060.59</span></b></div>
+        <div><span class="lab">人均</span><b class="mono">$2,865.80</b></div>
+        <div><span class="lab">积分抵掉</span><b class="mono ok">−$3,379.50</b></div>
+      </div>
     </div>
 
-    <aside class="carnet" aria-label="行程总账">
+    <aside class="lead" aria-label="第一段">
+      <div class="lead-h"><span class="leg-no mono">01</span><span class="leg-dt">8月22日<small>星期六</small></span></div>
+      <div class="lead-cap mono">YVR → 布查特 → 维多利亚</div>
+      <div id="lead-tulip"></div>
+      <div class="lead-b">
+        <div class="beat"><span class="bt mono">12:15</span><span><span class="dg d3">!!!</span><b>两台车同时提车</b></span></div>
+        <div class="beat"><span class="bt mono">14:00</span><span><b>渡轮 Tsawwassen → Swartz Bay</b></span></div>
+        <div class="beat"><span class="bt mono">21:15</span><span><b>布查特烟花</b></span></div>
+      </div>
+      <a class="lead-more" href="#route">还有七段 ↓</a>
+    </aside>
+    <aside class="carnet" hidden aria-label="行程总账">
       <div class="carnet-h"><span class="lab">行程总账 · CAD</span><span class="lab">7 人</span></div>
       <div class="carnet-b">
-        <div class="tot mono"><sup>$</sup><span id="tot">20,060.56</span></div>
-        <div class="tot-c">人均 <b class="mono">$2,865.79</b> · 区间 $2,609 – $3,041</div>
+        <div class="tot mono"><sup>$</sup><span id="tot">20,060.59</span></div>
+        <div class="tot-c">人均 <b class="mono">$2,865.80</b> · 区间 $2,609 – $3,041</div>
         <div class="carnet-rows">
           <div class="crow"><span>机票 · 两地出发</span><span>$4,672.80</span></div>
           <div class="crow"><span>住宿 · 三段七晚</span><span>$7,325.02</span></div>
-          <div class="crow"><span>车 · 油 · 渡轮 · 停车</span><span>$3,071.50</span></div>
+          <div class="crow"><span>车 · 油 · 渡轮 · 停车</span><span>$3,106.51</span></div>
           <div class="crow"><span>门票 · 六项</span><span>$2,327.43</span></div>
-          <div class="crow"><span>餐饮 · 八天</span><span>$2,663.81</span></div>
+          <div class="crow"><span>餐饮 · 八天</span><span>$2,628.83</span></div>
         </div>
       </div>
       <div class="carnet-f"><span class="lab">积分抵掉</span><b>−$3,379.50</b></div>
@@ -253,8 +289,8 @@ footer .mono{color:var(--stage-mute)}
 <!-- ============ ROUTE ============ -->
 <section class="sec" id="route">
   <div class="wrap">
-    <div class="sec-h rv">
-      <div><h2>路书</h2><p>八段。左边是路段号与日期，中间是路线示意，右边是当天怎么走。带 <span class="mono" style="color:var(--danger-lit)">!!!</span> 的是错过就毁掉当天的。</p></div>
+    <div class="sec-h">
+      <div><h2>路书</h2><p>八段。每段给出行动窗口、硬死线数量、路线示意，以及当天逐条怎么走。</p></div>
       <div class="rule"></div>
     </div>
     <div class="strip perf" id="strip"></div>
@@ -264,8 +300,8 @@ footer .mono{color:var(--stage-mute)}
 <!-- ============ DANGER ============ -->
 <section class="sec" id="danger">
   <div class="wrap">
-    <div class="sec-h rv">
-      <div><h2>危险等级</h2><p>这六条不是提醒，是这趟行程里花钱也补不回来的地方。路书上每一条都钉在具体的分钟上。</p></div>
+    <div class="sec-h">
+      <div><h2>危险等级</h2><p>按后果分三级。<b class="mono" style="color:var(--danger-lit)">!!!</b> 是花钱也补不回来，<b class="mono" style="color:var(--danger-lit)">!!</b> 是能补但要付代价，<b class="mono" style="color:var(--danger-lit)">!</b> 是提前知道就不会踩。</p></div>
       <div class="rule"></div>
     </div>
     <div class="board" id="board"></div>
@@ -275,12 +311,12 @@ footer .mono{color:var(--stage-mute)}
 <!-- ============ LEDGER ============ -->
 <section class="sec" id="ledger">
   <div class="wrap">
-    <div class="sec-h rv">
+    <div class="sec-h">
       <div><h2>这笔账</h2><p>逐人拆开。女友一家的共同帐算到 8/27 为止，8/28 起两家分开各付各的。</p></div>
       <div class="rule"></div>
     </div>
-    <div class="ledger rv">
-      <div class="led-h"><span class="lab">逐人明细 · CAD</span><b>七人合计 $20,060.56 · 人均 $2,865.79</b></div>
+    <div class="ledger">
+      <div class="led-h"><span class="lab">逐人明细 · CAD</span><b>七人合计 $20,060.59 · 人均 $2,865.80</b></div>
       <div class="tw"><table id="cost"></table></div>
     </div>
     <div class="ncards" id="notes"></div>
@@ -290,9 +326,9 @@ footer .mono{color:var(--stage-mute)}
 <!-- ============ CLOSE ============ -->
 <section class="close">
   <div class="wrap">
-    <h2 class="rv">路已经踩完了</h2>
-    <p class="rv">剩下的只是照着走。两台车的渡轮位、三间房的延退备注、观鲸的七个座位——路书里都写了什么时候订、订给谁、刷哪张卡。</p>
-    <div class="cta rv"><a class="btn btn-a" href="#route">回到路书</a></div>
+    <h2>下一步只剩下单</h2>
+    <p>两台车的渡轮位、三间房的延退备注、观鲸的七个座位。每一项在路书里都写了截止日、订给谁、刷哪张卡。</p>
+    <div class="cta"><a class="btn btn-a" href="#route">回到路书</a></div>
   </div>
   <div class="wrap"><footer>
     <span>温哥华 + 温哥华岛 · 2026-08-22 → 08-29</span>
@@ -320,8 +356,8 @@ const tulip=k=>`<svg class="tulip" viewBox="0 0 112 112" aria-hidden="true">${T[
 const LEGS=[
 {n:"01",d:"8月22日",w:"星期六",cap:"YVR → 布查特 → 维多利亚",t:"ferrySouth",
  title:"落地即上岛，直奔当年最后几场烟花之一",
- sum:"不回酒店，行李全程留在车上。布查特周六开到 22:00，8/22 的烟花点火时间是 21:15 —— 官网逐场表上就那么几个日子，这是其中一个。",
- b:[["12:15","两台车同时提车",1,"Dylan 和女友各刷自己的 Platinum、各签一台。租车险认的是承租人本人刷卡，两个人都得在场"],
+ sum:"不回酒店，行李全程留在车上。布查特周六开到 22:00，8/22 的烟花点火时间是 21:15，官网逐场表上就那么几个日子，这是其中一个。",
+ b:[["12:15","两台车同时提车",3,"Dylan 和女友各刷自己的 Platinum、各签一台。租车险认的是承租人本人刷卡（两个人都得在场）"],
     ["14:00","渡轮 Tsawwassen → Swartz Bay",0,"1 小时 35 分。赶不上就坐 15:00，烟花照样赶得上"],
     ["16:00","进园",0,"下沉花园 → 玫瑰园 → 日本园 → 意大利园"],
     ["18:15","去 Blue Poppy 排队",1,"园内餐厅不接受订位，先到先得"],
@@ -341,23 +377,23 @@ const LEGS=[
  title:"上午孔雀和山羊，下午登上天空栈道",
  sum:"从今天起她每天 06:00–14:00 远程上班，上午六个人两台车先玩，14:00 准时回酒店接人。Beacon Hill 的山羊每天 10:10 冲锋一次。",
  b:[["10:10","儿童农场山羊冲锋",0,"捐赠制。旁边就是放养孔雀的公园"],
-    ["14:00","回酒店接人",1,"她下班"],
+    ["14:00","回酒店接人",2,"她下班"],
     ["15:10","Malahat SkyWalk",0,"600 米树冠栈道、10 层螺旋塔、10 秒滑梯。滑梯要 107 公分"],
-    ["18:30","晚餐",0,"状态不对就取消栈道，改酒店泳池和海滨木栈道 —— 所以这张票当天才买"]]},
+    ["18:30","晚餐",0,"状态不对就取消栈道，改酒店泳池和海滨木栈道，所以这张票当天才买"]]},
 
 {n:"04",d:"8月25日",w:"星期二",cap:"维多利亚 → 渡轮 → 本拿比",t:"crossBack",
  title:"上午收尾老城，下午过海，当晚就把网测掉",
  sum:"这是全程唯一一条零缓冲的链：退房、接人、开车、渡轮 check-in 提前 30 分钟关闸。对策不是掐点，是 08:30 就把行李装车。",
  b:[["08:30","提前装车",1,"整条链唯一的缓冲来源"],
     ["10:00","唐人街番摊里",0,"十五分钟拍照走人，不为唐人街留半天"],
-    ["14:00","接人并退房",1,"她那间要提前钉死 14:00 延退，金卡不保证，得书面确认"],
-    ["15:00","渡轮 check-in",1,"开船前 60 分钟开、30 分钟关。改签费只要 $5，撞了不致命"],
-    ["19:00","入住后立刻测三间房的网",1,"她第一个上班日是明早 06:00，今晚是唯一的修复窗口"],
+    ["14:00","接人并退房",3,"她那间要提前钉死 14:00 延退，金卡不保证，得书面确认"],
+    ["15:00","渡轮 check-in",2,"开船前 60 分钟开、30 分钟关。改签费只要 $5，撞了不致命"],
+    ["19:00","入住后立刻测三间房的网",3,"她第一个上班日是明早 06:00，今晚是唯一的修复窗口"],
     ["19:45","大家乐晚餐",0,"台山菜老字号，鱼香三宝煲和黄鳝饭"]]},
 
 {n:"05",d:"8月26日",w:"星期三",cap:"北温 → 史丹利公园 → 本拿比山",t:"outAndUp",
  title:"免费的吊桥，和全本拿比最好的那个日落",
- sum:"不去 Capilano。本地共识是 Lynn Canyon 的吊桥免费、还能玩水，体验八成像 —— 七个人省 $504。傍晚上本拿比山，八月底日落约 20:10。",
+ sum:"不去 Capilano。本地共识是 Lynn Canyon 的吊桥免费、还能玩水，体验八成像，七个人省 $504。傍晚上本拿比山，八月底日落约 20:10。",
  b:[["09:15","Lynn Canyon 吊桥 + 30 Foot Pool",0,"免费。八月可以下水"],
     ["11:30","Deep Cove 甜甜圈",0,"停车三小时上限，严格执行"],
     ["14:30","史丹利公园",0,"图腾柱和海堤。咪表有几个号不卖全天票，进园第一个就买"],
@@ -365,9 +401,9 @@ const LEGS=[
 
 {n:"06",d:"8月27日",w:"星期四",cap:"格兰维尔岛 → 海天公路 → 史夸米什",t:"seaToSky",
  title:"两家人在一起的最后一个完整日子",
- sum:"下午上海天公路。本拿比到 Shannon Falls 95 公里，周四晚高峰要穿过铁工人桥和北温，实际开 1 小时 40 到 50 分 —— 14:15 出发才接得上缆车。",
+ sum:"下午上海天公路。本拿比到 Shannon Falls 95 公里，周四晚高峰要穿过铁工人桥和北温，实际开 1 小时 40 到 50 分，14:15 出发才接得上缆车。",
  b:[["09:00","格兰维尔岛公共市场",0,"周四开到 19:00"],
-    ["14:15","上路",1,"这个出发时间是倒推出来的，晚了缆车就赶不上"],
+    ["14:15","上路",2,"这个出发时间是倒推出来的，晚了缆车就赶不上"],
     ["16:05","Shannon Falls",0,"免费。335 米，BC 第三高，走十分钟到瀑布底下"],
     ["17:00","海天缆车",0,"Sky Pilot 悬索桥和观景环线。八月末班下行 21:00"]]},
 
@@ -375,9 +411,9 @@ const LEGS=[
  title:"上午分头走，14:00 之后两家正式分开",
  sum:"她做完最后一天班就交接。这一天唯一的硬结是退房时间：她那间必须要到 14:00 延退，另外两间正常 11:00 退、行李放车上。",
  fork:[
-  {h:"你们三个 · 车 2",r:[["09:30","本拿比村庄博物馆 —— 入园免费，复古小火车 $3"],["13:00","丽晶广场午餐"],["14:00","退房，转去列治文的 Versante"],["17:30","新疆记火锅 —— 鲜切牛肉周一到五 17:00 之后才供应，这是全程唯一能吃上的时段"],["19:00","列治文夜市，走路五分钟回酒店"]]},
+  {h:"你们三个 · 车 2",r:[["09:30","本拿比村庄博物馆，入园免费，复古小火车 $3"],["13:00","丽晶广场午餐"],["14:00","退房，转去列治文的 Versante"],["17:30","新疆记火锅，鲜切牛肉周一到五 17:00 之后才供应，这是全程唯一能吃上的时段"],["19:00","列治文夜市，走路五分钟回酒店"]]},
   {h:"女友一家 · 车 1",r:[["09:30","爸妈和弟弟去南素里探友，她在房里上班"],["12:00","陈微阿姨家午餐"],["14:00","白石镇"],["17:00","家人从白石过来接她，转去朋友家住"]]}],
- b:[["14:00","第二次 14:00 延退",1,"和 8/25 是同一个要求，订房时一起写进备注"]]},
+ b:[["14:00","第二次 14:00 延退",3,"和 8/25 是同一个要求，订房时一起写进备注"]]},
 
 {n:"08",d:"8月29日",w:"星期六",cap:"列治文 → Steveston → YVR",t:"loopOut",
  title:"最后半天留给海鲜，然后还车登机",
@@ -385,8 +421,8 @@ const LEGS=[
  b:[["10:00","喜记肠粉",0,"九点开门，不用订位"],
     ["11:30","Steveston 渔人码头",0,"船边现买海鲜"],
     ["14:00","Costco 加满油",0,"Bridgeport Road，比别处便宜 8–12 分/升，顺路"],
-    ["14:45","还车完成",1,""],
-    ["15:15","托运",1,"17:15 关闭。用妈妈的 TD Aeroplan Visa Infinite 拿三个人的免费第一件行李"],
+    ["14:45","还车完成",2,""],
+    ["15:15","托运",2,"17:15 关闭。用妈妈的 TD Aeroplan Visa Infinite 拿三个人的免费第一件行李"],
     ["18:00","AC124 起飞",0,"次日 01:35 落地多伦多，那个点没有机场快线，提前定车"]]}
 ];
 
@@ -396,7 +432,7 @@ const DANGER=[
  ["!!!","入住当晚就要把网测掉","她每天 06:00–14:00 要开视频会议，而这是全程最高后果的需求。8/25 傍晚入住到次日早班之间，隔着一整个前台满员的晚上，那是唯一的修复窗口。三间房各测一次，不合格当晚换房。","8/25 19:00"],
  ["!!","烟花夜不能出园再进","布查特官网写明 Readmission is not permitted。所以那天不能先回酒店休息，行李全程留车上，正餐在园内吃。","8/22 全天"],
  ["!!","渡轮 check-in 提前 30 分钟关闸","8/25 那条链零缓冲。真正的保险是 08:30 提前装车，不是掐点出发。改签费只要 $5，下一班 17:00。","8/25 15:00"],
- ["!","观鲸别订错船型","另一家的日落团用的是敞篷充气艇，官方限制身高 120 公分或体重 23 公斤以下不能上 —— 七岁的弟弟大概率上不了。订的这班是半封闭双体船，无年龄下限。","8/23 18:30"]
+ ["!","观鲸别订错船型","另一家的日落团用的是敞篷充气艇，官方限制身高 120 公分或体重 23 公斤以下不能上，七岁的弟弟大概率上不了。订的这班是半封闭双体船，无年龄下限。","8/23 18:30"]
 ];
 
 const COST=[["Dylan",734,"1,016.42","450.45","369.15",471,"3,041.02"],["妈妈",734,"1,016.42","450.45","369.15",471,"3,041.02"],
@@ -405,19 +441,28 @@ const COST=[["Dylan",734,"1,016.42","450.45","369.15",471,"3,041.02"],["妈妈",
  ["弟弟 7","617.70","1,137.92","438.79","219.90","198.08","2,612.38"]];
 
 const NOTES=[
- ["积分","341,038 分换掉六个房晚","本拿比那家 Element 的积分价是 50,000 一晚，现金价 $563.25 —— 换算下来 <b>1.127 分一分</b>，是全程所有酒店里最高的，所以分全砸在那里。<b>Membership Rewards 一分没动</b>，那些留着换机票更值。"],
- ["渠道","同一间房，订错地方贵 $225","8/28 那晚的五星房，Amex Travel 报 $663.25，结账页能抵掉 $200 的年度旅行额度；同一间房 Expedia 报 $765，就算拿 10% 返现也还是贵。<b>每一段都各自算过一遍，没有一段是默认订的。</b>"],
- ["取舍","砍掉的比留下的更能说明问题","Capilano 吊桥（省 $504）、Craigdarroch 城堡、Grouse Mountain、格罗夫斯矿场，都排进过又拿掉了。理由写在路书里：要么被同一天的其他安排挤掉，要么有免费的替代品体验相当。"]
+ ["积分","341,038 分换掉六个房晚","本拿比那家 Element 的积分价是 50,000 一晚，现金价 $563.25，换算下来 <b>1.127 分一分</b>，是全程所有酒店里最高的，所以分全砸在那里。<b>Membership Rewards 一分没动</b>，那些留着换机票更值。"],
+ ["渠道","同一间房，订错地方贵 $225","8/28 那晚的五星房，Amex Travel 报 $663.25，结账页能抵掉 $200 的年度旅行额度；同一间房 Expedia 报 $765，就算拿 10% 返现也还是贵。同一段酒店，万豪直订比走 Expedia 多赚约 72,000 分和 9 个 elite night；Element 的第三间房直订还能把双床房型锁死。<b>三段住宿各自比过一遍。</b>"],
+ ["取舍","砍掉四项，最大一笔省 $504","Capilano 吊桥（省 $504）、Craigdarroch 城堡、Grouse Mountain、格罗夫斯矿场，都排进过又拿掉了。理由写在路书里：要么被同一天的其他安排挤掉，要么有免费的替代品体验相当。"]
 ];
 
 /* ---- render ---- */
-const beat=([t,txt,crit,note])=>`<div class="beat${crit?' crit':''}"><span class="bt">${esc(t)}</span><span>${crit?'<span class="dg">!!!</span>':''}<b>${esc(txt)}</b>${note?`<span class="note">${note}</span>`:''}</span></div>`;
+const MARK=['','!','!!','!!!'];
+const allBeats=l=>l.b.concat(l.fork?l.fork.flatMap(f=>f.r.map(([t,x])=>[t,x,0])):[]);
+const win=l=>{const ts=allBeats(l).map(b=>b[0]).filter(t=>/^\d\d:\d\d$/.test(t)).sort();
+  return ts.length?ts[0]+'–'+ts[ts.length-1]:'全天';};
+const dead=l=>l.b.filter(b=>b[2]===3).length;
+const beat=([t,txt,c,note])=>`<div class="beat${c?' c'+c:''}"><span class="bt">${esc(t)}</span><span>${c?`<span class="dg d${c}">${MARK[c]}</span>`:''}<b>${esc(txt)}</b>${note?`<span class="note">${note}</span>`:''}</span></div>`;
 
 document.getElementById('strip').innerHTML=LEGS.map(l=>`
 <article class="leg rv">
   <div>
     <div class="leg-id"><span class="leg-no">${l.n}</span><span class="leg-dt">${esc(l.d)}<small>${esc(l.w)}</small></span></div>
     <div class="leg-cap">${esc(l.cap)}</div>
+    <dl class="gauge">
+      <div><dt>行动窗口</dt><dd>${win(l)}</dd></div>
+      <div><dt>硬死线</dt><dd class="${dead(l)?'hot':''}">${dead(l)?'×'+dead(l):'无'}</dd></div>
+    </dl>
   </div>
   <div>${tulip(l.t)}</div>
   <div>
@@ -429,21 +474,22 @@ document.getElementById('strip').innerHTML=LEGS.map(l=>`
 </article>`).join('');
 
 document.getElementById('board').innerHTML=DANGER.map(([c,h,p,w])=>
- `<div class="dcard rv"><div class="cls">${c}</div><h3>${esc(h)}</h3><p>${p}</p><span class="when">${esc(w)}</span></div>`).join('');
+ `<div class="drow g${c.length}"><div class="cls">${c}</div><div><h3>${esc(h)}</h3><span class="when">${esc(w)}</span></div><p>${p}</p></div>`).join('');
 
 document.getElementById('cost').innerHTML=
  `<thead><tr><th>同行人</th><th>机票</th><th>住宿</th><th>车渡轮</th><th>门票</th><th>餐饮</th><th>合计</th></tr></thead>
   <tbody>${COST.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1,6).map(v=>`<td class="n">${esc(v)}</td>`).join('')}<td class="n"><b>${esc(r[6])}</b></td></tr>`).join('')}</tbody>
-  <tfoot><tr><td>七人合计</td><td colspan="5"></td><td class="n">20,060.56</td></tr></tfoot>`;
+  <tfoot><tr><td>七人合计</td><td colspan="5"></td><td class="n">20,060.59</td></tr></tfoot>`;
 
 document.getElementById('notes').innerHTML=NOTES.map(([k,h,p])=>
- `<div class="ncard rv"><div class="lab">${esc(k)}</div><h4>${esc(h)}</h4><p>${p}</p></div>`).join('');
+ `<div class="ncard"><div class="lab">${esc(k)}</div><h4>${esc(h)}</h4><p>${p}</p></div>`).join('');
 
 /* ---- the one authored moment: the route draws itself ---- */
+document.getElementById('lead-tulip').innerHTML=tulip('ferrySouth');
 document.querySelectorAll('.tulip path').forEach(p=>{
   try{p.style.setProperty('--len',Math.ceil(p.getTotalLength())+'px')}catch(e){}
 });
-const reveal=document.querySelectorAll('.rv,.leg');
+const reveal=document.querySelectorAll('.leg');
 const canReveal='IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(canReveal){
   document.documentElement.classList.add('js-rv');
@@ -460,7 +506,7 @@ const totEl=document.getElementById('tot');
 const io2=new IntersectionObserver(es=>{
   if(!es[0].isIntersecting)return; io2.disconnect();
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const end=20060.56,t0=performance.now(),dur=1150;
+  const end=20060.59,t0=performance.now(),dur=1150;
   const tick=n=>{const p=Math.min((n-t0)/dur,1),e=1-Math.pow(1-p,4);
     totEl.textContent=(end*e).toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
     if(p<1)requestAnimationFrame(tick)};
