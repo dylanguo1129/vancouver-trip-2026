@@ -30,8 +30,9 @@ Strategy: **Committed.** Roadbook paper carries roughly half the surface.
 | `--paper` | `oklch(.805 .135 78)` | hi-vis roadbook stock, the committed field |
 | `--paper-2` | `oklch(.885 .095 82)` | lighter stock for quiet passages |
 | `--ink` | `oklch(.215 .035 62)` | press ink on paper |
-| `--ink-2` | `oklch(.40 .045 62)` | secondary ink |
-| `--danger` | `oklch(.415 .185 28)` | danger class marks, on paper (4.88:1 on stock) |
+| `--ink-2` | `oklch(.40 .045 62)` | secondary ink, 5.04 on stock |
+| `--ink-3` | `oklch(.418 .047 64)` | tertiary: time column, addresses, field labels. 4.65 on stock, 6.1 on the lighter stock. Anything lighter fails 4.5 and must not be used for text. |
+| `--danger` | `oklch(.415 .185 28)` | danger class marks, on paper, 4.88 on stock |
 | `--danger-lit` | `oklch(.66 .19 28)` | danger on stage |
 | `--cap` | `oklch(.74 .125 222)` | CAP heading, distances, instrument readouts |
 | `--stage-ink` | `oklch(.96 .008 250)` / `--stage-mute` `oklch(.70 .018 250)` | text on stage |
@@ -62,13 +63,24 @@ Display ceiling 6rem. Tracking floor -0.04em. Headings balanced.
 - **Gauge** — every leg carries two derived readouts: 行动窗口 (first to last clock time in the
   leg's own beats) and 硬死线 (count of class-3 marks). Both computed from the beat data, never
   hand-entered, so they cannot drift from the schedule.
+- **Highlight entry** — the leg's 看 / 吃 / 玩 / 走 / 逛 / 听 / 省 rows. A 26px inked square
+  carrying one character, then the name, then what is actually good about it. Ruled entries,
+  never cards. Three columns above 880px, the paragraph spanning columns 2 to 3 below it:
+  a three-child grid in a two-column track drops the paragraph into the 34px glyph column,
+  which is how this shipped broken once.
+- **Stay panel** — one per segment on the lighter stock: hook, a definition list of facts,
+  a walking-distance list, and one closing tip. The tip is where the thing a booking site
+  will not tell you goes.
 - **Perforation** — repeating radial-gradient punch along the strip edge. CSS, no image.
 - **Carnet stamp** — rotated overprint block for totals and confirmations.
 - **Distance-to-next** — the running counter between waypoints, in the CAP colour.
 
 ## Motion
 
-One authored moment: **the route draws itself.** Nothing else has an entrance. Section
+One authored moment: **the route draws itself.** Nothing else has an entrance. Within a leg,
+its highlights and beats stagger in behind the draw at 32ms steps capped at 320ms, which is
+staggering inside one list rather than a second entrance. A spool index on the left tracks the
+scroll above 1320px and is state, not decoration. Section
 headers, the danger board, the ledger and the close render at full opacity on load. Tulip strokes run in on
 `stroke-dashoffset` as each waypoint enters, and the running total counts up once. Nothing
 else animates on entry. Exponential ease-out. Content is visible by default; motion enhances
@@ -109,3 +121,11 @@ The source itinerary documents only a combined `~1,800 km` across both cars, so 
 distances and bearings would have to be invented. The gauge uses 行动窗口 and 硬死线 instead:
 both are derived from data that exists. Claims stay bound to what is true even when the world's
 native instrument would look better full.
+
+## Voice
+
+A travel agent who drove the route, not a brochure and not a spec sheet. Concrete over
+atmospheric: 「鱼香三宝煲和黄鳝饭」 beats 「地道粤菜」, 「九点开门，不用订位」 beats
+「环境优雅」. Opinions are allowed and expected: which line not to queue in, which doughnut
+batch to ask for, which meter does not sell a day pass. Every restaurant carries its address
+or its hours or what to order, usually all three. No em-dashes.

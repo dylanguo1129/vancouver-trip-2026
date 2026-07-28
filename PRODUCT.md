@@ -28,8 +28,16 @@ made to look calm on a desk.
 ## Visual world
 Rally roadbook. See DESIGN.md for the full system.
 
+## Structure
+Hero (offer, tally, leg 01 with its tulip drawn) -> the eight-leg strip -> the three stays ->
+the danger board -> the ledger. Each leg carries: an operating window and deadline count, a
+tulip, a headline, a paragraph, its highlights with what to see and where to eat, the
+hour-by-hour beats, a plain-language warning, and which hotel that night.
+
 ## Constraints
-- Single self-contained `index.html`; the only external request is the font stylesheet.
+- `index.html` plus `data.js`; the only external request is the font stylesheet. Every number
+  in `data.js` traces to the source itinerary, and nothing is authored there that the source
+  does not contain.
 - No photographs. The roadbook draws what it found.
 - No build step. Chinese-language throughout.
 - Prices are a snapshot dated 2026-07-27, sourced from
