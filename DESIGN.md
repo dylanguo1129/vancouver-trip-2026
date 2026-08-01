@@ -71,6 +71,15 @@ Display ceiling 6rem. Tracking floor -0.04em. Headings balanced.
 - **Stay panel** — one per segment on the lighter stock: hook, a definition list of facts,
   a walking-distance list, and one closing tip. The tip is where the thing a booking site
   will not tell you goes.
+- **Crew badge** — seven dots per leg, filled to the party size that day, with the count.
+  The trip runs 7 / 7 / 6 / 6 / 6 / 7 / 3 / 3 and the 8/27 badge turns danger red and reads
+  最后一天. The party shrinking is the trip's real shape; the badge is the only place it shows.
+- **Day rail** — a sticky horizontal index inside the route section. **Pure CSS `position:
+  sticky`, no JS gate.** The progress bar and the current-day highlight are enhancement: if
+  neither ever fires the nav still works. This shipped broken twice, once behind a scroll
+  listener and once behind an observer, in a renderer that fires neither.
+- **Fix row** — the 这版改了什么 entries. An emoji at 22px, what changed, then why, in three
+  columns above 860px. Corrections are content here, not an apology in a changelog.
 - **Perforation** — repeating radial-gradient punch along the strip edge. CSS, no image.
 - **Carnet stamp** — rotated overprint block for totals and confirmations.
 - **Distance-to-next** — the running counter between waypoints, in the CAP colour.
@@ -105,7 +114,18 @@ never gated on a class that may not arrive.
 ## Constraints carried over
 
 Single self-contained `index.html` apart from the font link. No build step. Chinese-language.
-Data snapshot 2026-07-27 from `温哥华行程-FINAL-2026-08-22至29.md`.
+Data lives in `data.js`, snapshot 2026-07-28 from `温哥华行程-FINAL-2026-08-22至29.md`.
+
+## The visibility rule, learned the hard way
+
+Three separate features shipped invisible in this project because their *presence* was gated
+on something that may never fire: a class added by an IntersectionObserver, a keyframe
+animation's final state, and a scroll listener. The rule that came out of it:
+
+**Nothing's existence may depend on a dynamic signal.** Presence is CSS. Motion is the
+enhancement layered on top. Where a hidden start state is genuinely wanted, scope it under a
+class JS adds, give it a timeout failsafe, and prefer a transition (declarative end state)
+over an animation (end state only if it runs).
 
 ## Measured at ship
 
