@@ -40,6 +40,14 @@ Strategy: **Committed.** Roadbook paper carries roughly half the surface.
 Hi-vis ochre at chroma .135 is roadbook stock, not cream. The moment it drifts below
 chroma .08 it has become the AI warm-neutral default and must be pushed back.
 
+**Chroma ceiling: .37.** sRGB runs out around there, and a browser gamut-maps anything past
+it without warning. A hover wash written as `oklch(1 1 90 / .22)` shipped as `rgb(109,0,0)`,
+a blood red on ochre paper. Every value in this file stays under .37; anything above it is a
+typo, not a colour.
+
+On paper, a hover is an **ink wash** (`--ink` at about 4.5% alpha), the way you would mark a
+printed page. Never a tint of a new hue: the stock already owns the warm end.
+
 Secondary text on paper is tinted from the paper's own hue (62-82), never gray.
 
 ## Type
