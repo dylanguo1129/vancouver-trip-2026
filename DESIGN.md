@@ -112,7 +112,13 @@ never gated on a class that may not arrive.
 ## Constraints carried over
 
 Single self-contained `index.html` apart from the font link. No build step. Chinese-language.
-Data lives in `data.js`, snapshot 2026-07-28 from `温哥华行程-FINAL-2026-08-22至29.md`.
+Data is **inlined in `index.html`**, snapshot 2026-07-28 from `温哥华行程-FINAL-2026-08-22至29.md`.
+
+It briefly lived in a separate `data.js` and that was a mistake. GitHub Pages serves both files
+with `Cache-Control: max-age=600` and independent lifetimes, so a returning visitor could get a
+fresh shell paired with a cached copy of the data. Since every word on the page comes from that
+data, a stale `data.js` renders a completely stale page while the HTML looks updated. One file
+cannot go half-stale.
 
 ## The visibility rule, learned the hard way
 
