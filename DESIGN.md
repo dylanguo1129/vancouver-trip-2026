@@ -78,8 +78,6 @@ Display ceiling 6rem. Tracking floor -0.04em. Headings balanced.
   sticky`, no JS gate.** The progress bar and the current-day highlight are enhancement: if
   neither ever fires the nav still works. This shipped broken twice, once behind a scroll
   listener and once behind an observer, in a renderer that fires neither.
-- **Fix row** — the 这版改了什么 entries. An emoji at 22px, what changed, then why, in three
-  columns above 860px. Corrections are content here, not an apology in a changelog.
 - **Perforation** — repeating radial-gradient punch along the strip edge. CSS, no image.
 - **Carnet stamp** — rotated overprint block for totals and confirmations.
 - **Distance-to-next** — the running counter between waypoints, in the CAP colour.

@@ -82,16 +82,6 @@ a{color:inherit;text-decoration:none}
 .crew.last{color:var(--danger)}
 .crew.last s u{background:var(--danger)}
 
-/* ---------------- fixes ---------------- */
-.fixes{border-top:1px solid var(--hair)}
-.fx{display:grid;grid-template-columns:38px 1fr;gap:15px;padding:20px 0;border-bottom:1px solid var(--hair);align-items:start}
-@media(min-width:860px){.fx{grid-template-columns:44px minmax(0,20em) 1fr;gap:26px;align-items:baseline}}
-.fx .ic{font-size:22px;line-height:1}
-.fx h3{font-family:var(--nar);font-weight:700;font-size:17.5px;line-height:1.28;letter-spacing:-.01em}
-.fx p{color:var(--stage-mute);font-size:14.5px;line-height:1.64;margin-top:9px;grid-column:2/-1;max-width:40em}
-@media(min-width:860px){.fx p{margin-top:0;grid-column:3}.fx h3{grid-column:2}}
-.fx p b{color:var(--paper);font-weight:600}
-
 /* ---------------- perforation ---------------- */
 .perf{position:relative}
 .perf::before,.perf::after{content:"";position:absolute;top:0;bottom:0;width:13px;
@@ -292,7 +282,7 @@ footer{border-top:1.5px solid var(--hair);padding:24px 0 44px;color:var(--stage-
       <p class="lede">温哥华加温哥华岛，<b>7 个人，2 台车</b>。哪天几点出门、哪家餐厅几点开门要不要订位、哪个咪表不卖全天票、哪一班渡轮赶不上还有下一班，全写在下面了。<b>7 个人一起走到 8/27 晚饭，那顿之后只剩三个。</b></p>
       <div class="cta">
         <a class="btn btn-a" href="#route">看八天怎么走</a>
-        <a class="btn btn-b" href="#fixes">这版改了什么</a>
+        <a class="btn btn-b" href="#stay">住哪三家</a>
       </div>
       <div class="tally">
         <div><span class="lab">七人合计</span><b><span id="tot">20,419.84</span></b></div>
@@ -314,16 +304,6 @@ footer{border-top:1.5px solid var(--hair);padding:24px 0 44px;color:var(--stage-
   <nav class="rail" aria-label="日期"><div class="wrap"><div class="rail-in" id="railIn"></div></div><div class="rail-bar" id="railBar"></div></nav>
   <div class="wrap">
     <div class="strip perf" id="strip"></div>
-  </div>
-</section>
-
-<section class="sec" id="fixes">
-  <div class="wrap">
-    <div class="sec-h">
-      <div><h2>这版改了什么</h2><p>三家官网重新拉了一遍，之前那份门票表里有三个数是错的。顺带找到一张便宜 $341 的票，和一个不用买折叠床的办法。</p></div>
-      <div class="rule"></div>
-    </div>
-    <div class="fixes" id="fixList"></div>
   </div>
 </section>
 
@@ -456,10 +436,6 @@ $('#cost').innerHTML=`<thead><tr><th>同行人</th><th>机票</th><th>住宿</th
 $('#tickets').innerHTML=`<tbody>${D.tickets.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1).map(v=>`<td class="n">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>`;
 $('#car').innerHTML=`<tbody>${D.car.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="n">${esc(b)}</td></tr>`).join('')}</tbody>`;
 $('#notes').innerHTML=D.notes.map(([k,h,p])=>`<div class="ncard"><div class="k">${esc(k)}</div><h4>${esc(h)}</h4><p>${p}</p></div>`).join('');
-
-/* fixes */
-$('#fixList').innerHTML=D.fixes.map(([ic,h,p])=>
- `<div class="fx"><span class="ic">${ic}</span><h3>${esc(h)}</h3><p>${p}</p></div>`).join('');
 
 /* sticky day rail */
 $('#railIn').innerHTML=D.legs.map(l=>`<a href="#leg-${l.n}"><b>${esc(l.d.replace('月','/').replace('日',''))}</b><i>${esc(l.w.replace('星期',''))}</i></a>`).join('');
