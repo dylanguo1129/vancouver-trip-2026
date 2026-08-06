@@ -770,7 +770,7 @@ if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: red
 
   const tot=$('#tot');
   const io2=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io2.disconnect();
-    const end=D.total,t0=performance.now();
+    const end=D.cost.reduce((a,r)=>a+parseFloat(r[6].replace(/,/g,'')),0),t0=performance.now();
     const tick=n=>{const p=Math.min((n-t0)/1150,1),e=1-Math.pow(1-p,4);
       tot.textContent=(end*e).toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
       if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)},{threshold:.4});
