@@ -175,6 +175,23 @@ h1 em{font-style:normal;color:var(--paper);display:block}
 .beats{margin-top:20px;border-top:1.5px solid var(--rule);padding-top:4px}
 .beat{display:grid;grid-template-columns:64px 1fr;gap:13px;padding:8px 0;border-bottom:1px solid oklch(.215 .035 62/.11);font-size:14.5px;align-items:baseline}
 .beat:last-child{border-bottom:0}
+/* 详情下拉：合起来时和普通 beat 一模一样，只多一个折角 */
+details.beat{display:block;padding:0}
+details.beat>summary{display:grid;grid-template-columns:64px 1fr 18px;gap:13px;padding:8px 0;
+  align-items:baseline;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+details.beat>summary::-webkit-details-marker{display:none}
+details.beat>summary::marker{content:""}
+.bch{width:9px;height:9px;justify-self:end;align-self:center;position:relative;transition:transform .28s var(--e)}
+.bch::after{content:"";position:absolute;inset:0;border-right:1.6px solid var(--ink-3);
+  border-bottom:1.6px solid var(--ink-3);transform:rotate(45deg) translate(-1px,-1px)}
+details.beat[open] .bch{transform:rotate(180deg)}
+details.beat>summary:hover{background:oklch(.215 .035 62/.045)}
+.bd{grid-column:1/-1;padding:2px 0 14px 77px;color:var(--ink-2);font-size:14px;line-height:1.72;max-width:42em}
+.bd b{color:var(--ink);font-weight:600}
+.bd a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2.5px}
+.bd em{font-style:normal;font-family:var(--mono);font-size:13px;color:var(--ink-3)}
+@media(max-width:560px){.bd{padding-left:0}
+  details.beat>summary{grid-template-columns:56px 1fr 16px;gap:10px}}
 .beat .bt{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);font-weight:600}
 .beat b{font-weight:600}
 .beat .note{color:var(--ink-2);font-size:13px;display:block;margin-top:2px}
@@ -285,8 +302,8 @@ footer{border-top:1.5px solid var(--hair);padding:24px 0 44px;color:var(--stage-
         <a class="btn btn-b" href="#stay">住哪三家</a>
       </div>
       <div class="tally">
-        <div><span class="lab">七人合计</span><b><span id="tot">21,002.54</span></b></div>
-        <div><span class="lab">人均</span><b>$3,000.36</b></div>
+        <div><span class="lab">七人合计</span><b><span id="tot">—</span></b></div>
+        <div><span class="lab">人均</span><b>$<span id="per">—</span></b></div>
         <div><span class="lab">Bonvoy</span><b class="ok">341,038 分未动</b></div>
       </div>
     </div>
@@ -334,7 +351,7 @@ footer{border-top:1.5px solid var(--hair);padding:24px 0 44px;color:var(--stage-
       <div class="rule"></div>
     </div>
     <div class="ledger">
-      <div class="led-h"><span class="lab">逐人明细 · CAD 含税</span><b>七人合计 $21,002.54 · 人均 $3,000.36</b></div>
+      <div class="led-h"><span class="lab">逐人明细 · CAD 含税</span><b>七人合计 $<span id="tot2">—</span> · 人均 $<span id="per2">—</span></b></div>
       <div class="tw"><table id="cost"></table></div>
     </div>
     <div class="subs">
@@ -522,16 +539,18 @@ legs:[
   {k:"看",h:"Shannon Falls",d:"335 米，BC 第三高的瀑布，就在公路边。停车免费，走十分钟到瀑布正底下，水汽会打到脸上。今天只留 25 分钟，快走一趟。"},
   {k:"玩",h:"Sea to Sky Gondola",d:"缆车上到 885 米，山顶一座 Sky Pilot 悬索桥，走过去两腿会软。观景台正对 Howe Sound 峡湾，天气好能看到一整排雪山。八月 9:00–20:00，末班下行 21:00。"},
   {k:"吃",h:"Granville Island 公共市场必吃",d:"1669 Johnston St。小红书 727 赞那篇的清单：<b>a la Mode 的酥皮蛤蜊汤</b>（必点）、<b>La Bise</b> 的可露丽和日式甜甜圈、<b>Lee's Donut</b> 的美式甜甜圈、<b>Petit Ami</b> 的咖啡和热巧克力，现烤牛肉汉堡也好。原文一句话总结：第一次来一定要空着肚子来。"},
-  {k:"吃",h:"Squamish 告别晚饭",d:"七个人的最后一顿，别随便打发。主街 Cleveland Ave 一带。吃完在停车场把两台车的行李分清楚 —— 明天早上不再见面了。"}],
+  {k:"吃",h:"Taste of the Summit · 山顶告别饭",d:"🆕 <b>换掉了原来下山吃 Squamish 主街那版</b>。缆车官网每周四 6/11–9/10 的固定活动，16:00–20:00 在 Summit Lodge 露台，地中海 / 西班牙风的长桌共享菜，8/27 那晚的驻场是 Emmett Jerome。<b>现场音乐含在你本来就要买的缆车票里</b>，只付餐饮。换掉的理由很硬：Squamish 那家 Salted Vine 周四 21:00 就打烊，你们 20:15 才到主街，七个人的最后一顿只剩 45 分钟。搬上山之后不但不赶，还能直接留在山顶看 20:06 的日落。<b>🔴 官网原话 limited seating、seats typically fill quickly，现在就要订</b>。"}],
  b:[["08:00","早餐",0,"今天早午餐合并在 Granville Island 解决，空着肚子去"],
     ["09:00","Granville Island 公共市场",0,"6 人 2 车，实测 10 分钟，停车 $12。早午餐合并在这儿吃，空着肚子来"],
     ["14:00","接人",2,""],
     ["14:15","上 Sea to Sky Highway",2,"这个出发时间晚不得"],
     ["15:20","Britannia Mine Museum",0,"🟢 实测别墅到矿场 65 分钟，比按本拿比算的早 35 分钟 —— 不用去挤 17:00 那场末班，早场从容进洞"],
     ["17:25","Shannon Falls 快走一趟",0,"免费"],
-    ["18:00","Sea to Sky Gondola",0,"矿场到缆车实测 11 分钟。山上待到日落 20:06，末班下行 21:00 不用赶"],
-    ["20:15","Squamish 告别晚饭",0,"缆车到主街 8 分钟。七个人的最后一顿"],
-    ["21:30","停车场道别",3,"两台车的行李分清楚，明早不再见面"]],
+    ["18:00","Sea to Sky Gondola",0,"矿场到缆车实测 11 分钟。最后上行 20:00，末班下行 21:00"],
+    ["18:20","Taste of the Summit 告别晚饭",1,"🆕 山顶长桌，地中海菜 + Emmett Jerome 现场音乐。必须提前在 OpenTable 订"],
+    ["20:06","在山顶看日落",0,"民用暮光 20:40 才结束"],
+    ["20:30","下山",0,"末班 21:00，不用赶"],
+    ["20:50","停车场道别",3,"两台车的行李分清楚，明早不再见面"]],
  warn:"加了矿场之后这天被压紧了：Shannon Falls 从 40 分钟压到 25 分钟，缆车从 3 小时压到 2 小时，而矿场的导览本身就是 75 分钟，基本没有自由参观时间。想逛透就整个砍掉 Shannon Falls，15:55 到 17:30 给矿场，17:45 上缆车。另外订缆车票前查一下官网那个「Save up to 40% After 4pm」在不在 8/27 的名单里 —— 命中的话成人省 $31.06，你和妈妈直接回到 $3,000 以下。"},
 
 {n:"07",d:"8月28日",w:"星期五",cap:"本拿比 → 列治文 · 只剩三个人",t:"fork",stay:"Radisson Blu YVR",crew:3,
@@ -575,7 +594,11 @@ legs:[
 ],
 
 /* ---------------- 危险等级 ---------------- */
+det:{"01|~10:00": "多伦多组 <b>AC185</b> 09:55 落地，蒙特利尔组约 10:56。两边都在 YVR 国内到达。等齐了再一起去租车柜台 —— 别分头行动。", "01|12:15": "只提<b>你们这一台</b>。Cindy 家自己租，不用等他们。<b>你刷自己的 Amex Platinum 签</b>，因为租车险认的是持卡人作为承租人；柜台推销 LDW/CDW 时<b>书面拒绝</b>。取车前绕车一圈全程录像，<b>尤其挡风玻璃</b> —— 这是还车争议里最容易被赖上的一块。", "01|13:00": "YVR 到 Tsawwassen 约 <em>35 分钟 / 36 公里</em>。渡轮车辆预约<b>开船前 30 分钟关闸</b>，13:00 到留足余量。行李全程留车上，今天不回酒店。", "01|14:00": "BC Ferries Tsawwassen → Swartz Bay，<b>1 小时 35 分</b>。天气好的话上层甲板看 Gulf Islands 群岛穿行，是这趟最舒服的一段。", "01|16:00": "布查特花园夏季（6/1–9/15）成人 <b>$44.25</b>、青少年 13–17 $22.13、儿童 5–12 <b>$5.00</b>，含税。周六开到 <b>22:00</b>。路线：下沉花园（原采石场改的，全园招牌）→ 玫瑰园 → 日本园 → 意大利园。<b>🔴 烟花夜不能出园再进</b> —— 官网写明 no re-admission，所以行李留车上、正餐在园内吃。", "01|18:15": "园内那家 Blue Poppy。主菜 $24–29、儿童餐 $13–14，<b>不接受订位、先到先得</b>，烟花夜只营业到放烟花前半小时。18:15 去是排队的时间，不是吃饭的时间。", "01|19:30": "音乐台 Concert Lawn 的现场演出，官网写明<b>烟花前 3 小时就开始</b>，免费。铺块毯子让弟弟先躺下 —— 多伦多组今天太平洋时间 02:30 起床，到现在已经醒着 17 小时。", "01|20:45": "全园亮灯。8/22 日落 <b>20:16</b>、天黑 20:51，亮灯时天刚擦黑，是全园最好看的半小时。", "01|21:15": "<b>Summer Firework Saturdays</b>，2026 年 7/4–9/5 每周六，8/22 在名单内，<b>21:15 开始约 30 分钟</b>，空中加地面结构烟花配乐。持票免费。官网提醒散场出园可能要 30 分钟。", "01|23:00": "入住 Delta Ocean Pointe。<b>🔴 提前打电话说晚抵达</b>，不然前台可能把房放掉。到这时候多伦多组已经醒着 21 小时，别再安排任何事。", "02|09:40": "酒店到城堡约 10 分钟。今天是全程唯一没有工作、没有渡轮、没有退房、没有城际长途的一天 —— 排得满是故意的。", "02|10:00": "<b>Craigdarroch Castle</b>，1890 年代煤矿大亨 Dunsmuir 的宅子，四层加塔楼，橡木楼梯和彩色玻璃是看点。官网：<b>周三至周日 10:00–17:30，周一周二闭馆</b> —— 8/23 是周日，开。自助参观<b>最少 45 分钟</b>，门票含自家停车场。成人 $25.73。", "02|11:30": "BC 省议会大楼<b>免费导览</b>，约 45 分钟。新哥特式，1897 年落成，穹顶和彩绘玻璃值得进去。夏天班次多，现场排即可。", "02|12:45": "内港一带随便吃。城堡和议会大楼之间步行圈里选项很多，今天唯一的硬时间是 18:30 的船。", "02|14:00": "<b>Fisherman's Wharf 渔人码头</b>，一排彩色浮屋，本身免费。海豹会来码头边讨食（有投币鱼料机）。弟弟大概率会在这儿待得比大人久。", "02|15:45": "<b>🔴 回酒店换厚衣服，加一层。</b>观鲸船在开阔水面上跑三小时，八月的海风也是冷的 —— 每年都有人穿短袖上船然后冻着回来。", "02|17:00": "早晚餐。<b>Barb's Fish &amp; Chips</b> 就在渔人码头的浮屋上，是维多利亚最出名的那家炸鱼薯条。18:30 开船，这顿必须早吃、吃快。", "02|18:30": "<b>Eagle Wing 日落观鲸</b>，成人 $177.45。订的是<b>半封闭双体船</b>，没有年龄下限。<b>🔴 别订错船型</b> —— 另一家的日落团用敞篷充气艇，官方限制身高 120 公分或体重 23 公斤以下不能上，七岁的弟弟大概率上不了。", "02|22:00": "回酒店。连续第二天晚睡，而她明天 06:00 要上班。", "03|10:10": "<b>Beacon Hill 儿童农场</b>的山羊冲锋 —— 每天开园时几十只矮山羊从围栏里冲出来，弟弟这个年纪会记很久。成人 $7.00。", "03|10:30": "Beacon Hill 公园本身免费。<b>放养孔雀</b>到处走，还有世界最高的图腾柱之一。傍晚我们会再回来一趟 —— 上午和傍晚孔雀的状态不一样。", "03|12:00": "走到 <b>Ogden Point 防波堤</b>，从公园步行可达。堤上一路走到灯塔，看得到奥林匹克山脉。免费，风大。", "03|12:45": "午餐。她 14:00 才下班，上午这一段是六个人的。", "03|14:00": "<b>回酒店接她。</b>Delta 到 Beacon Hill 实测只有 <em>8 分钟 / 3.4 公里</em>，所以上午那一圈随时能中断回来接人。", "03|15:10": "<b>Malahat SkyWalk</b>，成人 $52.45。600 米无障碍树冠步道通向 32 米高的螺旋塔，塔中间那个滑梯<b>要 107 公分以上</b>，弟弟能不能玩现场量。<b>🔴 票当天买或现场买</b> —— 留退路：这是连续第三天，全组状态不对就直接取消，改成 Delta 泳池 + Songhees 海滨木栈道。岛民折扣只在现场给。", "03|17:30": "全员再回 Beacon Hill。傍晚孔雀会上树，和上午完全是两个场面。", "03|18:45": "晚餐。维多利亚的最后一晚，明天中午就过海了。", "04|08:30": "<b>🔴 这是整条链唯一的缓冲来源。</b>今天 14:00 她一下班就要出发赶 16:00 的船，中间只有 15 分钟。现在就把她那间的行李装上车 —— 14:00 她只需要合上电脑走人。", "04|09:30": "R2、R3 退房。她那间 R1 留到 14:00。", "04|10:00": "<b>Fan Tan Alley 番摊里</b>，北美最窄的商业街，最窄处不到一米。加拿大最老的唐人街就这一条巷子值得走，<b>十五分钟拍完照就够</b> —— 别为唐人街留半天。", "04|10:15": "<b>Market Square + Johnson Street</b>，红砖老城区，两层内庭院围一圈小店。旁边 Bug Zoo 半小时逛完，弟弟会喜欢。", "04|12:15": "午餐。吃完回酒店等她下班。", "04|14:00": "她合上电脑，R1 退房，<b>立刻上车</b>。", "04|14:15": "Delta 到 Swartz Bay 实测 <b>37 分钟 / 32.4 公里</b>，14:52 到闸口。<b>闸口 15:30 关</b>（开船前 30 分钟），有 38 分钟余量 —— 不是零缓冲，但也别晃。真撞了船，<b>改签费只要 $5</b>（开船前 1 小时以上），下一班 17:00。", "04|15:00": "渡轮 check-in。<b>开船前 60 分钟开、30 分钟关。</b>两台车就是两个车位预约 —— <b>🔴 Cindy 家那台要他们自己订。</b>", "04|16:00": "Swartz Bay → Tsawwassen，1 小时 35 分，17:35 下船。", "04|18:12": "<b>大家乐 Happy Family Restaurant · 2178 Kingsway, Vancouver</b>（<b>不在本拿比</b>，离别墅只有 13 分钟，比 Gastown 还近）。渡轮到店实测 <b>37 分钟</b>。台山菜老字号，2026 年 1 月和 7 月都还有新帖，出品稳定。<b>必点五味碌鹅和招牌脆皮金蒜鸡</b> —— 2026-07 那篇的原话是这两样闭眼点都不会后悔。其余可点：咕噜肉、虎皮青椒鱼滑、鱼香三子煲、豉汁炒蚬、秘制石螺、鸭下巴。<b>🔴 打电话订位时要把五味碌鹅一起预留</b>，不然当天很可能吃不到。台山五味鹅在多伦多基本吃不到。<br><b>为什么先吃再回家：</b>别墅是密码盒自助、没有前台，几点到都行。先吃 19:55 到家；先回去放行李再出来是 20:39。她明早 06:00 上班。", "04|19:55": "入住 <b>Three-Tree Villa</b>，2426 West 34th Ave。密码盒自助，门锁密码入住前 48 小时（8/23）发到 Airbnb，<b>没收到当天就催 Alice</b>（回复率 100%、一小时内回）。分房：妈妈和妹妹住卧 4 的两张小双人，Cindy 父母带弟弟住卧 1（King + 沙发），你和 Cindy 一间 King，还空一间。", "04|20:10": "测一下网。房源只写 Wifi 不写速度，239 条评价没一条提过。<b>但你们有手机流量兜底</b>，不合格就开热点，不用为它改行程。<b>顺便确认二楼有没有空调</b> —— 两条 2026 年 6 月的独立评价都说二楼没有。", "05|08:00": "不自己做饭。<b>41 街商圈</b>就在几百米外，咖啡馆、餐厅、银行、图书馆一整条。", "05|08:41": "别墅到 Stanley Park 实测 <b>19 分钟 / 11.1 公里</b>。六个人两台车 —— 她在家上班到 14:00。", "05|09:00": "<b>Stanley Park</b>。Prospect Point 俯瞰狮门大桥，Brockton Point 那组图腾柱是全 BC 拍照最多的原住民雕刻。海堤全长九公里，挑一段走就够。", "05|11:12": "出园往东，<b>路过 English Bay</b>。Stanley Park 南口出来实测只有 <b>6 分钟 / 3.6 公里</b> —— 712 赞那篇「必打卡 6 大」里唯一原本没碰的一个，绕这一下几乎零成本。都市沙滩，夏天能看到游轮驶过。", "05|11:25": "到 Gastown。English Bay 过去 7 分钟。停车找 Water St 附近咪表。", "05|11:30": "<b>煤气钟报时。</b>整点和半点都响，白天照样响 —— 高赞帖里大家真正去拍的是复古报纸照和 Water Street 街拍，没有一篇是冲夜景去的。Canada Place 五帆走路十分钟内，顺路。全免费。", "05|12:45": "市中心午餐。", "05|13:40": "Gastown 回别墅实测 <b>14 分钟</b>。", "05|14:00": "<b>她合上电脑，留整整一小时</b>吃饭换衣服重新装车。她从 06:00 工作到现在，而下午是全程最重的半天。", "05|15:00": "全员出发直奔 Lynn Canyon。<b>Deep Cove 已经砍掉</b> —— 从别墅过去 40 分钟，为一个甜甜圈停靠来回多付 25 分钟车程，还会让 Grouse 到达变成 17:46（票 17:45 开，零缓冲）。", "05|15:34": "<b>Lynn Canyon 吊桥 + 30 Foot Pool</b>，全部免费，<b>1 小时 54 分</b>。吊桥离谷底五十米，走上去会晃。往下走十分钟到 30 Foot Pool，八月水温刚好，本地人整个夏天都在这跳水 —— 砍掉 Deep Cove 换来的时间主要就花在这儿。Twin Falls 那条支线跳过，风景差不多但要多走四十分钟。<br>这也是我们不去 Capilano 吊桥的替代 —— 那个是红黑榜黑榜第一，人均省 $504。", "05|17:28": "Lynn Canyon 到 Grouse 实测 <b>17 分钟</b>。", "05|17:45": "<b>Grouse Mountain 日落票。</b>官网原文 Mountain Admission for only <b>$34 after 6pm</b>，全年龄同价，<b>人均省 $48.75</b>。正价 $89 一位还得占掉整个下午。<b>🔴 $34 买的是景不是项目</b> —— 伐木工剧场、灰熊栖息地、猫头鹰讲解都是白天场次，日落票赶不上。山上餐厅贵，晚饭按 $35–40/人准备。<br>8/26 实算日落 <b>20:08</b>、金色时刻 19:25 起、民用暮光 20:42 结束。", "05|20:30": "下山。<b>比末班早半小时走</b>，避开所有人同一时间挤缆车 —— 代价只是 12 分钟余光。", "05|21:17": "Grouse 回别墅实测 <b>32 分钟</b>。今天门到门 12 小时。", "06|08:00": "今天早午餐合并在 Granville Island 解决，<b>空着肚子去</b> —— 这是那篇 727 赞攻略的原话。", "06|09:00": "<b>Granville Island 公共市场</b>，1669 Johnston St，别墅过去实测 <b>10 分钟</b>，停车 $12。<b>排周四是故意的</b> —— 高赞攻略明确提示周末停车难。<br>必吃：<b>a la Mode 的酥皮蛤蜊汤（必点）</b>、<b>La Bise</b> 的可露丽和日式甜甜圈、<b>Lee's Donut</b> 的美式甜甜圈、<b>Petit Ami</b> 的咖啡和热巧克力，现烤牛肉汉堡也好。买了坐海边吃，有街头艺人。", "06|14:00": "接她。今天是七个人在一起的最后一天。", "06|14:15": "上 99 号海天公路。<b>这个出发时间晚不得。</b>", "06|15:20": "<b>Britannia Mine Museum</b>，成人 $45.10。别墅到矿场实测 <b>65 分钟</b> —— 比按旧住处算的早 35 分钟，所以<b>不用去挤 17:00 那场末班</b>，早场从容进洞。地下矿车 + <b>BOOM! 沉浸式声光秀</b>是 75 分钟的完整导览（🟢 官网现在把 BOOM! 写回票价包含项，之前那条停秀通知已解除）。国家历史遗址，2026 夏季特展是 Giants at Work 大型机械。网上订最晚到访前 12 小时。", "06|17:25": "<b>Shannon Falls</b> 快走一趟，免费。BC 第三高瀑布，335 米，停车场到观景台十分钟来回。就在缆车基地旁边。", "06|18:00": "<b>Sea to Sky Gondola</b>。矿场到缆车实测 11 分钟。<b>网上买票省钱</b>：成人 <b>$73.95</b>（窗口 $81.95）、青少年 13–18 $43.95、儿童 6–12 $29.95、5 岁以下免费。<b>🟢 别忘了家庭票 $165.95（2 成人 + 2 童/少）</b> —— 你们 5 成人 + 1 青少年 + 1 儿童，用一张家庭票罩住其中四个再买 3 张成人，<b>省 $55.85</b>。营运 09:00–20:00，<b>最后上行 20:00、末班下行 21:00</b>。上去先走那座吊桥。", "06|18:20": "<b>Taste of the Summit · 山顶告别晚饭。</b>缆车官网每周四 6/11–9/10 的固定活动，16:00–20:00 在 Summit Lodge 露台。地中海 / 西班牙风的<b>长桌共享菜</b>，8/27 那晚驻场是 <b>Emmett Jerome</b>（蓝调底子，604 Records 首张专辑）。<b>现场音乐含在你本来就要买的缆车票里</b>，只付餐饮。<br><b>为什么不下山吃：</b>Squamish 主街那家 Salted Vine <b>周四 21:00 就打烊</b>，你们 20:15 才到，七个人的最后一顿只剩 45 分钟。<br><b>🔴 官网原话 limited seating、seats typically fill quickly —— 现在就去 OpenTable 订七位。</b>", "06|20:06": "日落。8/27 实算日落 <b>20:06</b>、民用暮光 20:40 结束。俯瞰 Howe Sound 峡湾，天气好能看到一整排雪山。", "06|20:30": "下山。末班 21:00，不用赶。", "06|20:50": "<b>停车场道别。</b>两台车各走各的，明早不再见面。<b>🔴 行李当场分清楚。</b>你们回别墅还要开 <b>77 分钟</b>。", "07|08:00": "这栋房子的最后一个早上。今天只剩你、妈妈、妹妹三个人。", "07|10:30": "开始装车。八天的行李，三个人。", "07|11:00": "<b>🔴 硬性 11:00 退房</b>，钥匙放回密码盒，没有延退可谈、也没有前台能让你退回去。", "07|11:15": "<b>UBC 人类学博物馆 MOA</b>，6393 NW Marine Dr，别墅过去实测 <b>15 分钟</b>。<b>全程唯一一处西北海岸原住民内容</b> —— 图腾柱大厅、比尔·里德的《渡鸦与初人》，建筑本身是 Arthur Erickson 设计的。成人 $26、长者 65+ $23、青少年 6–18 $13、0–5 免费，你们三个约 $62–65。<b>每天 10:00–17:00。</b><br><b>🔴 不能网上买票，只能现场买。</b><br>放在今天是因为弟弟已经走了 —— 这地方对三个成年人比对七岁小孩合适得多。", "07|13:15": "MOA 到 QE Park 实测 <b>23 分钟</b>。", "07|13:45": "Cambie 一带午餐。QE Park 山下就是 Cambie Village，选项很多。", "07|14:45": "<b>Queen Elizabeth Park</b>，温哥华全城最高点，免费。采石场花园和城市天际线同框 —— 712 赞那篇「必打卡 6 大」把它列第 4。<br>山顶的 <b>Bloedel 温室</b>是玻璃穹顶，热带鸟、锦鲤、五百多种植物。<b>5 月到 9 月 7 日 10:00–19:00，闭馆前 15 分钟停止入场。网上先买成人票省 $1。</b>", "07|16:20": "QE Park 到 Radisson 实测 <b>19 分钟</b>。<b>先卸行李再进列治文</b> —— 别墅已经退了，没有前台能让你把箱子放回去，八天的行李不该在车上再转一个晚上。", "07|17:00": "酒店到火锅店 8 分钟。<b>Sea Island 上没有任何能走路去的东西</b>，别按住在市区的节奏算。", "07|17:30": "<b>新疆记火锅</b>，Cosmo Plaza，8788 McKim Way #1205。「温哥华必吃美食（多伦多人版）」开篇第一家：<b>在多伦多吃不到的 real 鲜切牛肉，不吃会后悔一辈子那种</b>。<b>🔴 鲜切牛肉只在周一到周五 17:00 之后供应</b> —— 8/28 是周五 17:30，全程就这一个时段能吃到。<b>提前订三位。</b>", "07|19:00": "<b>Richmond Night Market</b>，8351 River Rd，周五 19:00 到午夜。全北美最大的亚洲夜市之一，几百个摊子，烤鱿鱼、旋风薯塔、章鱼小丸子。门票 $7，<b>七岁以下和六十岁以上免票</b>。离火锅店八分钟。", "07|22:00": "回酒店，约 12 分钟。", "08|09:30": "Radisson 退房。今天唯一的硬死线是 <b>14:45 还车</b>，而全天纯开车只有 48 分钟 —— 这是全程最宽松的一条链。", "08|10:00": "喜记肠粉。广式肠粉现做，多伦多的版本和这边不是一回事。", "08|11:30": "<b>Steveston 渔人码头</b>，酒店过去实测 <b>20 分钟</b>。历史渔村，<b>船边直接向渔民买刚上岸的海鲜</b>（现金）—— 红黑榜 Vol.2 红榜第 3，原文「半天刚刚好」。旁边 Gulf of Georgia Cannery 是国家历史遗址。", "08|14:00": "Costco 加满油。Steveston 到 Costco 实测 <b>14 分钟</b>，回机场顺路。<b>还车要满油</b>，不然按牌价三倍收。", "08|14:45": "<b>🔴 还车完成。</b>Costco 到还车点实测 <b>14 分钟</b>。整条链 48 分钟纯开车，余量很大。", "08|15:15": "托运，<b>17:15 关闭</b>。用<b>妈妈的 TD Aeroplan Visa Infinite</b> 拿三个人的免费第一件行李 —— 这一项省 $305.10，别忘了让她在柜台出示。", "08|18:00": "<b>AC124 起飞</b>，次日 <b>01:35</b> 落地多伦多。<b>🔴 机场快线末班车约 01:00，赶不上</b> —— 提前把 Uber 定好。"},
+
 danger:[
+ ["!!!","🔴 山顶那顿告别饭现在就要订","8/27 是周四，Sea to Sky 缆车的 <b>Taste of the Summit</b> 正好那晚有（驻场 Emmett Jerome）。官网原话 <b>limited seating、seats typically fill quickly</b>，而现在离 8/27 只剩三周。<b>去 OpenTable 订七位</b>：opentable.com/r/sea-to-sky-gondola-taste-of-the-summit-squamish<br>订不到就退回原方案下山吃，但那家 Salted Vine 周四 21:00 打烊，你们 20:15 才到，只剩 45 分钟 —— 而且 7 人以上要打电话 604-390-1910。","立刻"],
+ ["!!","🔴 大家乐订位时把五味碌鹅一起预留","2178 Kingsway。原帖专门交代：<b>打电话订位时要把五味碌鹅一起留下来，不然当天很可能吃不到</b>。这是那家的招牌，也是台山菜在多伦多基本吃不到的那一道。8/25 晚七位。","立刻"],
  ["!!!","🔴 Cindy 家那台车的渡轮车位，没人确认订了没有","🟢 车本身已经解决：你们租一台 5 座 SUV（你 + 妈妈 + 妹妹），Cindy 家自己租一台。但<b>两台车过海就是两个车位预约</b>，8/25 16:00 是旺季末周二的班。闸口开船前 30 分钟关，没预约的车只能等 17:00 那班 —— 而那天她 14:00 才下班，链条本来就不宽。","立刻"],
  ["!!","租车险：你只用管自己那台","保的是<b>持卡人作为承租人</b>。你刷自己的 Platinum 签自己那台 SUV，柜台<b>书面</b>拒买 LDW/CDW。Cindy 家那台由他们自己的持卡人签，你不用到场 —— 比原来两台都要你管简单了一半。","8/22 12:15"],
  ["!","别墅的网没有实测数据，但你们有流量兜底","房源只写「Wifi」不写速度，239 条评价没一条提过，密码要 8/23 才发（退款截止 8/18，晚 120 小时）。<b>但你们有手机数据流量</b>，所以这条从全程最高风险降级 —— 她 8/26、8/27 两个上午开视频会议，网不行就直接开热点，不用为它改行程或退订。","8/25 19:00"],
@@ -584,7 +607,7 @@ danger:[
  ["!!!","8/27 晚饭后就分开了","Squamish 停车场那一别之后，两台车各走各的，明早不再见面。<b>行李当场分清楚</b> —— 车 1 归女友一家用到 8/29 晚上，车 2 归你们。","8/27 21:30"],
  ["!!","烟花夜不能出园再进","布查特官网写明 Readmission is not permitted。所以那天不能先回酒店休息，行李全程留车上，正餐在园内吃。","8/22 全天"],
  ["!!","渡轮 check-in 提前 30 分钟关闸","8/25 那条链零缓冲。真正的保险是 08:30 提前装车，不是掐点出发。改签费只要 $5，下一班 17:00。","8/25 15:00"],
- ["!!","Britannia 最后一场 17:00、check-in 16:30","🟢 实测别墅到矿场 65 分钟，14:15 出发 15:20 就到，比按本拿比算的早 35 分钟，不用去挤末班。而且官网现在挂着停电通知，BOOM! 声光秀不可用 —— 出发前一周必看首页，没修好就买无地下版 $34.36 或整项砍掉。","8/27 15:55"],
+ ["!","Britannia 时间已经宽松了","🟢 实测别墅到矿场 65 分钟，14:15 出发 15:20 就到，比按旧住处算的早 35 分钟，完全不用挤 17:00 那场末班。🟢 而且官网现在把 <b>BOOM! 声光秀写回票价包含项</b>了 —— 之前那条停电停秀的通知已经解除。而且官网现在挂着停电通知，BOOM! 声光秀不可用 —— 出发前一周必看首页，没修好就买无地下版 $34.36 或整项砍掉。","8/27 15:55"],
  ["!","观鲸别订错船型","另一家的日落团用的是敞篷充气艇，官方限制身高 120 公分或体重 23 公斤以下不能上，七岁的弟弟大概率上不了。订的这班是半封闭双体船，无年龄下限。","8/23 18:30"]
 ],
 
@@ -595,13 +618,17 @@ cost:[["Dylan","734.00","1,278.59","421.07","475.68","471.00","3,380.34"],
  ["女友","617.70","1,199.49","411.07","458.33","339.25","3,025.84"],
  ["女友爸","617.70","912.16","411.07","465.33","339.25","2,745.51"],
  ["女友妈","617.70","912.16","411.07","465.33","339.25","2,745.51"],
- ["弟弟 7","617.70","912.16","411.07","293.88","198.08","2,432.89"]],
+ ["弟弟 7","617.70","912.16","411.07","331.63","198.08","2,470.64"]],
 
-tickets:[["🌷 布查特花园 8/22","44.25","22.13","5.00"],["🏰 Craigdarroch 城堡 8/23","25.73","17.33","12.08"],
- ["🐋 Eagle Wing 观鲸 8/23","177.45","177.45","177.45"],["💫 Malahat SkyWalk 8/24","52.45","37.75","0"],
- ["🐐 Beacon Hill 农场 8/24","7.00","6.00","6.00"],["🐻 Grouse 日落票 8/26","35.70","35.70","35.70"],
- ["⛏️ Britannia 矿场 8/27","45.10","34.60","26.20"],["🚡 Sea to Sky 缆车 8/27","77.65","46.15","31.45"],
- ["🚂 小火车 + 夜市 8/28","10.35","10.35","—"]],
+tickets:[["🌷 布查特花园 8/22","44.25","22.13","5.00","https://butchartgardens.com/buy-tickets/"],
+ ["🏰 Craigdarroch 城堡 8/23","25.73","17.33","12.08","https://thecastle.ca/plan/plan-your-visit/"],
+ ["🐋 Eagle Wing 观鲸 8/23","177.45","177.45","177.45","https://eaglewingtours.com/tours-rates/"],
+ ["💫 Malahat SkyWalk 8/24","52.45","37.75","37.75","https://malahatskywalk.com/"],
+ ["🐐 Beacon Hill 农场 8/24","7.00","6.00","6.00",""],["🐻 Grouse 日落票 8/26","35.70","35.70","35.70","https://www.grousemountain.com/tickets-passes-summer"],
+ ["⛏️ Britannia 矿场 8/27","45.10","34.60","26.20","https://www.britanniaminemuseum.ca/pages/plan-your-visit"],["🚡 Sea to Sky 缆车 8/27","77.65","46.15","31.45","https://www.seatoskygondola.com/hours-and-prices/"],
+ ["🏛 UBC 人类学博物馆 MOA 8/28","26.00","13.00","—","https://moa.ubc.ca/"],
+ ["🌺 Bloedel 温室 8/28","—","—","—","https://vancouver.ca/parks-recreation-culture/bloedel-conservatory.aspx"],
+ ["🏮 Richmond 夜市 8/28","7.00","7.00","7.00","https://richmondnightmarket.com/","—"]],
 
 car:[["两台 Alamo Full-size Car · 8 天 · 走 Costco Travel","1,550.00"],["额外司机（Costco 免费送）","0.00"],
  ["汽油 ~1,800 公里","340.00"],["BC Ferries × 2 程","730.00"],["酒店停车","174.00"],["景点停车","83.50"]],
@@ -611,7 +638,7 @@ notes:[
  ["🔴 分账","整栋房怎么摊，还没定","$2,362.46 我先按七个人平摊记账（每人 $337.49）。<b>但这一换把钱在两家之间挪动了</b>：原来你们三个用积分住免费、女友一家付 R3 现金 $563.25；现在反过来，你的住宿从 $941.10 涨到 $1,278.59，女友爸妈从 $1,137.92 降到 $912.16。平摊是整租最自然的算法，但这是你们两家要点头的事，不是我能替你们定的。"],
  ["吃","两份高赞总榜的交集，只有两家","小红书上赞数最高的两份温哥华总榜 —— <b>「离开温哥华前一定要吃的伟大 18 家」1395 赞</b>和<b>「在温 15 年跑路前必吃的 17 家」596 赞</b> —— 交集只有 <b>Kingyo</b>（居酒屋）和 <b>Social Corner</b>（西班牙 / 意大利，鹅肝牛肉汉堡）。两份都提到的才算共识，其余都是单一作者口味。<br>🔴 <b>Kingyo 的海胆饭别点</b>：第一手评价说那碗 $66 的是「照骗」，饭堆成山、贝壳装饰后面是空的、和牛还是凉的，「实际只有 1/2」。其他菜都好，Yuzu 酱寿司是招牌。<br>🟢 <b>杠上花沸腾鱼直接划掉</b> —— 它是从多伦多开过去的，你们在家就能吃。<br>其余高频出现的：Elisa（牛排顶流）、Jam Cafe（brunch 顶流）、暖暮拉面 Danbo（排队大王，Kerrisdale 有分店）、明家烧腊、金边小馆（柬埔寨菜）、Ophelia（墨西哥）、Suyo（秘鲁菜）、Mott 32、Hy's Steakhouse。<b>地址和营业时间订位前逐个确认 —— 这些是榜单名字，不是我核过的坐标。</b>"],
  ["渠道","同一间房，订错地方贵 $241.50","8/28 那晚 Amex Travel 报 $437.30，结账页能抵掉 $200，净付 $237.30；同一间 Expedia 报 $532，拿完 10% 返现还要 $478.80。但万豪那两段反过来 —— 直订能多赚约 72,000 分、9 个 elite night，还能锁死 2 Queen 房型。<b>三段各自比过一遍，没有一段是默认订的。</b>"],
- ["取舍","砍掉的和买回的","Capilano 吊桥（黑榜第一，省 $504）一直没订，Joffre Lake 看到了但从本拿比开 3 小时装不进去。反过来买回了三项：城堡、Grouse 日落、Britannia 矿场。<b>人均 $3,000.36</b>，比住 Element 那版高 $83.24 —— 换来的是 341,038 分原封不动（同口径约 $3,845 的购买力）和两台车三晚免费停车。破 $3,000 的从两个人变成四个：你、妈妈、妹妹、女友。"]
+ ["取舍","砍掉的和买回的","Capilano 吊桥（黑榜第一，省 $504）一直没订，Joffre Lake 看到了但从本拿比开 3 小时装不进去。反过来买回了三项：城堡、Grouse 日落、Britannia 矿场。<b>人均约 $3,006</b>，比住 Element 那版高约 $89 —— 换来的是 341,038 分原封不动（同口径约 $3,845 的购买力）和两台车三晚免费停车。破 $3,000 的从两个人变成四个：你、妈妈、妹妹、女友。"]
 ]
 };
 </script>
@@ -634,7 +661,11 @@ const T={
 const tulip=k=>`<svg class="tulip" viewBox="0 0 112 112" aria-hidden="true">${T[k]}</svg>`;
 
 const MARK=['','!','!!','!!!'];
-const beat=([t,txt,c,note])=>`<div class="beat${c?' c'+c:''}"><span class="bt">${esc(t)}</span><span>${c?`<span class="dg d${c}">${MARK[c]}</span>`:''}<b>${esc(txt)}</b>${note?`<span class="note">${esc(note)}</span>`:''}</span></div>`;
+const beat=(b,leg)=>{const [t,txt,c,note]=b;
+  const d=(D.det||{})[leg+'|'+t];
+  const head=`<span class="bt">${esc(t)}</span><span>${c?`<span class="dg d${c}">${MARK[c]}</span>`:''}<b>${esc(txt)}</b>${note?`<span class="note">${esc(note)}</span>`:''}</span>`;
+  if(!d) return `<div class="beat${c?' c'+c:''}">${head}</div>`;
+  return `<details class="beat bx${c?' c'+c:''}"><summary>${head}<i class="bch"></i></summary><div class="bd">${d}</div></details>`;};
 const allT=l=>l.b.map(b=>b[0]).concat(l.fork?l.fork.flatMap(f=>f.r.map(r=>r[0])):[]);
 const win=l=>{const ts=allT(l).filter(t=>/^\d\d?:\d\d$/.test(t)).sort();return ts.length?ts[0]+'–'+ts[ts.length-1]:'全天'};
 const dead=l=>l.b.filter(b=>b[2]===3).length;
@@ -658,7 +689,7 @@ $('#strip').innerHTML=D.legs.map(l=>`
    <p class="leg-sum">${esc(l.sum)}</p>
    ${l.hi?`<div class="his">${l.hi.map(h=>`<div class="hi"><span class="k">${esc(h.k)}</span><h4>${esc(h.h)}</h4><p>${esc(h.d)}</p></div>`).join('')}</div>`:''}
    ${l.fork?`<div class="fork">${l.fork.map(f=>`<div class="fork-c"><h4>${esc(f.h)}</h4>${f.r.map(([t,x])=>`<div class="beat"><span class="bt">${esc(t)}</span><span>${esc(x)}</span></div>`).join('')}</div>`).join('')}</div>`:''}
-   <div class="beats">${l.b.map(beat).join('')}</div>
+   <div class="beats">${l.b.map(b=>beat(b,l.n)).join('')}</div>
    ${l.warn?`<div class="warn">${esc(l.warn)}</div>`:''}
    ${l.stay&&l.stay!=='—'?`<div class="leg-stay">当晚住 <b>${esc(l.stay)}</b></div>`:''}
   </div>
@@ -669,7 +700,7 @@ $('#strip').innerHTML=D.legs.map(l=>`
 const L1=D.legs[0];
 $('#lead').innerHTML=`<div class="lead-h"><span class="leg-no mono">${L1.n}</span><span class="leg-dt">${esc(L1.d)}<small>${esc(L1.w)}</small></span></div>
  <div class="lead-cap">${esc(L1.cap)}</div><div class="lead-tulip">${tulip(L1.t)}</div>
- <div class="lead-b">${L1.b.filter(b=>['12:15','14:00','21:15'].includes(b[0])).map(beat).join('')}</div>
+ <div class="lead-b">${L1.b.filter(b=>['12:15','14:00','21:15'].includes(b[0])).map(b=>beat(b,L1.n)).join('')}</div>
  <a class="lead-more" href="#route">还有七段 ↓</a>`;
 
 /* stays */
@@ -690,7 +721,14 @@ $('#board').innerHTML=D.danger.map(([c,h,p,w])=>
 $('#cost').innerHTML=`<thead><tr><th>同行人</th><th>机票</th><th>住宿</th><th>车渡轮</th><th>门票</th><th>餐饮</th><th>合计</th></tr></thead>
  <tbody>${D.cost.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1,6).map(v=>`<td class="n">${esc(v)}</td>`).join('')}<td class="n"><b>${esc(r[6])}</b></td></tr>`).join('')}</tbody>
  <tfoot><tr><td>七人合计</td><td colspan="5"></td><td class="n">${D.cost.reduce((a,r)=>a+parseFloat(r[6].replace(/,/g,"")),0).toLocaleString("en-CA",{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr></tfoot>`;
-$('#tickets').innerHTML=`<tbody>${D.tickets.map(r=>`<tr><td>${esc(r[0])}</td>${r.slice(1).map(v=>`<td class="n">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+(()=>{const t=D.cost.reduce((a,r)=>a+parseFloat(r[6].replace(/,/g,'')),0);
+  const f=v=>v.toLocaleString('en-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
+  ['tot','tot2'].forEach(id=>{const e=$('#'+id); if(e) e.textContent=f(t);});
+  ['per','per2'].forEach(id=>{const e=$('#'+id); if(e) e.textContent=f(t/D.cost.length);});
+})();
+$('#tickets').innerHTML=`<tbody>${D.tickets.map(r=>{const u=r[4];
+  const nm=u?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(r[0])}</a>`:esc(r[0]);
+  return `<tr><td>${nm}</td>${r.slice(1,4).map(v=>`<td class="n">${esc(v)}</td>`).join('')}</tr>`;}).join('')}</tbody>`;
 $('#car').innerHTML=`<tbody>${D.car.map(([a,b])=>`<tr><td>${esc(a)}</td><td class="n">${esc(b)}</td></tr>`).join('')}</tbody>`;
 $('#notes').innerHTML=D.notes.map(([k,h,p])=>`<div class="ncard"><div class="k">${esc(k)}</div><h4>${esc(h)}</h4><p>${p}</p></div>`).join('');
 
